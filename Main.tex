@@ -1,0 +1,103 @@
+\documentclass[12pt]{report}
+\usepackage{epsfig}
+\usepackage{upcebumath}  
+\usepackage{UPnotations}
+\usepackage{amssymb, graphicx, amsmath}
+\usepackage{hyperref}
+\usepackage{rotating}
+\def\span{\mbox{\rm span}\,}
+\usepackage{amsmath,latexsym}
+\usepackage{amsbsy}
+\usepackage{indentfirst}
+\input graphtex
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{thmcor}{Corollary}[thm]
+\newtheorem{lemcor}{Corollary}[lem]
+\newtheorem{defn}{Definition}[section]
+\newtheorem{e.g.}{Example}[section]
+\newtheorem{r.m.}{Remark}[section]
+\newcommand{\proof}{\medskip \noindent\emph{Proof}:\ }
+\newcommand{\qed}{$\Box$}
+%\newcommand{\F}{\mathbb{F}}	
+
+\begin{document}
+
+\title{Molecular Topological Index of Monocyclic Graph $C_k(s,t)$} %do not capitalize all
+
+\authorfirst{Krisell L.}
+\authorlast{Abella}
+%\authorext{Jr.} \authorexttrue %make this a comment if you do not have an extension name e.g. Jr., II, III, etc.
+
+\degree{Bachelor of Science in Mathematics}
+\thesistype{Undergraduate Thesis}
+\thesisdocument{Thesis}
+
+\defensedate{October 29, 2009} %indicate the month, day and year the research was defended
+\submitmonth{November} %indicate the month the manuscript was submitted to the CS office
+\submityear{2009} %indicate the year the manuscript was submitted to the Math Office
+
+
+\adviser{John Benedict T. Ayawan}%main adviser
+\reader{Precious Jane F. Lapura} %thesis panel
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% highlight \bothabsenttrue if the student has only one adviser and one reader
+%% otherwise comment \bothabsenttrue and highlight \coadviser or \coreader which 
+%% ever is applicable. In this case, the package assumes either you have 1 Adviser 
+%% and 2 Readers, or 2 Advisers and 1 Reader. 
+  
+\bothabsenttrue
+
+\coadviser{co-Adviser, Ph.D.} 
+%\coadvisetrue  
+% Make the \coadvisetrue as a comment if there is no adviser
+
+%\coreader{Co-Reader's Name}  %leave this blank if there is a coadviser
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chairman{Jonnifer R. Sinogaya, Ph.D.} 
+
+\abs{Type your abstract here.  Your abstract should have a minimum
+of 150 words and a maximum of 300 words.}
+
+\acknowledge{Type your acknowledgements here. It is customary to acknowledge special assistance from
+extramural agencies. There is no obligation that assistance received from members of the dissertation or
+thesis committee be acknowledged. \medskip
+
+Acknowledgments should be couched in terms consistent with the
+scholarly nature of the work. Your name and the date should not appear on this page.}
+
+%\biodatatrue 
+\beforepreface
+\tableofcontents
+
+\newpage
+
+\acknowledgetrue
+\acknowledgepage
+
+\abstractpage
+\listoftables
+\listoffigures
+
+\afterpreface
+
+\include{chap1}
+\include{chap2}
+\include{chap3}
+%\include{chap4}
+
+
+\appendix
+%\input{newfile}
+\nocite*
+
+\bibliographystyle{siam}
+\bibliography{bibliog}
+%to edit your bibliography, open the BIBLIOG.BIB file.
+
+\end{document}
+

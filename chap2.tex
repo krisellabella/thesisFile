@@ -1,0 +1,355 @@
+\chapter{Preliminaries}
+\label{chap:pre}
+
+\section{Basic Concepts and Definitions in Set Theory}
+\begin{defn}[Set]\rm 
+\cite{fraleigh}A \textbf{set} is a well-defined collection of objects. A set \textit{S} is made up of \textbf{elements} and if \textit{a} is one of these elements, we shall denote this fact by $a\in S$.  
+\end{defn}
+
+\begin{e.g.}\rm
+The set of natural numbers is denoted by $\mathbb{N}=\left\lbrace 0,1,2,3,\cdots\right\rbrace$. This example is using \textbf{list method} in defining a set.
+\end{e.g.}
+
+\begin{defn}[Empty Set]\rm
+\cite{fraleigh}There is exactly one set with no elements. It is \textbf{empty set} and is denoted by $\emptyset$.
+\end{defn}
+
+\begin{defn}[Well-defined Set]\rm
+\cite{fraleigh}A set is said to be \textbf{well-defined}, meaning that if $S$ is a set and $a$ is some object, then $a$ is either definitely in $S$ denoted by $a\in S$ or $a$ is definitely not in $S$.
+\end{defn}
+
+\begin{e.g.}\rm
+This set is an example of a well-defined set. $S=\left\lbrace (x,y)\in \mathbb{R}^2: y=0\right\rbrace$. Suppose $(x,y)=(11,0)$, then evidently $(x,y)$ is in the set $S$. Suppose $(x,y)=(11,11)$, then $(x,y)$ is not in the set $S$. 
+\end{e.g.}
+
+\begin{defn}[Subset of a Set]\rm
+\cite{fraleigh}A set $A$ is a \textbf{subset of a set} $B$, denoted by $A\subset B$ or $B \supset A$ if every element of $A$ is in $B$. 
+\end{defn}
+
+\begin{e.g.}\rm
+Suppose set $S=\left\lbrace 1,2,3 \right\rbrace$, then the subset of $S$ are $S_1=\left\lbrace 1 \right\rbrace, S_2=\left\lbrace 2 \right\rbrace, S_3=\left\lbrace 3 \right\rbrace, S_4=\left\lbrace 1,2\right\rbrace,S_5=\left\lbrace 1,3\right\rbrace, S_6=\left\lbrace 2,3\right\rbrace,S_7=\left\lbrace 1,2,3\right\rbrace, \emptyset$
+\end{e.g.}
+
+\begin{defn}[Disjoint Sets]\rm
+\cite{fraleigh}Sets are said to be \textbf{disjoint} if no two of them have elements in common.
+\end{defn} 
+
+\begin{e.g.}\rm
+Suppose set $S=\left\lbrace a,b,c,d,e,f \right\rbrace$, then subsets $S_1=\left\lbrace a,b,c \right\rbrace$ and $S_2=\left\lbrace d,e,f \right\rbrace$ are disjoint sets.
+\end{e.g.}
+
+\begin{defn}[Partition]\rm
+\cite{fraleigh}A \textbf{partition} of a set $S$ is a collection of nonempty subsets of $S$ such that every element of $S$ is in exactly one of the subsets. The subsets are the \textbf{cells} of the partition.
+\end{defn}
+
+\begin{e.g.}\rm
+Using the previous example, set $S$ is partitioned into 2 sets, $S_1$ and $S_2$, since each element is found at exactly one of the subsets.
+\end{e.g.}
+
+\section{Some Concepts and Definitions in Graph Theory}
+This section contains some fundamental concepts in graph theory that the researcher utilizes in the study.
+
+\begin{defn}[Graph]\rm
+\cite{lapura}A graph $G$ is a pair $(V(G),E(G))$, where $V (G)$ is a finite
+non-empty set of elements called vertices and $E(G)$ is a finite set of unordered
+pairs of distinct elements of $V (G)$ called edges. The set $V (G)$ is called the
+vertex-set of $G$ and the set $E(G)$ the edge-set of $G$.
+\end{defn}
+
+\begin{figure}[!ht]
+$$\pic
+\path 0 40 -40 -30 50 -50 0 40 0 0 -40 -30 50 -50 0 0 /
+\path 50 -50 90 -50 /
+\cput {$v_3$} at -10 10
+\cput {$v_2$} at -10 50
+\cput {$v_1$} at -50 -20
+\cput {$v_4$} at 55 -40
+\cput {$v_5$} at 80 -40
+\cip$$
+\caption{A Graph $G$}
+\label{fig:graphG}
+\end{figure}
+
+\begin{e.g.}\rm
+In \ref{fig:graphG}, a graph $G$ is illustrated with vertex set: $V(G)=\left\lbrace  v_1,v_2,v_3,v_4\right\rbrace  $, and edge set: $E(G)=\left\lbrace (v_1,v_2),(v_1,_3),(v_1,v_4),(v_2,v_3),(v_3,v_4),(v_2,v_4),(v_4,v_5)\right\rbrace$.
+\end{e.g.}
+
+\begin{defn}[Neighbor of a vertex]\rm
+\cite{lapura}If $e = [u, v]$ is an edge, then $u$ and $v$ are said to be adjacent vertices and that edge $e$ is incident with $u$ and $v$. We also say that $u$ is a neighbor of $v$ . We may also denote the edge joining $u$ and $v$ by $uv$, and the set of neighbors of $v$ by $N(v)$.
+\end{defn}
+
+\begin{e.g.}\rm
+In \ref{fig:graphG}, vertex $v_3$ in graph $G$ has neighbor vertices $N(v_3)=\left\lbrace v_2,v_1,v_4 \right\rbrace $. 
+\end{e.g.}
+
+\begin{defn}[Order and Size of a graph] \rm
+\cite{lapura}The order of the graph $G$ is the number of vertices of $G$ and denoted by $|V (G)|$, while the size of the graph $G$ is the number of edges of $G$
+and denoted by $|E(G)|$. The graph $G$ is even or odd according as its order is
+even or odd.
+\end{defn}
+
+\begin{e.g.}\rm
+In \ref{fig:graphG}, the \textbf{order} of graph $G$ is $|V(G)|=5$, while the \textbf{size} of graph $G$ is $|E(G)|=7$. 
+\end{e.g.}
+
+\begin{defn}[Degree of a vertex]\rm
+\cite{gt}The degree of the vertex $v$ in a graph $G$ is the number of
+edges incident to $v$ and denoted by $degG(v)$, or simply by $deg v$ if the graph $G$ is clear from the context.
+\end{defn}
+
+\begin{e.g.}\rm
+In \ref{fig:graphG}, the degree of vertices $v_1,v_2,v_3$ is just $3$, which means $deg(v_1)=deg(v_2)=deg(v_3)=3$.
+\end{e.g.}
+
+\begin{defn}[Distance between $u$ and $v$] \rm
+\cite{lapura} Let $u$ and $v$ be in vertex set of graph $G$. Then $d(u,v)$ denotes the distance between $u$ and $v$ which is also the number of edges between $u$ and $v$.
+\end{defn}
+
+\begin{defn}[Distance between $u$ and $v$]\rm
+\cite{hararygt} According to Harary, the distance $d(u,v)$ between two vertices $u$ and $v$ in $G$ is the length of a shortest path joining them if any; otherwise $d(u,v)=\infty$. In a connected graph, distance is a metric; that is, for all vertices $u$, $v$ and $w$
+
+\begin{enumerate}
+\item $d(u,v)\geq 0$, with $d(u,v)=0$ if and only if $u=v$
+\item $d(u,v)=d(v,u)$
+\item $d(u,v)+d(dv,w)\geq d(u,w)$
+\end{enumerate}
+
+\end{defn}
+
+\begin{e.g.}\rm
+In \ref{fig:graphG}, $d(v_1,v_2)=d(v_1,v_3)=d(v_1,v_4)=d(v_2,v_3)=d(v_2,v_4)=d(v_3,v_4)=1$.
+\end{e.g.}
+
+\begin{defn}[Pendant of a vertex] \rm
+\cite{lapura} A vertex $v$ is a \textit{pendant vertex} of a graph $G$ if $degG(v=1)$ and the edge incident to pendant vertex is called a \textbf{pendant edge}.
+\end{defn}
+
+\begin{e.g.}\rm
+In \ref{fig:graphG}, it is illustrated that $v_4$ has a pendant vertex $v_5$.
+\end{e.g.}
+
+\begin{defn}[Path]\rm
+\cite{lapura} The path $P_n$ is a sequence $[v_1, v_2, ..., v_n]$ of distinct vertices
+where $[v_i, v_{i+1}]$ is an edge for all $i = 1, 2, ..., n - 1$. The path $P_n$ is also called a $v_1-v_n$ path and is of order $n$ and length $n - 1$.
+\end{defn}
+
+\begin{figure}[!ht]
+$$\pic
+\path -40 0 -20 0 0 0 20 0 40 0 /
+\cput {$v_1$} at -40 10
+\cput {$v_2$} at -20 10
+\cput {$v_3$} at 0 10
+\cput {$v_4$} at 20 10
+\cput {$v_5$} at 40 10
+\cip$$
+\caption{A Path $P_5$}
+\label{fig:path5}
+\end{figure}
+
+\begin{e.g.}\rm
+In \ref{fig:path5}, a path $P_5$ is illustrated. It has 5 distinct vertices $[v_1,v_2, v_3,v_4,v_5]$ and 4 edges $[v_1v_2,v_2v_3,v_3v_4,v_4v_5]$.
+\end{e.g.}
+
+\begin{defn}[Cycle]\rm
+\cite{lapura} The cycle $Cn$ of order and length $n$, $n \geq 3$, is a sequence
+$[v_1, v_2, ..., v_n, v_1]$ of distinct vertices such that $[v_1, v_2, ..., v_n]$ is a path and $[v_n, v_1]$ is an edge.
+\end{defn}
+
+\begin{figure}[!ht]
+$$\pic
+\path -20 20 20 20 20 -20 -20 -20 -20 20 /
+\cput {$v_1$} at -30 30
+\cput {$v_2$} at 10 30
+\cput {$v_3$} at -30 -10
+\cput {$v_4$} at 10 -10
+\cip$$
+\caption{A Cycle $C_4$}
+\label{fig:cycle4}
+\end{figure}
+
+\begin{e.g.}\rm
+In \ref{fig:cycle4} shows a cycle $C_4$ with 4 vertices and 4 edges. 
+\end{e.g.}
+
+\begin{defn}[Connected Graph]\rm
+\cite{lapura} Let $u$ and $v$ be vertices in a graph $G$. We say that $u$ is
+connected to $v$ if $G$ contains a $u-v$ path. The graph $G$ itself is connected if $u$ is connected to $v$ for every pair $u$ and $v$ of vertices of $G$. A graph $G$ that is not connected is called disconnected. An arbitrary graph can be split up into
+a number of maximal connected subgraphs, and these subgraphs are called
+components. A component is odd or even according as its order is odd or even.
+\end{defn}
+
+\begin{figure}[!ht]
+$$
+\pic
+\path -30 0 -10 20 10 20 30 0 10 -20 -10 -20 -30 0 /
+\cput {$v_1$} at -20 -20
+\cput {$v_2$} at -40 0
+\cput {$v_3$} at -10 30
+\cput {$v_4$} at 10 30
+\cput {$v_5$} at 40 0
+\cput {$v_6$} at 20 -20
+\cip
+$$
+\caption{A Connected Graph G}
+\label{fig:con_G};
+\end{figure}
+
+\begin{e.g.}\rm
+In \ref{fig:con_G}, a connected graph $G$ is presented. It is evident that at any pair of vertices in $G$, there exist at least one path connecting the two vertices. The list of the paths in \ref{fig:con_G} are $v_1-v_2,v_1-v_3,v_1-v_4,v_1-v_5,v_1-v_6,v_2-v_3,v_2-v_4,v_2-v_5,v_2-v_6,v_3-v_4,v_3-v_5,v_3-v_6,v_4-v_5,v_5-v_6$. 
+\end{e.g.}
+
+\begin{defn}[Monocyclic Graph]\rm
+\cite{wiener_ind_bipart} A monocyclic graph is an $n$-vertex connected graph that possesses $n$ edges. In other words, $G$ is a monocyclic graph if $|V(G)|=|E(G)|= n$. A monocyclic graph is also a graph that contains only one cycle.
+\label{sec:monocyclic}
+\end{defn}
+
+\begin{defn}[Monocyclic Graph $C_k(s,t)$] \rm
+A monocyclic graph is a graph that contains only one cycle. Monocyclic graph $C_k(s,t)$ is a graph with a cycle and pendant vertices $s$ and $t$ attached on the two adjacent vertices at $C_k$.
+\label{sec:cst}
+\end{defn}
+
+\begin{figure}[!ht]
+$$
+\pic
+\path -30 0 -10 20 10 20 30 0 10 -20 -10 -20 -30 0 /
+\path -10 -20 -30 -30 /
+\path -10 -20 -20 -40 /
+\path -10 -20 -10 -50 /
+\path 10 -20 10 -40 /
+\path 10 -20 30 -30 /
+\path 10 -20 40 -20 /
+\cput {$v_1$} at -20 -20
+\cput {$v_2$} at -40 0
+\cput {$v_3$} at -10 30
+\cput {$v_4$} at 10 30
+\cput {$v_5$} at 40 0
+\cput {$v_6$} at 20 -20
+\cput {$u_1$} at -40 -30
+\cput {$u_2$} at -30 -40
+\cput {$u_3$} at -10 -60
+\cput {$w_1$} at 50 -20
+\cput {$w_2$} at 40 -30 
+\cput {$w_3$} at 10 -50 
+\cip
+$$
+\caption{A Monocyclic Graph $C_6(3,3)$}
+\label{fig:c6(3,3)};
+\end{figure}
+
+\begin{e.g.}\rm
+In \ref{fig:c6(3,3)}, a \textit{monocyclic graph} $C_6(3,3)$ is illustrated, where the graph contains only one cycle which is $C_6$ and attached with $(s,t)=(3,3)$ number of pendant vertices in the two adjacent vertices of $C_6$. 
+\end{e.g.}
+
+\section{Some Concepts in Topological Indices}
+
+\begin{defn}[Diameter of $G$]\rm
+\cite{esalih} The \textbf{diameter of $G$} denoted by $D(G)$ is define as the maximum distance between any vertices of $G$, that is, $D(G)=max\left\lbrace d(u,v):\forall(u,v)\in V(G)^2 \right\rbrace$.
+\label{sec:D(u,v)}
+\end{defn}
+
+\begin{figure}[!ht]
+$$
+\pic
+\path -20 0 -40 40 0 60 40 40 20 0 -20 0 /
+\cput {$v_1$} at -30 0
+\cput {$v_2$} at -50 40
+\cput {$v_3$} at 0 70
+\cput {$v_4$} at 40 50
+\cput {$v_5$} at 30 0
+\cip
+$$
+\caption{A Cycle Graph $C_5$}
+\label{fig:c_5};
+\end{figure}
+
+\begin{figure}[!ht]
+$$
+\pic
+\path -30 0 -10 20 10 20 30 0 10 -20 -10 -20 -30 0 /
+\cput {$v_1$} at -20 -20
+\cput {$v_2$} at -40 0
+\cput {$v_3$} at -10 30
+\cput {$v_4$} at 10 30
+\cput {$v_5$} at 40 0
+\cput {$v_6$} at 20 -20
+\cip
+$$
+\caption{A Cycle Graph $C_6$}
+\label{fig:c_6};
+\end{figure}
+
+\begin{e.g.}\rm
+A cycle graph in \ref{fig:c_5} has a diameter of 2 and in \ref{fig:c_6} has a diameter of 3.
+\end{e.g.}
+
+\begin{lem}\rm
+\cite{esalih}Let $G$ be any connected digraph, without loops and multiple edges, then $w(u,G)=\sum_{v\in V(G)}d(u,v)$, where $w(u,G)$ is the wiener index at $u$ and $d(u,v)$ is the distance between vertices $u$ and $v$.
+\label{sec:lem_wiener_u}
+\end{lem}
+
+\begin{lem}\rm
+\cite{esalih}$C_n$ is a cycle planar graph $n\geq 2$ with $n$ number of vertices and $m$ number of vertices where $m=n$. For $i=1,2,\cdots,n$
+$$
+w(v_i,C_n)=\left\lbrace\begin{array}{cc}
+\frac{n^2}{4} & $if n is even \\ 
+(\frac{(n+1)(n-1)}{4} & $if k is odd$$
+$$
+\label{sec:wiener_vi}
+\end{lem}
+
+\begin{defn}[Wiener index]\rm 
+\cite{wiener_trees_mg} The \textbf{Wiener index} of the graph $G$ equals to the sum of distances between all pairs of vertices of the respective molecular graph. That is, $W(G)=\sum_{\left\lbrace u,v \right\rbrace \in V(G)} d(u,v)$.
+\label{sec:wiener}
+\end{defn}
+
+\begin{thm}\rm
+\cite{apam}The Wiener index of a $k$-cycle $W(C_k)$ is 
+$$
+W(C_k)=\left\lbrace\begin{array}{cc}
+\frac{k^3}{8} & $if k is even \\ 
+(\frac{k(k+1)(k-1)}{8} & $if k is odd$$
+$$
+\label{sec:wiener_cycle}
+\end{thm}
+
+\begin{defn}[Degree distance index]\rm 
+\cite{ddu} The \textbf{degree distance index} is defined as $DD(G)=\sum_{\left\lbrace u,v \right\rbrace \in V(G)} (deg(u)+deg(v))d(u,v)$.
+\label{sec:dd(g)}
+\end{defn}
+
+\begin{thm}\rm
+\cite{esalih} Let $G$ be a connected finite undirected graph without loops or multiple edges, with $n$ vertices, $m$ edges and with $D(G)\geq2$, we have then $$DD(G)=\sum_{u\in V(G)} w(u,G)deg(u)$$ 
+\label{sec:dd_wiener}
+\end{thm}
+
+\begin{defn}[Zagred index]\rm 
+\cite{wien_schultz_mti} The \textbf{Zagreb index} are defined as the sum of all vertices of the graph. That is $Zg(G)=\sum_{\left\lbrace u,v \right\rbrace \in V(G)} deg(u)^2$.
+\label{sec:m1(g)}
+\end{defn}
+
+\begin{defn}[Schultz's molecular topological index]\rm
+\cite{wien_schultz_mti} Schultz's $MTI$ of the connected graph $G$ is define as $MTI(G)=DD(G)+Zg(G)$, where $Zg(G)$ is the sum of squares of all the vertices of $G$, which is known as the \textit{Zagreb index}, and $DD(G)$ is the \textbf{degree distance index} of $G$. 
+\label{sec:s_mti}
+\end{defn}
+
+\section{Principles of Mathematical Induction}
+According to K. Rosen, the \textbf{principle of mathematical induction} is a valuable tool for proving results about the integers. \medskip
+
+\begin{defn}[Principle of Mathematical Induction]\rm
+\cite{rosen}A set of positive integers that contains the integer 1 and the integer $n+1$ whenever it contains $n$ must be the set of all positive integers. 
+\end{defn}
+
+To prove theorems using the principles of mathematical induction, we must show the following:
+
+\begin{enumerate}
+\item show the statement that we are trying to prove is true for 1, the smallest positive integer - \textbf{Basis Step}
+\item show that the statement is true for $n=n+1$, such that $n$ is a positive integer - \textbf{Inductive Step}
+\end{enumerate}
+
+\cite{rosen}By the principle of mathematical induction, one concludes that the set S of all positive integers for which the statement is true must be the set of all positive integers.
+
+\begin{defn}[Second Principle of Mathematical Induction]\rm
+\cite{rosen}A set of positive integers which contains the integer 1, and which has the property that if it contains all the positive integers $1,2,\cdots, k$ , then it also contains the integer $k + l$, must be the set of all positive integers.
+\end{{defn}
+
+The steps are quiet similar to the first principle of mathematical induction, however in the basis step, instead of showing that the statement holds for 1, it would be from $1,\cdots,k$.
