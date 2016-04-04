@@ -1,0 +1,1664 @@
+   \message{version 1.0 (1994)}
+   \message{by S. V. Gervacio, DLSU, Manila }
+   \message{[ Research Project funded by PCASTRD ] }
+   \catcode`³=14     \catcode`Ú=14     \catcode`À=14     \catcode`±=14
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+   ³                 GRAPHTEX  version 1.0   (1994)                     ³±±
+   ³     This is a set of drawing and related macros for simple         ³±± 
+   ³  undirected graphs.                                                ³±±
+   ³     In case bugs are discoverd here, please contact the author at  ³±±
+   ³  the following address and report your findings:                   ³±±
+   ³                 Severino V. Gervacio                               ³±±
+   ³                 Department of Mathematics                          ³±±
+   ³                 De La Salle University                             ³±±
+   ³                 2401 Taft Avenue, Manila                           ³±±
+   ³                 PHILIPPINES                                        ³±±
+   ³                 [ e-mail cossvg@mail.dlsu.edu.ph ]                 ³±±
+   ³                                                                    ³±±
+   ³  For a copy of the GRAPHTEX manual, please contact:                ³±±
+   ³                 PCASTRD                                            ³±±
+   ³                 Ground Flr., DOST Bldg., DOST Compound             ³±±
+   ³                 Gen. Santos Avenue,                                ³±±
+   ³                 Bicutan, Taguig, Metro Manila                      ³±±
+   ³                 PHILIPPINES                                        ³±±
+   ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+     ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Change the category code of _ from 8 to 11 temporarily ...
+   \catcode`_=11
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Change plain TeX's definition of \wlog
+   \def\wlog#1{}  ³ This minimizes the .log file by omitting the listing
+                  ³ of register variable assignments. \wlog is defined 
+                  ³ in plain TeX.
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Allocation of registers ... 
+   \newdimen\zero_pt       ³  For holding the constant 0 pt
+   \newdimen\plot_interval ³  For  holding the value of the plot interval
+   \newdimen\max_X         ³  Maximum abscissa in the entire drawing
+   \newdimen\min_X         ³  Minimum abscissa in the entire drawing
+   \newdimen\max_Y         ³  Maximum ordinate in the entire drawing
+   \newdimen\min_Y         ³  Minimum ordinate in the entire drawing
+   \newdimen\x_now         ³  Current extremum abscissa during drawing
+   \newdimen\y_now         ³  Current extremum ordinate during drawing
+   \newcount\count_A       ³  Sine/cosine computation & division algorithm
+   \newcount\count_B       ³              "                       "       
+   \newcount\count_C       ³              "                       "
+   \newcount\count_D       ³              "                       "
+   \newcount\count_E       ³              "
+   \newdimen\_base         ³  For computing hypotenuse
+   \newdimen\_height       ³              "
+   \newdimen\dimen_AL      ³  Drawing lines; drawing loops
+   \newdimen\dimen_BL      ³        "              "
+   \newdimen\dimen_CL      ³        "              "
+   \newdimen\dimen_DL      ³        "              "
+   \newdimen\dimen_XL      ³        "              "
+   \newdimen\dimen_YL      ³        "              "
+   \newdimen\dimen_ZL      ³        "
+   \newdimen\dimen_AP      ³  For plotting points
+   \newdimen\dimen_BP      ³        "
+   \newdimen\dimen_XS      ³  Sine/cosine; circular arc
+   \newdimen\dimen_YS      ³        "           "
+   \newdimen\dimen_A       ³  Sine/cosine computations; x-axis; circle
+   \newdimen\dimen_B       ³           "                    "     "
+   \newdimen\dimen_C       ³           "              ; y-axis;  loop
+   \newdimen\dimen_D       ³           "                    "
+   \newdimen\dimen_X       ³  \dimen_X and \dimen_Y are used in sine/cosine,
+   \newdimen\dimen_Y       ³  plotting (rectangular & polar), drawing lines
+                           ³  rays, circles and loops. Also in making x-labels 
+                           ³  and computing for the hypotenuse of a right
+                           ³  triangle.
+   \newdimen\dimen_Z       ³  Polar plotting, drawing rays, circles, and
+                           ³  computation of sine/cosine.
+   \newdimen\dimen_XX      ³  For drawing circular arcs
+   \newdimen\dimen_YY      ³        "
+   \newdimen\dimen_UU      ³        "
+   \newdimen\dimen_VV      ³        "
+   \newdimen\dimen_XT      ³  For \center_put, \right_put, \left_put
+   \newdimen\dimen_YT      ³  and for drawing circular arcs
+   \newdimen\dimen_AA      ³  For drawing edges
+   \newdimen\dimen_BB      ³        "
+   \newdimen\dimen_CC      ³        "
+   \newdimen\dimen_ALL     ³        "
+   \newdimen\dimen_BLL     ³        "
+   \newdimen\dimen_CLL     ³        "
+   \newdimen\dimen_DLL     ³        "
+   \newdimen\c_radius      ³  Circle's radius
+   \newdimen\v_radius      ³  Vertex' radius
+   \newdimen\del_angle     ³  Angle interval in drawing a circle (radian)
+   \newdimen\gen_angle     ³  Angle (degrees)
+   \newdimen\x_unit        ³  x scale
+   \newdimen\y_unit        ³  y scale
+   \newdimen\del_x         ³  x increment
+   \newdimen\del_y         ³  y increment
+   \newbox\pic_box         ³  The picture box
+   \newbox\obj_box         ³  Object box
+   \newbox\dot_box         ³  The tracing dot box
+   \newbox\vertex_box      ³  The vertex box
+   \newif\if_rotated       ³  For rotating drawings
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Writing long comments ...
+   ³  Everything between \rem and \mer will not be processed by TeX
+   ³  Be sure that there are no \newcount, \newdimen, \newbox, \newif, ...
+   ³  between \rem and \mer
+   \long\def\rem#1\mer{}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Compare (x_now,y_now) with current extreme points ...
+   \def\test_xy{%
+      \ifdim\x_now > \max_X \global\max_X=\x_now \fi
+      \ifdim\x_now < \min_X \global\min_X=\x_now \fi
+      \ifdim\y_now > \max_Y \global\max_Y=\y_now \fi
+      \ifdim\y_now < \min_Y \global\min_Y=\y_now \fi\ignorespaces}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Constants ...
+   \zero_pt=0pt
+   \def\_pi{3.14159}
+   \def\_radian{0.017453293}
+   \def\cos_fortyfive{0.70710678}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Default values of distance scales ...
+   \x_unit=1pt 
+   \y_unit=1pt
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Default distance between consecutive tracing points ...
+   \plot_interval=0.4pt
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Selecting the size of the plotting point ...
+   \def\set_plot_size #1 {\def\plot_size{\ifcase #1 \or \fiverm 
+   \or \sevenrm \or \ninerm \else \fiverm \fi}}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Changing the symbol used for drawing ...
+   \def\set_plot_symbol(#1){%
+      \def\_dot{\plot_size#1}\ignorespaces}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Default dot is \hbox{\fiverm.} ...
+   \set_plot_size 1
+   \set_plot_symbol(.)
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Division of a dimen by a dimen ...
+   \def\_divide#1#2#3{%    *  This sets the dimen reg #3 to  #1/#2 pt
+      \count_B=#1%         *  Let \dimenA=13pt and \dimenB=2pt
+      \count_C=#2%         *  Then \_divide\dimenA\dimenB is 6.25pt
+      \count_D=\count_B    
+      \divide\count_D \count_C
+      \count_A=\count_D
+      \multiply\count_D \count_C
+      \advance\count_B -\count_D
+      \count_D=\count_C
+      \ifnum\count_D<0 \count_D=-\count_D \fi\ignorespaces
+      \ifnum\count_D<4204304
+         \div_step[256]\div_step[256]
+      \else
+         \_Divide
+      \fi\ignorespaces
+      \global#3=\count_A sp\ignorespaces}
+   \def\_Divide{%
+      \ifnum\count_D<1677216
+         \div_step[64]\div_step[32]\div_step[32]
+      \else
+         \div_step[8]\div_step[8]\div_step[8]\div_step[8]\div_step[8]
+         \multiply\count_A 2
+      \fi\ignorespaces}   
+   \def\div_step[#1]{%
+      \multiply\count_B #1%
+      \count_D=\count_B
+      \divide\count_D \count_C
+      \multiply\count_A #1%
+      \advance\count_A \count_D
+      \multiply\count_D \count_C
+      \advance\count_B -\count_D\ignorespaces}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Starting a drawing ... 
+   \def\start_picture{%
+      \setbox\pic_box=\hbox\bgroup%
+      \global\max_X=-\hsize
+      \global\min_X=\hsize
+      \global\max_Y=-\vsize
+      \global\min_Y=\vsize}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Ending a drawing ...
+   \def\end_picture{%
+      \ifdim\min_X = \hsize 
+         \global\max_X=\zero_pt \global\min_X=\zero_pt
+         \global\max_Y=\zero_pt \global\min_Y=\zero_pt
+      \fi
+      \egroup%
+      \ht\pic_box=\max_Y
+      \dp\pic_box=-\min_Y
+      \ifdim\min_Y > \zero_pt
+      \else
+         \ifdim\max_Y < \zero_pt
+            \min_Y=\max_Y
+         \else
+            \min_Y=\zero_pt
+         \fi
+      \fi
+      \hbox{\kern-\min_X\box\pic_box \kern\max_X}}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Rotating every point through an angle A about the point (x0,y0) ...
+   ³  The matrix of the linear transformation is 
+   ³                    \cos_A  -\sin_A
+   ³                    \sin_A   \cos_A
+   ³  where \cos_A =cosine A, \sin_A = sine A
+   ³  The image of (a,b) is a -> x0 + (a-x0)\cos_A - (b-y0)\sin_A, 
+   ³                        b -> y0 + (a-x0)\sin_A + (b-y0)\cos_A 
+   \def\_rotate #1 degrees about #2 #3 {%
+      \message{<Rotating about (#2,#3) through #1 degrees>}%
+      \global\def\rotation_angle{#1}%
+      \Sin_Cos {#1}
+      \edef\cos_A{\cosine}%
+      \edef\sin_A{\sine}%
+      \global\edef\X_Pivot{#2}%
+      \global\edef\Y_Pivot{#3}%
+      \_rotatedtrue\ignorespaces}
+   \def\off_rotate{%
+      \message{<Rotation suspended>}%
+      \_rotatedfalse\ignorespaces}
+   \def\on_rotate{%
+      \message{<Rotation resumed>}%
+      \_rotatedtrue\ignorespaces}
+   \def\cos_A{1} \def\sin_A{0} 
+   \def\X_Pivot{0} \def\Y_Pivot{0} 
+   \def\rotation_angle{0} 
+   \_rotatedfalse
+   \def\transform_point#1#2#3#4{%
+      {\dimen_AL#1\x_unit \dimen_BL#2\y_unit
+      \advance\dimen_AL -\X_Pivot\x_unit  \advance\dimen_BL -\Y_Pivot\y_unit
+      \dimen_XL=\cos_A\dimen_AL \advance\dimen_XL -\sin_A\dimen_BL
+      \dimen_YL=\sin_A\dimen_AL \advance\dimen_YL \cos_A\dimen_BL
+      \advance\dimen_XL\X_Pivot\x_unit  \advance\dimen_YL\Y_Pivot\y_unit
+      \global\edef#3{\no_point\dimen_XL}%
+      \global\edef#4{\no_point\dimen_YL}%
+      }\ignorespaces}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Rectangular Coordinate System ...
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Sqetting the origin ...
+   \def\set_origin #1 #2 {%
+      \edef\origin_X{#1}%
+      \edef\origin_Y{#2}}
+   \set_origin 0 0
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing the x axis ...
+   \def\x_axis #1 to #2 {%
+      \dimen_A=#1pt \advance\dimen_A \origin_X pt
+      \dimen_B=#2pt \advance\dimen_B \origin_X pt
+      \draw_line {\no_point\dimen_A} {\origin_Y} 
+         {\no_point\dimen_B} {\origin_Y}
+   }
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing the y axis ...
+   \def\y_axis #1 to #2 {%
+      \dimen_C=#1pt \advance\dimen_C \origin_Y pt
+      \dimen_D=#2pt \advance\dimen_D \origin_Y pt
+      \draw_line {\origin_X} {\no_point\dimen_C}
+      {\origin_X} {\no_point\dimen_D}
+   }
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Plotting a point ...
+   \def\_plot #1 #2 {%     * This is not affected by \_rotate and \set_origin
+      \dimen_X=#1\x_unit \dimen_Y=#2\y_unit
+      \put_dot\dimen_X\dimen_Y
+      \x_now=\dimen_X%
+      \y_now=\dimen_Y%
+      \test_xy
+      }
+   \def\put_dot#1#2{%
+      \dimen_AP=#1%
+      \dimen_BP=#2%
+      \setbox\dot_box=\hbox{\_dot}%
+      \advance\dimen_AP -0.5\wd\dot_box%
+      \advance\dimen_BP -0.5\ht\dot_box% 
+      \advance\dimen_BP 0.5\dp\dot_box%
+      \wd\dot_box=\zero_pt%
+      \kern\dimen_AP\raise\dimen_BP\copy\dot_box\kern-\dimen_AP}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Polar Coordinate System ...
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Setting the pole ...
+   \def\set_pole #1 #2 {%
+      \def\pole_X{#1}%
+      \def\pole_Y{#2}}
+   \set_pole 0 0 
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Plotting a point ...
+   ³  #1 is a dimension (including the unit). For example,
+   ³  \polar_plot <-2cm> 30 degrees plots the point with polar
+   ³  coordinates (-2,30) relative to \set_pole
+   \def\polar_plot <#1> #2 degrees {%     * Not affected by \_rotate
+      \Sin_Cos #2
+      \dimen_Z=#1 
+      \dimen_X=\cosine\dimen_Z
+      \dimen_Y=\sine\dimen_Z
+      \advance\dimen_X \pole_X\x_unit
+      \advance\dimen_Y \pole_Y\y_unit
+      \put_dot\dimen_X\dimen_Y
+      \x_now=\dimen_X \y_now=\dimen_Y \test_xy}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing a ray ...
+   ³  Draw a ray OP where O is the pole and P is a point with given
+   ³  polar coordinates r = #1 (unit must be  specified) 
+   ³  and angle = #2 degrees.
+   \def\draw_ray <#1> #2 degrees {%       * Affected by \_rotate
+      \Sin_Cos #2
+      \dimen_Z=#1 
+      \dimen_X=\cosine\dimen_Z
+      \dimen_Y=\sine\dimen_Z
+      \_divide\dimen_X\x_unit\dimen_X
+      \_divide\dimen_Y\y_unit\dimen_Y
+      \advance\dimen_X \pole_X pt
+      \advance\dimen_Y \pole_Y pt
+      \draw_line {\pole_X} {\pole_Y} {\no_point\dimen_X} {\no_point\dimen_Y}
+   }
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Labelling a complete drawing at the bottom ...
+   ³  Put the label #1 which is #2 yunits below the center of the picture.
+   \def\x_label #1 #2 below {%
+      \dimen_X=\min_X \advance\dimen_X by \max_X
+      \dimen_X=0.5\dimen_X
+      \_divide\dimen_X\x_unit\dimen_X%
+      \dimen_Y=\min_Y \advance\dimen_Y -#2\y_unit
+      \_divide\dimen_Y\y_unit\dimen_Y
+      \center_put {#1} at {\no_point\dimen_X} {\no_point\dimen_Y}
+   }
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Putting an object at a specified location ...
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Centered 
+   \def\center_put #1 at #2 #3 {%
+      \setbox\obj_box\hbox{#1}\relax
+      \dimen_XT#2\x_unit\relax
+      \dimen_YT#3\y_unit\relax
+      \x_now\dimen_XT  \advance \x_now 0.5\wd\obj_box 
+      \y_now\dimen_YT \advance \y_now \ht\obj_box 
+      \test_xy%                     * the upper right hand corner of obj_box
+      \advance\x_now -\wd\obj_box
+      \advance\y_now -\ht\obj_box \advance\y_now -\dp\obj_box
+      \test_xy%                     * the lower right hand corner of obj_box
+      \advance\dimen_XT -0.5\wd\obj_box
+      \advance\dimen_YT -0.5\ht\obj_box
+      \advance\dimen_YT 0.5\dp\obj_box
+      \wd\obj_box\zero_pt
+      \kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Left-aligned
+   \def\left_put #1 at #2 #3 {%
+      \setbox\obj_box=\hbox{#1}\relax
+      \dimen_XT=#2\x_unit
+      \dimen_YT=#3\y_unit
+      \x_now=\dimen_XT  \advance \x_now \wd\obj_box 
+      \y_now=\dimen_YT \advance \y_now \ht\obj_box 
+      \test_xy%                     * the upper right hand corner of obj_box
+      \advance\x_now -\wd\obj_box
+      \advance\y_now -\ht\obj_box \advance\y_now -\dp\obj_box
+      \test_xy%                     * the lower right hand corner of obj_box
+      \advance\dimen_YT -0.5\ht\obj_box
+      \advance\dimen_YT 0.5\dp\obj_box
+      \wd\obj_box=\zero_pt
+      \kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Right-aligned
+   \def\right_put #1 at #2 #3 {%
+      \setbox\obj_box=\hbox{#1}%
+      \dimen_XT=#2\x_unit
+      \dimen_YT=#3\y_unit
+      \x_now=\dimen_XT \y_now=\dimen_YT \advance\y_now \ht\obj_box
+      \test_xy%                     * the upper right hand corner of obj_box
+      \advance\x_now -\wd\obj_box
+      \advance\y_now -\ht\obj_box \advance\y_now -\dp\obj_box
+      \test_xy%                     * the lower right hand corner of obj_box
+      \advance\dimen_XT -\wd\obj_box
+      \advance\dimen_YT -0.5\ht\obj_box
+      \advance\dimen_YT 0.5\dp\obj_box
+      \wd\obj_box=\zero_pt
+      \kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Removing the tag pt from a dimension value in points ...
+   ³  This is a macro  which takes a dimen register as a parameter
+   ³  and which returns the contents (in points) of the register
+   ³  without the pt. If \dimenA=12.5pt then \no_point\dimenA
+   ³  stands for 12.5 which can be used as a multiplier. If \dimenB=2pt
+   ³  then \dimenC=\no_point\dimenA\dimenB would make \dimenC=25pt
+   {\catcode`p=12 \catcode`t=12 \gdef\NO_POINT#1pt{#1}}
+   \def\no_point#1{\expandafter\NO_POINT\the#1}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Getting the integer part and the decimal part of a number ...
+   ³  If \dimenA is a dimension register holding the value -12.345pt,
+   ³  then \_integer\dimenA is -12 and \_decimal\dimenA is 0.345
+   {\catcode`.=12 \catcode`p=12 \catcode`t=12
+   \gdef\_whole#1.#2pt{#1} 
+   \gdef\_frac#1.#2pt{#2}}
+   \def\_integer#1{\expandafter\_whole\the#1}
+   \def\_decimal#1{0.\expandafter\_frac\the#1}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Getting the hypotenuse of a right triangle ...
+   \def\_hypotenuse#1#2#3{%
+      \_base=#1% 
+      \_height=#2%
+      \ifdim\_base<\zero_pt \_base=-\_base\fi
+      \ifdim\_height<\zero_pt \_height=-\_height\fi
+      \advance\_height \_base
+      %\ifdim\_height=\zero_pt  * changed for experiment, 17 May 1995
+      \ifdim\_height<0.00001 pt
+         \global#3=\zero_pt 
+      \else
+         \dimen_Z=8\_base
+         \_divide\dimen_Z\_height\_base
+         \advance\_base -4pt%
+         \_base=2\_base%
+         \_base=\no_point\_base\_base
+         \advance\_base 64pt%
+         \divide\_base 2%
+         \dimen_X=7pt%
+         \_Newton\_Newton\_Newton
+         #3=\no_point\dimen_X\_height
+         \divide #3 by 8%
+         \global#3=#3%
+      \fi\ignorespaces}
+   \def\_Newton{%
+      \_divide\_base\dimen_X\dimen_Y
+      \advance\dimen_X\dimen_Y
+      \divide\dimen_X 2}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Distance between two points (#1, #2) and (#3, #4) ...
+   \def\_dist #1 #2 #3 #4 {%
+      \dimen_X=#3\x_unit \advance\dimen_X -#1\x_unit
+      \dimen_Y=#4\y_unit \advance\dimen_Y -#2\y_unit
+      \_hypotenuse\dimen_X\dimen_Y\dimen_Z
+      \no_point\dimen_Z}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing a line from (x1,y1) to (x2,y2) ...
+   \def\draw_line #1 #2 #3 #4 {%
+      \bgroup\dimen_AL=#1\x_unit \dimen_BL=#2\y_unit
+      \dimen_CL=#3\x_unit \dimen_DL=#4\y_unit
+      \dimen_X=\dimen_AL \advance\dimen_X  -\dimen_CL
+      \ifdim\dimen_X=\zero_pt \else \dimen_X=1pt \fi
+      \dimen_Y=\dimen_BL \advance\dimen_Y -\dimen_DL
+      \ifdim\dimen_Y=\zero_pt \else \dimen_Y=1pt \fi
+      \advance\dimen_X \dimen_Y
+      \ifdim\dimen_X > \zero_pt%    Do not draw line if length = 0
+          \if_rotated
+              \transform_point{#1}{#2}\AL\BL
+              \dimen_AL=\AL pt \dimen_BL=\BL pt
+              \transform_point{#3}{#4}\CL\DL
+              \dimen_CL=\CL pt \dimen_DL=\DL pt
+          \fi%
+          \x_now=\dimen_AL \y_now=\dimen_BL
+          \dimen_XL=\dimen_CL \advance\dimen_XL -\dimen_AL
+          \dimen_YL=\dimen_DL \advance\dimen_YL -\dimen_BL
+          \_hypotenuse\dimen_XL\dimen_YL\dimen_ZL%
+          \_divide\dimen_XL\dimen_ZL\del_x%       * cosine
+          \_divide\dimen_YL\dimen_ZL\del_y%       * sine
+          \del_x=\no_point\plot_interval\del_x%   * x-increment and
+          \del_y=\no_point\plot_interval\del_y%   * y-increment in drawing
+          \_base=\dimen_ZL%                       * use \_base as indicator
+          \_height=\zero_pt%                      * use \_height inside \loop
+          \loop
+              \ifdim\_height > \_base
+                  \dimen_AL=\dimen_CL
+                  \dimen_BL=\dimen_DL
+              \fi
+              \put_dot\dimen_AL\dimen_BL
+              \advance\dimen_AL \del_x \advance\dimen_BL \del_y
+          \ifdim\_height<\_base
+              \advance\_height \plot_interval
+          \repeat
+          \test_xy \x_now=\dimen_AL \y_now=\dimen_BL \test_xy
+      \fi\egroup\ignorespaces}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing an edge from (#1,#2) to (#3,#4) ...
+   \def\draw_edge #1 #2 #3 #4 {%
+      \dimen_ALL=#1\x_unit \dimen_BLL=#2\y_unit
+      \dimen_CLL=#3\x_unit \dimen_DLL=#4\y_unit
+      \dimen_AA=\dimen_CLL \advance\dimen_AA -\dimen_ALL
+      \dimen_BB=\dimen_DLL \advance\dimen_BB -\dimen_BLL
+      \_hypotenuse\dimen_AA\dimen_BB\dimen_CC
+      \_divide\dimen_AA\dimen_CC\del_x%      * cosine
+      \_divide\dimen_BB\dimen_CC\del_y%      * sine         
+      \_divide\del_x\x_unit\del_x%           * x-unit factor  
+      \_divide\del_y\y_unit\del_y%           * y-unit factor
+      \dimen_ALL=#1pt \dimen_BLL=#2pt \dimen_CLL=#3pt \dimen_DLL=#4pt
+      \advance\dimen_ALL \no_point\del_x\v_radius
+      \advance\dimen_BLL \no_point\del_y\v_radius
+      \advance\dimen_CLL -\no_point\del_x\v_radius
+      \advance\dimen_DLL -\no_point\del_y\v_radius
+      \draw_line {\no_point\dimen_ALL} {\no_point\dimen_BLL} 
+         {\no_point\dimen_CLL} {\no_point\dimen_DLL}
+   }
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing a broken line (polyline) ...
+   \def\poly_line #1 #2 {%
+      \def\last_X{#1}%
+      \def\last_Y{#2}%
+      \broken_line}
+   \def\broken_line{%
+      \futurelet\next_char\examine_char}
+   \def\examine_char{%
+      \ifx /\next_char
+         \def\next_line{\do_nothing}%
+      \else
+         \def\next_line{\some_more_lines}%
+      \fi
+      \next_line}
+   \def\do_nothing/{\ignorespaces}
+   \def\some_more_lines#1 #2 {%
+      \draw_line {\last_X} {\last_Y} #1  #2
+      \def\last_X{#1}%
+      \def\last_Y{#2}%
+      \broken_line}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing a set of edges ...
+   \def\edge_set{%
+      \futurelet\next_char\test_next}
+   \def\test_next{%
+      \ifx /\next_char
+         \def\put_next_edge{\do_nothing}%
+      \else
+         \def\put_next_edge{\do_put_edge}%
+      \fi
+      \put_next_edge}
+   \def\do_put_edge#1 #2 #3 #4 {%
+      \draw_edge #1 #2 #3 #4
+      \edge_set}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Sine and cosine of small angle in radians ...
+   ³  Angle A = #1 radians and A > 0.
+   \def\sin_cos#1#2#3{%
+      \dimen_X=\_radian pt
+      \ifdim#1 > \dimen_X
+         \_divide#1\dimen_X\dimen_A
+         \Sin_Cos {\nopt\dimen_A}
+         #2=\sine pt%
+         #3=\cosine pt%
+      \else
+      \dimen_C=32pt%                      * a = A/32 (to make it small)
+      \_divide#1\dimen_C\dimen_D%         * dimen_D = a
+      \dimen_B=\no_point\dimen_D\dimen_D
+      \divide\dimen_B 6%                  *  dimen_B = a^2/6
+      \advance\dimen_B -1pt%              *  dimen_B = a^2/6-1
+      \dimen_B=\no_point\dimen_D\dimen_B% *  dimen_B = a(a^2/6- 1)
+      \dimen_B=-\dimen_B%                 *  dimen_B = a-a^3/6=sin(a)
+      \dimen_A=\no_point\dimen_B\dimen_B% *  dimen_A = sin^2(a)
+      \dimen_A=2\dimen_A%                 *  dimen_A = 2sin^2(a)
+      \advance\dimen_A -1pt%              *  dimen_A = 2sin^2(a) - 1
+      \dimen_A=-\dimen_A%                 *  dimen_A = 1-2sin^2(a)=cos^2(a)
+      \dimen_Y=1.0pt%                     *  initial guess for cos(a)                   
+      \_approx\_approx\_approx%           *  get square root (=dimen_A)  
+      \count_A=0
+      \loop%                              *  Trigonometric identities
+         \advance\count_A 1
+         \dimen_C=\no_point\dimen_B\dimen_A
+         \dimen_C=2\dimen_C%              *  sine of new angle
+         \dimen_D=\no_point\dimen_B\dimen_B
+         \dimen_D=2\dimen_D
+         \advance\dimen_D -1pt
+         \dimen_D=-\dimen_D%              *  cosine of new angle
+         \dimen_B=\dimen_C
+         \dimen_A=\dimen_D
+         \ifnum\count_A < 5%              *  5 iterations (2^5=32) gives A=32a
+      \repeat
+      #2=\dimen_B%                        *  sin(A)
+      #3=\dimen_A%                        *  cos(A)
+      \fi}
+   \def\_approx{%                         *  Newton's method
+      \_divide\dimen_A\dimen_Y\dimen_Z
+      \advance\dimen_Y \dimen_Z
+      \divide\dimen_Y 2}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing a circle ...
+   \def\put_circle#1#2#3{%
+      \bgroup\c_radius=#1%
+      \_divide\plot_interval\c_radius\del_angle
+      \sin_cos\del_angle\del_y\del_x
+      \dimen_A=#2\x_unit
+      \dimen_B=#3\y_unit
+      \if_rotated
+         \advance\dimen_A -\X_Pivot\x_unit
+         \advance\dimen_B -\Y_Pivot\y_unit
+         \dimen_XL=\cos_A\dimen_A \advance\dimen_XL -\sin_A\dimen_B%
+         \dimen_YL=\sin_A\dimen_A \advance\dimen_YL \cos_A\dimen_B%
+         \dimen_A=\dimen_XL \dimen_B=\dimen_YL%
+         \advance\dimen_A \X_Pivot\x_unit \advance\dimen_B \Y_Pivot\y_unit%
+      \fi
+      \dimen_X=\dimen_A
+      \dimen_Y=\dimen_B
+      \advance\dimen_X \c_radius
+      \put_dot\dimen_X\dimen_Y%
+      \advance\dimen_X -2\c_radius
+      \put_dot\dimen_X\dimen_Y%
+      \dimen_X=\dimen_A
+      \advance\dimen_Y \c_radius
+      \put_dot\dimen_X\dimen_Y%
+      \advance\dimen_Y -2\c_radius
+      \put_dot\dimen_X\dimen_Y%
+      \_base=\no_point\del_x\c_radius%
+      \_height=\no_point\del_y\c_radius%
+      \dimen_Z=\cos_fortyfive\c_radius%
+      \loop
+         {\dimen_X=\dimen_A \advance\dimen_X \_base
+         \dimen_Y=\dimen_B \advance\dimen_Y \_height
+         \put_dot\dimen_X\dimen_Y%
+         \advance\dimen_X -2\_base
+         \put_dot\dimen_X\dimen_Y%
+         \advance\dimen_Y -2\_height
+         \put_dot\dimen_X\dimen_Y%
+         \advance\dimen_X 2\_base
+         \put_dot\dimen_X\dimen_Y%
+         \dimen_X=\dimen_A \advance\dimen_X \_height
+         \dimen_Y=\dimen_B \advance\dimen_Y \_base
+         \put_dot\dimen_X\dimen_Y%
+         \advance\dimen_X -2\_height
+         \put_dot\dimen_X\dimen_Y%
+         \advance\dimen_Y -2\_base
+         \put_dot\dimen_X\dimen_Y%
+         \advance\dimen_X 2\_height
+         \put_dot\dimen_X\dimen_Y}%
+      \ifdim\_base > \dimen_Z
+         \dimen_X=\no_point\del_x\_base
+         \advance\dimen_X -\no_point\del_y\_height
+         \dimen_Y=\no_point\del_y\_base
+         \advance\dimen_Y \no_point\del_x\_height
+         \_base=\dimen_X
+         \_height=\dimen_Y
+      \repeat
+   \x_now=\dimen_A \y_now=\dimen_B%                   * center is (x_now,y_now)
+   \global\advance\x_now \c_radius \test_xy%                 * circle's extreme right
+   \global\advance\x_now -2\c_radius \test_xy%               * circle's extreme left
+   \global\advance\x_now \c_radius \advance\y_now \c_radius
+   \test_xy%                                          * circle's top
+   \global\advance\y_now -2\c_radius \test_xy%               * circle's bottom
+   \egroup\ignorespaces}
+   \def\_circle <#1> at #2 #3 {%
+      \bgroup\put_circle{#1}{#2}{#3}\egroup\ignorespaces
+   }
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³   Drawing circular arcs ...
+   \def\circular_arc #1 #2 #3 #4 <#5> {%
+       \dimen_XX=#1\x_unit \dimen_YY=#2\y_unit
+       \dimen_UU=#3\x_unit \dimen_VV=#4\y_unit
+       \if_rotated
+           \transform_point{#1}{#2}\PX\PY
+           \dimen_XX=\PX pt \dimen_YY=\PY pt
+           \transform_point{#3}{#4}\PX\PY
+           \dimen_UU=\PX pt \dimen_VV=\PY pt
+       \fi%
+       \dimen_XS=\dimen_UU \advance\dimen_XS -\dimen_XX
+       \dimen_YS=\dimen_VV \advance\dimen_YS -\dimen_YY
+       \_hypotenuse\dimen_XS\dimen_YS\c_radius
+       \_divide\dimen_XS\c_radius\dimen_XT%            * cosine
+       \_divide\dimen_YS\c_radius\dimen_YT%            * sine
+       \_divide\plot_interval\c_radius\del_angle%
+       \ifdim\del_angle > 1pt \del_angle=1pt \fi%
+       \dimen_Z=\_radian pt
+       \_divide\del_angle\dimen_Z\del_angle%
+       \dimen_CL=-\del_angle  \dimen_DL=#5pt
+       \ifdim\dimen_DL < \zero_pt
+           \dimen_DL=-\dimen_DL
+           \del_angle=-\del_angle
+       \fi%
+       \Sin_Cos {\no_point\del_angle}
+       \ifdim\del_angle > \zero_pt
+           \gen_angle=\del_angle
+       \else
+           \gen_angle=-\del_angle
+       \fi%
+       \loop
+           \advance\dimen_CL \gen_angle%
+       \ifdim\dimen_CL < \dimen_DL
+           \dimen_UU=\cosine\dimen_XT
+           \advance\dimen_UU -\sine\dimen_YT%
+           \dimen_VV=\sine\dimen_XT
+           \advance\dimen_VV \cosine\dimen_YT%
+           \dimen_XT=\dimen_XX
+           \advance\dimen_XT \no_point\dimen_UU\c_radius%
+           \dimen_YT=\dimen_YY
+           \advance\dimen_YT \no_point\dimen_VV\c_radius%
+           \put_dot\dimen_XT\dimen_YT%
+           \dimen_XT=\dimen_UU \dimen_YT=\dimen_VV%
+       \repeat}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Initialize a vertex with radius 2pt ...
+   \v_radius=2pt
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Putting a vertex at a specified location (#1,#2) ...
+   \def\put_vertex #1 #2 {%
+      \put_circle{\v_radius}{#1}{#2}\ignorespaces
+   }
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Putting vertices at several locations ...
+   \def\vertex_set{%
+      \futurelet\next_char\test_next_char}
+   \def\test_next_char{%
+      \ifx/\next_char
+         \def\put_next_vertex{\do_nothing}%
+      \else
+         \def\put_next_vertex{\do_put_vertex}%
+      \fi\ignorespaces
+      \put_next_vertex}
+   \def\do_put_vertex#1 #2 {%
+      \_circle <\v_radius>  at {#1} {#2} \ignorespaces
+      \vertex_set}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing a loop ...
+   \def\put_loop <#1> at #2 #3 {%
+      \c_radius=3\v_radius%
+      \dimen_AL=#2\x_unit%
+      \dimen_BL=#3\y_unit%
+      \Sin_Cos #1
+      \advance\dimen_AL \cosine\c_radius
+      \advance\dimen_BL \sine\c_radius
+      \if_rotated
+         \advance\dimen_AL -\X_Pivot\x_unit
+         \advance\dimen_BL -\Y_Pivot\y_unit
+         \dimen_XL=\cos_A\dimen_AL \advance\dimen_XL -\sin_A\dimen_BL%
+         \dimen_YL=\sin_A\dimen_AL \advance\dimen_YL \cos_A\dimen_BL%
+         \dimen_AL=\dimen_XL \dimen_BL=\dimen_YL%
+         \advance\dimen_AL \X_Pivot\x_unit \advance\dimen_BL \Y_Pivot\y_unit%
+      \fi
+      \dimen_CL=-2.80669ptÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+      \dimen_DL= 2.80669pt³  Assume that the center of the loop and the center 
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ  of the vertex having the loop lie on a horizontal
+   ³  line. Then the line from the center of the vertex to one of the points
+   ³  of intersection of the vertex and the loop has a slope of {4k^2-1}^0.5,
+   ³  where the radius of the loop is k times the vertexradius. For k = 3,
+   ³  the slope is -sqrt{35} and the corresponding angle is -80.406 deg.  The
+   ³  line from the center of the loop to the same intersection has an angle 
+   ³  of inclination of -160.8118 degrees.
+      \_divide\plot_interval\c_radius\del_angle%   
+      \ifdim\del_angle > 1pt \del_angle=1pt \fi
+      \dimen_C=#1pt%
+      \if_rotated \advance\dimen_C \rotation_angle pt \fi
+      \advance\dimen_C -160.8118pt%
+      %\advance\dimen_C -\del_angle%   
+      \Sin_Cos {\no_point\dimen_C}
+      \_base=\cosine pt%                         current cosine
+      \_height=\sine pt%                         current sine
+      \dimen_X=\dimen_AL% 
+      \dimen_Y=\dimen_BL% 
+      \sin_cos\del_angle\del_y\del_x%
+      \loop
+         \dimen_X=\no_point\del_x\_base%
+         \advance\dimen_X -\no_point\del_y\_height% new cosine
+         \dimen_Y=\no_point\del_x\_height%
+         \advance\dimen_Y \no_point\del_y\_base%    new sine
+         \_base=\dimen_X%
+         \_height=\dimen_Y%
+         \dimen_X=\dimen_AL%
+         \dimen_Y=\dimen_BL%
+         \advance\dimen_X \no_point\_base\c_radius%
+         \advance\dimen_Y \no_point\_height\c_radius%
+         \advance\dimen_CL \del_angle%
+         \put_dot\dimen_X\dimen_Y%  
+         \ifdim\dimen_CL < \dimen_DL
+      \repeat
+      \x_now=\dimen_AL \y_now=\dimen_BL%              * center is (x_now,y_now) 
+      \advance\x_now \c_radius \test_xy%              * circle's extreme right
+      \advance\x_now -2\c_radius \test_xy%            * circle's extreme left
+      \advance\x_now \c_radius \advance\y_now \c_radius 
+      \test_xy%                                       * circle's top
+      \advance\y_now -2\c_radius \test_xy%            * circle's bottom
+   }
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Putting an `object' at several locations ...
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Centered ...
+   \def\c_multiput #1 at {%
+      \def\box_object{#1}%
+      \more_c_objects}
+   \def\more_c_objects{%
+      \futurelet\next_char\c_test_next_char}
+   \def\c_test_next_char{%
+      \ifx/\next_char
+         \def\put_next_c_object{\do_nothing}%
+      \else
+         \def\put_next_c_object{\do_put_c_object}%
+      \fi\ignorespaces
+      \put_next_c_object}
+   \def\do_put_c_object#1 #2 {%
+      \center_put {\box_object} at {#1} {#2} \ignorespaces
+      \more_c_objects}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Right-aligned ...
+   \def\r_multiput #1 at {%
+      \def\box_object{#1}%
+      \more_r_objects}
+   \def\more_r_objects{%
+      \futurelet\next_char\r_test_next_char}
+   \def\r_test_next_char{%
+      \ifx/\next_char
+         \def\put_next_r_object{\do_nothing}%
+      \else
+         \def\put_next_r_object{\do_put_r_object}%
+      \fi\ignorespaces
+      \put_next_r_object}
+   \def\do_put_r_object#1 #2 {%
+      \right_put {\box_object} at {#1} {#2} \ignorespaces
+      \more_r_objects}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Left-aligned ...
+   \def\l_multiput #1 at {%
+      \def\box_object{#1}%
+      \more_l_objects}
+   \def\more_l_objects{%
+      \futurelet\next_char\l_test_next_char}
+   \def\l_test_next_char{%
+      \ifx/\next_char
+         \def\put_next_l_object{\do_nothing}%
+      \else
+         \def\put_next_l_object{\do_put_l_object}%
+      \fi\ignorespaces
+      \put_next_l_object}
+   \def\do_put_l_object#1 #2 {%
+      \left_put {\box_object} at {#1} {#2} \ignorespaces
+      \more_l_objects}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing a path ...
+   \def\_path #1 #2 {%
+      \def\last_X{#1}%
+      \def\last_Y{#2}%
+      \draw_path}
+   \def\draw_path{%
+      \futurelet\next_char\Test_Next}
+   \def\Test_Next{%
+      \ifx /\next_char
+         \def\do_next{\_nothing}%
+      \else
+         \def\do_next{\_something}%
+      \fi
+      \do_next}
+   \def\_nothing/{%
+      \put_circle{\v_radius}{\last_X}{\last_Y}
+      \ignorespaces}
+   \def\_something#1 #2 {%
+      \draw_edge {\last_X} {\last_Y} {#1} {#2}
+      \put_circle{\v_radius}{\last_X}{\last_Y}
+      \def\last_X{#1}%
+      \def\last_Y{#2}%
+      \draw_path}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing a star ...
+   \def\_star <#1,#2> {%
+      \def\mid_X{#1}%
+      \def\mid_Y{#2}%
+      \draw_star}
+   \def\draw_star{%
+      \futurelet\next_char\_Test_Next}
+   \def\_Test_Next{%
+      \ifx /\next_char
+         \def\next_do{\_none}%
+      \else
+         \def\next_do{\_more}%
+      \fi
+      \next_do}
+   \def\_none/{%
+      \put_circle{\v_radius}{\mid_X}{\mid_Y}
+      \ignorespaces}
+   \def\_more#1 #2 {%
+      \draw_edge {\mid_X} {\mid_Y} {#1} {#2}
+      \put_circle{\v_radius}{#1}{#2}
+      \draw_star}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Sine and Cosine of whole angles ...
+   ³  \sin_cos_whole #1 sets the definitions \def\sine{sin(#1)} and
+   ³  \def\cosine{cos(#1)}, where #1 is an integer.
+   \newread\sin_cos_table
+   \def\sin_cos_whole #1 {%         *  sine and cosine of angle #1
+      \count_A=#1%                  *  ( #1 is an integer )
+      \ifnum\count_A<0 
+         \count_E=-1 
+         \count_A=-\count_A
+      \else
+         \count_E=1
+      \fi
+      \count_B=\count_A%
+      \divide\count_B 45               
+      \count_C=\count_B%
+      \multiply\count_B 45
+      \advance\count_A -\count_B%   *  angle=45n+a, \count_C=n, \count_A=a
+      \count_B=\count_C%
+      \divide\count_B 4
+      \count_D=\count_B%
+      \multiply\count_B 4
+      \advance\count_C -\count_B%   *  n=4k+r, \count_D=k, \count_C=r
+      \ifodd\count_C
+         \advance\count_A -45
+         \count_A=-\count_A%
+      \fi
+      \openin\sin_cos_table=sctable\relax
+      \read\sin_cos_table to \sine
+      \read\sin_cos_table to \cosine
+      \ifnum\count_A > 0
+         \count_B=0
+         \loop
+            \read\sin_cos_table to \sine
+            \read\sin_cos_table to \cosine
+            \advance\count_B 1
+            \ifnum\count_B < \count_A
+         \repeat
+         \closein\sin_cos_table
+      \fi
+      \ifcase\count_C%              *  r=0
+         \dimen_X=\cosine pt
+         \dimen_Y=\sine pt
+         \ifodd\count_D
+            \dimen_X=-\dimen_X%
+            \dimen_Y=-\dimen_Y%
+         \fi
+      \or%                          *  r=1
+         \dimen_X=\sine pt
+         \dimen_Y=\cosine pt
+         \ifodd\count_D
+            \dimen_X=-\dimen_X%
+            \dimen_Y=-\dimen_Y%
+         \fi
+      \or%                          *  r=2
+         \dimen_X=\sine pt
+         \dimen_Y=\cosine pt
+         \ifodd\count_D
+            \dimen_Y=-\dimen_Y%
+         \else
+            \dimen_X=-\dimen_X%
+         \fi
+      \or%                          *  r=3
+         \dimen_X=\cosine pt
+         \dimen_Y=\sine pt
+         \ifodd\count_D
+            \dimen_Y=-\dimen_Y%
+         \else
+            \dimen_X=-\dimen_X%
+         \fi
+      \fi
+      \edef\cosine{\no_point\dimen_X}%
+      \edef\sine{\no_point\dimen_Y}%
+      \ifnum\count_E < 0
+         \dimen_Y=-\sine pt
+         \edef\sine{\no_point\dimen_Y}%
+      \fi}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Sine and cosine of angle #1 (real number) ...
+   \def\Sin_Cos #1 {%
+      \gen_angle=#1 pt
+      \dimen_XS=\gen_angle%
+      \expandafter\sin_cos_whole\_integer\gen_angle%  *  integer part
+      \dimen_YS=\_decimal\dimen_XS pt
+      \ifdim\dimen_YS=0pt
+         \del_y=0pt
+         \del_x=1pt
+      \else
+         \dimen_YS=\_radian\dimen_YS%
+         \sin_cos\dimen_YS\del_y\del_x%               *  decimal part
+         \ifdim\dimen_XS < \zero_pt
+            \del_y=-\del_y%
+         \fi
+      \fi
+      \dimen_YS=\cosine\del_y%
+      \dimen_XS=\cosine\del_x%
+      \advance\dimen_YS \sine\del_x
+      \advance\dimen_XS -\sine\del_y
+      \global\edef\sine{\no_point\dimen_YS}%
+      \global\edef\cosine{\no_point\dimen_XS}\ignorespaces}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing rectangles ...
+   ³  The call \_rectangle #1 #2 #3 #4 draws a rectangle with opposite
+   ³  corners at (#1,#2) and (#3,#4).
+   \def\_rectangle #1 #2 #3 #4 {%
+      \bgroup\draw_line #1 #2 #3 #2
+      \draw_line #3 #2 #3 #4
+      \draw_line #3 #4 #1 #4
+      \draw_line #1 #4 #1 #2 \egroup\ignorespaces
+   }
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Drawing circular arcs ...
+   \def\arc #1 #2 #3 #4 <#5> {%
+      \dimen_XX=#1\x_unit \dimen_YY=#2\y_unit 
+      \dimen_UU=#3\x_unit \dimen_VV=#4\y_unit
+      \if_rotated
+         \transform_point{#1}{#2}\PX\PY
+         \dimen_XX=\PX\x_unit \dimen_YY=\PY\y_unit
+         \transform_point{#3}{#4}\PX\PY
+         \dimen_UU=\PX\x_unit \dimen_VV=\PY\y_unit
+      \fi%
+      \dimen_XS=\dimen_UU \advance\dimen_XS -\dimen_XX
+      \dimen_YS=\dimen_VV \advance\dimen_YS -\dimen_YY 
+      \_hypotenuse\dimen_XS\dimen_YS\c_radius
+      \_divide\dimen_XS\c_radius\dimen_XT%      cosine
+      \_divide\dimen_YS\c_radius\dimen_YT%      sine
+      \_divide\plot_interval\c_radius\del_angle%
+      \ifdim\del_angle > 1pt \del_angle=1pt \fi%
+      \dimen_Z=\_radian pt
+      \_divide\del_angle\dimen_Z\del_angle%
+      \dimen_CL=-\del_angle  \dimen_DL=#5pt 
+      \ifdim\dimen_DL < \zero_pt
+         \dimen_DL=-\dimen_DL
+         \del_angle=-\del_angle
+      \fi%
+      \Sin_Cos {\no_point\del_angle}
+      \ifdim\del_angle > \zero_pt
+         \gen_angle=\del_angle
+      \else
+         \gen_angle=-\del_angle
+      \fi%      
+      \loop
+         \advance\dimen_CL \gen_angle%
+         \ifdim\dimen_CL < \dimen_DL
+            \dimen_UU=\cosine\dimen_XT \advance\dimen_UU -\sine\dimen_YT%
+            \dimen_VV=\sine\dimen_XT \advance\dimen_VV \cosine\dimen_YT%
+            \dimen_XT=\dimen_XX \advance\dimen_XT \no_point\dimen_UU\c_radius%
+            \dimen_YT=\dimen_YY \advance\dimen_YT \no_point\dimen_VV\c_radius%
+            \put_dot\dimen_XT\dimen_YT%
+            \dimen_XT=\dimen_UU \dimen_YT=\dimen_VV%
+      \repeat}
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Public names of some internal macros ...
+   ³  (alphabetical order)
+                                       ÚÄÄÄÄÄÄÄÄÄ EXAMPLES/NOTES ÄÄÄÄÄÄÄÄÄÄÄ
+   \let\cip=\end_picture               ³   followed by $$ if $$\pic
+   \let\circle=\_circle                ³   \circle <10 pt> at 0 0
+                                       ³   or \circle <\dimA> at 10 5
+   \let\carc=\circular_arc             ³   \carc 10 20 40 -20 <-30>
+                                       ³   draws an arc with center 10 20,
+                                       ³   initial end at 40 -20; central
+                                       ³   angle of -30 degrees.
+   \let\cmultiput=\c_multiput          ³   \cmultiput {$\circ$} at 0 0 10 10 /
+   \let\cput=\center_put               ³   \cput {Hello} at 10 10
+   \let\decimal=\_decimal              ³   \decimal 3.14 is 0.14
+   \let\distance=\_dist                ³   \distance 0 0 3 4 is 4.99998 ( 5 )
+   \let\Divide=\_divide                ³   \Divide\dimenA\dimenB\dimenC
+   \let\drawline=\draw_line            ³   \drawline 0 0 10 10
+   \let\drawray=\draw_ray              ³   \drawray <2cm> 45 degrees
+   \let\edge=\draw_edge                ³   \edge 0 0 20 20
+   \let\edgeset=\edge_set              ³   \edgeset
+                                       ³       0 0 10 10
+                                       ³       0 0 20 20
+                                       ³       10 10 20 20
+                                       ³   /
+   \let\hypotenuse=\_hypotenuse        ³   \hypotenuse\dimenA\dimenB\dimenC
+   \let\integer=\_integer              ³   \integer 3.14 is 3
+   \let\lmultiput=\l_multiput          ³   \lmultiput {$x$} at 2 1 -2 -1 /
+   \let\lput=\left_put                 ³   \lput {Hello} at 10 10
+   \let\multiput=\cmultiput            ³   Same as \cmultiput
+   \let\nopt=\no_point                 ³   \nopt\dimenA
+   \let\offrotate=\off_rotate          ³   \offrotate (suspends rotation)
+   \let\onrotate=\on_rotate            ³   \onrotate (resumes rotation)
+   \let\path=\_path                    ³   \path 0 0 10 10 20 0 /
+   \let\pic=\start_picture             ³   \pic may be preceeded by $$
+   \let\plot=\_plot                    ³   \plot 10 20
+   \let\plotinterval=\plot_interval    ³   \plotinterval=0.4pt (default)
+   \let\polarplot=\polar_plot          ³   \polarplot <2in> 30 degrees
+   \let\polyline=\poly_line            ³   \polyline 0 0 10 10 10 -10 20 0 /
+   \let\putloop=\put_loop              ³   \putloop <90> at 10 10
+   \let\rectangle=\_rectangle          ³   \rectangle 0 0 40 20
+   \let\rmultiput=\r_multiput          ³   \rmultiput {1} at 0 0 20 -10 /
+   \let\rotate=\_rotate                ³   \rotate 30 degrees about 10 -5
+                                       ³   Rotates lines, circles, rectangles
+                                       ³   but doesn't affect \plot, \cput, etc.
+   \let\rput=\right_put                ³   \rput {Hello} at 10 10
+   \let\setorigin=\set_origin          ³   \setorigin 10 -10
+   \let\setpole=\set_pole              ³   \setpole 0 0
+   \let\setplotsize=\set_plot_size     ³   \setplotsize 2
+   \let\setplotsymbol=\set_plot_symbol ³   \setplotsymbol($bullet$)
+   \let\sincos=\sin_cos                ³   \sincos\dimA\dimB\dimC
+                                       ³   The angle, in radians, is stored
+                                       ³   in \dimA. For example, if the
+                                       ³   angle is 1 radian, then \dimA
+                                       ³   must be 1pt. The  sine is obtained
+                                       ³   in \dimB while the cosine is in
+                                       ³   \dimC.
+   \let\SINCOS=\Sin_Cos                ³   \SINCOS 218.34 (angle in degrees)
+                                       ³   The macro sets \sine=-0.62027
+                                       ³   and \cosine=-0.78441. The actual
+                                       ³   values correct to 5 decimal places
+                                       ³   are  -0.62033 and -0.78434.
+   \let\star=\_star                    ³   \star <10,10> 0 0 20 10 -5 -20 /
+   \let\vertex=\put_vertex             ³   \vertex 10 20
+   \let\vertexradius=\v_radius         ³   \vertexradius=2 truept
+                                       ³   or \vertexradius=\dimV
+   \let\vertexset=\vertex_set          ³   \vertexset 0 0 10 10 20 20 /
+   \let\xaxis=\x_axis                  ³   \xaxis -50 to 50
+   \let\xlabel=\x_label                ³   \xlabel {Figure 1.} 20 below
+   \let\xunit=\x_unit                  ³   \xunit=1truecm or \xunit1truecm
+   \let\yaxis=\y_axis                  ³   \yaxis -10 to  50
+   \let\yunit=\y_unit                  ³   \yunit=0.1truein or \yunit0.1truein
+
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³   The following is needed to reduce the size of 'math' text
+   ³   together with ordinary text.
+   ³
+   ³   Copied from the TeXBOOK, by S. V. Gervacio  (12 February 1994)
+   ³   Modified a little bit (28 August 1994) by adding the % symbol
+   ³   after definitions and setboxes to correct the problem of
+   ³   unwanted spaces occuring especially when using drawing macros
+
+   \font\ninerm=cmr9  \font\eightrm=cmr8  \font\sixrm=cmr6
+   \font\ninei=cmmi9  \font\eighti=cmmi8  \font\sixi=cmmi6
+   \font\ninesy=cmsy9 \font\eightsy=cmsy8 \font\sixsy=cmsy6
+   \font\ninebf=cmbx9 \font\eightbf=cmbx8 \font\sixbf=cmbx6
+   \font\ninett=cmtt9 \font\eighttt=cmtt8 \font\fiverm=cmr5
+   \font\nineit=cmti9 \font\eightit=cmti8 \font\sevenrm=cmr7
+   \font\ninesl=cmsl9 \font\eightsl=cmsl8
+
+   \catcode`@=11
+
+   \newskip\ttglue
+
+   \def\tenpoint{\def\rm{\fam0\tenrm}%
+      \textfont0=\tenrm \scriptfont0=\sevenrm \scriptscriptfont0=\fiverm%
+      \textfont1=\teni \scriptfont1=\seveni \scriptscriptfont1=\fivei%
+      \textfont2=\tensy \scriptfont2=\sevensy \scriptscriptfont2=\fivesy%
+      \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex%
+      \textfont\itfam=\tenit \def\it{\fam\itfam\tenit}%
+      \textfont\slfam=\tensl \def\sl{\fam\slfam\tensl}%
+      \textfont\ttfam=\tentt \def\tt{\fam\ttfam\tentt}%
+      \textfont\bffam=\tenbf \scriptfont\bffam=\sevenbf%
+         \scriptscriptfont\bffam=\fivebf \def\bf{\fam\bffam\tenbf}%
+      \tt \ttglue=.5em plus.25em minus.15em%
+      \normalbaselineskip=12pt%
+      \setbox\strutbox=\hbox{\vrule height8.5pt depth3.5pt width0pt}%
+      \let\sc=\eightrm \let\big=\tenbig \normalbaselines\rm}
+
+   \def\ninepoint{\def\rm{\fam0\ninerm}%
+      \textfont0=\ninerm \scriptfont0=\sixrm \scriptscriptfont0=\fiverm
+      \textfont1=\ninei \scriptfont1=\sixi \scriptscriptfont1=\fivei
+      \textfont2=\ninesy \scriptfont2=\sixsy \scriptscriptfont2=\fivesy
+      \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
+      \textfont\itfam=\nineit \def\it{\fam\itfam\nineit}%
+      \textfont\slfam=\ninesl \def\sl{\fam\slfam\ninesl}%
+      \textfont\ttfam=\ninett \def\tt{\fam\ttfam\ninett}%
+      \textfont\bffam=\ninebf \scriptfont\bffam=\sixbf
+         \scriptscriptfont\bffam=\fivebf \def\bf{\fam\bffam\ninebf}%
+      \tt \ttglue=.5em plus.25em minus.15em
+      \normalbaselineskip=11pt
+      \setbox\strutbox=\hbox{\vrule height8pt depth3pt width0pt}%
+      \let\sc=\sevenrm \let\big=\ninebig \normalbaselines\rm}
+
+   \def\eightpoint{\def\rm{\fam0\eightrm}%
+      \textfont0=\eightrm \scriptfont0=\sixrm \scriptscriptfont0=\fiverm
+      \textfont1=\eighti \scriptfont1=\sixi \scriptscriptfont1=\fivei
+      \textfont2=\eightsy \scriptfont2=\sixsy \scriptscriptfont2=\fivesy
+      \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
+      \textfont\itfam=\eightit \def\it{\fam\itfam\eightit}%
+      \textfont\slfam=\eightsl \def\sl{\fam\slfam\eightsl}%
+      \textfont\ttfam=\eighttt \def\tt{\fam\ttfam\eighttt}%
+      \textfont\bffam=\eightbf \scriptfont\bffam=\sixbf
+         \scriptscriptfont\bffam=\fivebf \def\bf{\fam\bffam\eightbf}%
+      \tt \ttglue=.5em plus.25em minus.15em
+      \normalbaselineskip=9pt
+      \setbox\strutbox=\hbox{\vrule height7pt depth2pt width0pt}%
+      \let\sc=\sixrm \let\big=\eightbig \normalbaselines\rm}
+
+   \def\tenbig#1{{\hbox{$\left#1\vbox to 8.5pt{}\right.\n@space$}}}
+   \def\ninebig#1{{\hbox{$\textfont0=\tenrm\textfont2=\tensy
+      \left#1\vbox to 7.25pt{}\right.\n@space$}}}
+   \def\eightbig#1{{\hbox{$\textfont0=\ninerm\textfont2=\ninesy
+      \left#1\vbox to 6.5pt{}\right.\n@space$}}}
+   \def\tenmath{\tenpoint\fam-1 }
+
+   \catcode`@=12
+   ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³ This last portion is QUAD.TEX   
+   ³ A research project funded by URCO, De La Salle University,
+   ³ December 1994 - November 1995
+
+\newdimen\A_zero \newdimen\A_one \newdimen\A_two
+\newdimen\B_zero \newdimen\B_one \newdimen\B_two
+\newdimen\x_dot \newdimen\y_dot \newdimen\x_value \newdimen\y_value
+\newdimen\first_half \newdimen\second_half \newdimen\arc_length
+\newdimen\arc_ratio \newdimen\c_one \newdimen\c_two
+\newdimen\del_arc \newdimen\current_arc \newdimen\t_value
+\newdimen\tailXdown \newdimen\tailYdown 
+\newdimen\tailXup \newdimen\tailYup 
+\newdimen\midXdown \newdimen\midYdown 
+\newdimen\midXup \newdimen\midYup
+\newdimen\headX \newdimen\headY
+
+\def\update_values{%      
+   \t_value=\no_point\c_two\current_arc
+   \advance\t_value \c_one
+   \t_value=\no_point\current_arc\t_value
+   \x_value=\no_point\A_two\t_value
+   \advance\x_value \A_one
+   \x_value=\nopt\t_value\x_value
+   \advance\x_value \A_zero
+   \y_value=\no_point\B_two\t_value
+   \advance\y_value \B_one
+   \y_value=\nopt\t_value\y_value
+   \advance\y_value \B_zero
+}
+\def\q_join #1 #2 #3 #4 #5 #6 {% * The ratio r = \x_unit : \y_unit must
+%                                * satisfy  r < 2 for arcs that are
+%                                * concave up or down and
+%                                * r > 0.5 for arcs that are
+%                                * concave left or right
+%                                * for best results (17 May 1995)     
+%\bgroup
+   \if_rotated 
+      \transform_point{#1}{#2}\AL\BL 
+      \transform_point{#3}{#4}\ALL\BLL
+      \transform_point{#5}{#6}\ALLL\BLLL
+   \else
+      \dimen_A=#1\x_unit \global\edef\AL{\no_point\dimen_A}%
+      \dimen_B=#2\y_unit \global\edef\BL{\no_point\dimen_B}%
+      \dimen_A=#3\x_unit \global\edef\ALL{\no_point\dimen_A}%
+      \dimen_B=#4\y_unit \global\edef\BLL{\no_point\dimen_B}%
+      \dimen_A=#5\x_unit \global\edef\ALLL{\no_point\dimen_A}%
+      \dimen_B=#6\y_unit \global\edef\BLLL{\no_point\dimen_B}%
+   \fi
+   \global\A_zero=\AL pt \global\B_zero=\BL pt
+   \x_now=\A_zero \y_now=\B_zero \test_xy 
+   \x_now=\ALLL pt \y_now=\BLLL pt \test_xy
+   \dimen_A=\ALL pt \dimen_B=\ALLL pt
+   \A_one=-3\A_zero \advance\A_one 4\dimen_A \advance\A_one -\dimen_B
+   \A_two=2\A_zero \advance\A_two -4\dimen_A \advance\A_two 2\dimen_B
+   \dimen_A=\BLL pt \dimen_B=\BLLL pt
+   \B_one=-3\B_zero \advance\B_one 4\dimen_A \advance\B_one -\dimen_B
+   \B_two=2\B_zero \advance\B_two -4\dimen_A \advance\B_two 2\dimen_B
+   \y_now=\B_two \arc_ratio=\B_two %Use \arc_ratio as temporary storage
+   \ifdim\y_now<0pt \y_now=-\y_now \fi %Arithmetic overflow occurs when
+   \ifdim\y_now<0.0001pt \B_two=0pt \fi%\B_two is very small. Furthermore,
+                                       %sometimes, \B_two is supposed to
+                                       %be 0 but computation gives a nonzero
+                                       %but small value.
+   %critical values of y
+   %set y_dot to 0
+   %y_critical = -\B_one / 2\B_two
+   \ifdim\B_two = 0 pt
+   \else
+      \_divide\B_one\B_two\t_value
+      \t_value=-0.5\t_value
+      \ifdim\t_value < 0pt
+      \else
+         \ifdim\t_value>1 pt
+         \else
+            \x_now=\no_point\A_two\t_value
+            \advance\x_now \A_one
+            \x_now=\nopt\t_value\x_now
+            \advance\x_now \A_zero
+            \y_now=\no_point\B_two\t_value
+            \advance\y_now \B_one
+            \y_now=\nopt\t_value\y_now
+            \advance\y_now \B_zero
+            \test_xy
+         \fi
+      \fi
+   \fi
+   \B_two=\arc_ratio
+   \x_now=\A_two  \arc_ratio=\A_two %Use \arc_ratio as temporary storage
+   \ifdim\x_now<0pt \x_now=-\x_now \fi  %Similar comment as in
+   \ifdim\x_now<0.0001pt \A_two=0pt \fi %the \B_two case
+   %critical values of x
+   %set x_dot to 0
+   %x_critical = -\A_one / 2\A_two
+   \ifdim\A_two = 0 pt
+   \else
+      \_divide\A_one\A_two\t_value
+      \t_value=-0.5\t_value
+      \ifdim\t_value < 0pt
+      \else
+         \ifdim\t_value>1 pt
+         \else
+            \x_now=\no_point\A_two\t_value
+            \advance\x_now \A_one
+            \x_now=\nopt\t_value\x_now
+            \advance\x_now \A_zero
+            \y_now=\no_point\B_two\t_value
+            \advance\y_now \B_one
+            \y_now=\nopt\t_value\y_now
+            \advance\y_now \B_zero
+            \test_xy
+         \fi
+      \fi
+   \fi
+   \A_two=\arc_ratio   
+   %\x_dot = \A_one + 2\A_two t  and  \y_dot = \B_one + 2\B_two t
+   %use \arc_length temporarily as scratch register
+   %first half of arclength (not actually half of arclength)
+   %first, t=0
+   \x_dot=\A_one \y_dot = \B_one
+   \_hypotenuse\x_dot\y_dot\first_half
+   %next, t=1/4
+   \advance\x_dot 0.5\A_two \advance\y_dot 0.5\B_two
+   \_hypotenuse\x_dot\y_dot\arc_length
+   \advance\first_half 4\arc_length
+   %last, t=1/2
+   \advance\x_dot 0.5\A_two \advance\y_dot 0.5\B_two
+   \_hypotenuse\x_dot\y_dot\arc_length
+   \advance\first_half \arc_length
+   \divide\first_half 12%
+   %second half
+   %first, t=1/2
+   \second_half=\arc_length
+   %next, t=3/4
+   \advance\x_dot 0.5\A_two \advance\y_dot 0.5\B_two
+   \_hypotenuse\x_dot\y_dot\arc_length
+   \advance\second_half 4\arc_length
+   %last, t=1
+   \advance\x_dot 0.5\A_two \advance\y_dot 0.5\B_two
+   \_hypotenuse\x_dot\y_dot\arc_length
+   \advance\second_half \arc_length
+   \divide\second_half 12%
+   \arc_length=\first_half \advance\arc_length \second_half
+   \_divide\first_half\arc_length\arc_ratio
+   %t=f(s)=c_one s + c_two s^2
+   \dimen_A=\nopt\arc_ratio\arc_ratio
+   \c_one=\dimen_A \advance\c_one -0.5pt
+   \c_two=0.5pt \advance\c_two -\arc_ratio
+   \advance\dimen_A -\arc_ratio
+   \_divide\c_one\dimen_A\c_one
+   \_divide\c_two\dimen_A\c_two
+   \c_one=\c_one \c_two=\c_two
+   \_divide\plot_interval\arc_length\del_arc
+   \current_arc=0pt
+   \put_dot\A_zero\B_zero%
+   \loop
+      {\advance\current_arc \del_arc
+      \update_values
+      \ifdim\current_arc > 1pt \else \put_dot\x_value\y_value \fi
+      \ifdim\current_arc < 1pt}%
+   \repeat}
+%\egroup}
+\def\curved_edge #1 #2 #3 #4 through #5 #6 {%
+   \A_zero=#1 pt \B_zero=#2 pt
+   \dimen_X=#5pt \dimen_Y=#6pt
+   \A_one=\A_zero \A_two=\A_zero 
+   \B_one=\B_zero \B_two=\B_zero
+   \A_one=-3\A_one \A_two=2\A_two
+   \B_one=-3\B_one \B_two=2\B_two
+   \advance\A_one 4\dimen_X \advance\A_two -4\dimen_X
+   \advance\B_one 4\dimen_Y \advance\B_two -4\dimen_Y
+   \advance\A_one -#3pt \advance\A_two #3pt \advance\A_two #3pt
+   \advance\B_one -#4pt \advance\B_two #4pt \advance\B_two #4pt
+   %\x_dot = \A_one + 2\A_two t  and  \y_dot = \B_one + 2\B_two t
+   \x_dot=\A_one \y_dot=\B_one 
+   \_hypotenuse{\no_point\x_unit\x_dot}{\no_point\y_unit\y_dot}\dimen_Z
+   \del_x=\no_point\v_radius\x_dot 
+   \_divide\del_x\dimen_Z\del_x 
+   \del_y=\no_point\v_radius\y_dot
+   \_divide\del_y\dimen_Z\del_y
+   \dimen_AA=\A_zero 
+   \advance\dimen_AA \del_x 
+   \dimen_BB=\B_zero 
+   \advance\dimen_BB \del_y 
+   \edef\AA{\no_point\dimen_AA }%
+   \edef\BB{\no_point\dimen_BB }%
+   \advance\x_dot 2\A_two \advance\y_dot 2\B_two
+   \_hypotenuse{\no_point\x_unit\x_dot}{\no_point\y_unit\y_dot}\dimen_Z
+   \del_x=\no_point\v_radius\x_dot 
+   \_divide\del_x\dimen_Z\del_x
+   \del_y=\no_point\v_radius\y_dot
+   \_divide\del_y\dimen_Z\del_y
+   \dimen_UU=#3pt \advance\dimen_UU -\del_x 
+   \dimen_VV=#4pt \advance\dimen_VV -\del_y 
+   \edef\XX{\no_point\dimen_UU }%
+   \edef\YY{\no_point\dimen_VV }%
+   \q_join {\AA } {\BB } {#5} {#6} {\XX } {\YY } 
+}
+
+\def\draw_curve #1 #2 {%
+   \def\x_previous{#1}%
+   \def\y_previous{#2}%
+   \Q_join}
+\def\Q_join{\futurelet\next_par\test_par}
+\def\test_par{%
+   \ifx /\next_par
+      \def\Q_job{\Q_nothing}%
+   \else
+      \def\Q_job{\Q_continue}%
+   \fi
+   \Q_job}
+\def\Q_nothing/{\ignorespaces}
+\def\Q_continue#1 #2 #3 #4 {%
+   \q_join {\x_previous} {\y_previous} {#1} {#2} {#3} {#4}
+   \def\x_previous{#3}% 
+   \def\y_previous{#4}%
+   \Q_join}
+\def\_ellipse <#1,#2> at #3 #4 {%
+   \bgroup
+   \dimen_A=#1 pt \dimen_B=#2 pt
+   %quadrants 1 and 2
+   \dimen_AA=#1 pt \advance\dimen_AA #3 pt
+   \edef\AA{\no_point\dimen_AA}%
+   \advance\dimen_AA -#1 pt \advance\dimen_AA -#1 pt
+   \edef\FF{\no_point\dimen_AA}%
+   \dimen_AA=#1 pt \dimen_AA=0.866\dimen_AA \advance\dimen_AA #3 pt
+   \edef\BB{\no_point\dimen_AA}%
+   \advance\dimen_AA -#3 pt \dimen_AA=-\dimen_AA \advance\dimen_AA #3 pt
+   \edef\EE{\no_point\dimen_AA}%
+   \dimen_AA=#2 pt \dimen_AA=0.5\dimen_AA \advance\dimen_AA #4 pt
+   \edef\VV{\no_point\dimen_AA}%
+   \dimen_AA=#1 pt \dimen_AA=0.5\dimen_AA \advance\dimen_AA #3 pt
+   \edef\CC{\no_point\dimen_AA}%
+   \advance\dimen_AA -#3 pt \dimen_AA=-\dimen_AA \advance\dimen_AA #3 pt
+   \edef\DD{\no_point\dimen_AA}%
+   \dimen_AA=#2 pt \dimen_AA=0.866\dimen_AA \advance\dimen_AA #4 pt
+   \edef\XX{\no_point\dimen_AA}%
+   \dimen_AA=#2pt \advance\dimen_AA #4 pt
+   \edef\YY{\no_point\dimen_AA}%
+   \draw_curve {\AA} {#4} {\BB} {\VV} {\CC} {\XX} {#3} {\YY} {\DD} {\XX}
+      {\EE} {\VV} {\FF} {#4} /
+   %quadrants 3 and 4
+   \dimen_AA=#2 pt \dimen_AA=-0.5\dimen_AA \advance\dimen_AA #4pt
+   \edef\VV{\no_point\dimen_AA}%
+   \dimen_AA=#2 pt \dimen_AA=-0.866\dimen_AA \advance\dimen_AA #4 pt
+   \edef\XX{\no_point\dimen_AA}%
+   \dimen_AA=-#2 pt \advance\dimen_AA #4 pt
+   \edef\YY{\no_point\dimen_AA}%
+   \draw_curve {\AA} {#4} {\BB} {\VV} {\CC} {\XX} {#3} {\YY} {\DD} {\XX}
+      {\EE} {\VV} {\FF} {#4} /
+   \egroup
+}
+\def\directed_arc #1 #2 #3 #4 through #5 #6 {%
+   \curved_edge {#1} {#2} {#3} {#4} through {#5} {#6} 
+   \arrow_head
+}
+\def\arrow_head{%
+   \current_arc=0.8\arc_length
+   \ifdim\current_arc < 10pt 
+      \current_arc=1pt 
+   \else
+      \current_arc=0.8pt
+   \fi
+   %\_divide\current_arc\arc_length\current_arc
+   \update_values
+   \_divide\x_value\x_unit\x_value \_divide\y_value\y_unit\y_value
+   \headX=\x_value \headY=\y_value
+   \dimen_X=8pt \_divide\dimen_X\arc_length\dimen_X
+   \ifdim\current_arc < \dimen_X 
+      \current_arc=0.375pt
+   \else
+      \dimen_X=5pt 
+      \_divide\dimen_X\arc_length\dimen_X
+      \advance\current_arc -\dimen_X
+   \fi
+   \update_values
+   \_divide\x_value\x_unit\x_value \_divide\y_value\y_unit\y_value
+   \x_dot=\A_one \y_dot=\B_one %Use \A_zero as scratch
+   \dimen_X=2\A_two \advance\x_dot \no_point\dimen_X\t_value
+   \dimen_Y=2\B_two \advance\y_dot \no_point\dimen_Y\t_value
+   \_hypotenuse{\x_dot}{\y_dot}\dimen_Z
+   \del_x=0.5\x_dot 
+   \_divide\del_x\dimen_Z\del_x 
+   \_divide\del_x\y_unit\del_x %slope of normal = - slope of tangent 
+   \del_y=0.5\y_dot 
+   \_divide\del_y\dimen_Z\del_y
+   \_divide\del_y\x_unit\del_y
+   \advance\x_value -\del_y \advance\y_value \del_x
+   \midXup=\x_value \midYup=\y_value
+   \advance\x_value 2\del_y \advance\y_value -2\del_x
+   \midXdown=\x_value \midYdown=\y_value
+   \dimen_X=3pt
+   \_divide\dimen_X\arc_length\dimen_X
+   \ifdim\current_arc < \dimen_X 
+      \current_arc=0pt 
+   \else 
+      \advance\current_arc -\dimen_X 
+   \fi
+   \update_values
+   \_divide\x_value\x_unit\x_value \_divide\y_value\y_unit\y_value
+   \x_dot=\A_one \y_dot=\B_one %Use \A_zero as scratch
+   \dimen_X=2\A_two \advance\x_dot \no_point\dimen_X\t_value
+   \dimen_Y=2\B_two \advance\y_dot \no_point\dimen_Y\t_value
+   \_hypotenuse{\x_dot}{\y_dot}\dimen_Z
+   \del_x=2\x_dot 
+   \_divide\del_x\dimen_Z\del_x 
+   \_divide\del_x\y_unit\del_x
+   \del_y=2\y_dot 
+   \_divide\del_y\dimen_Z\del_y
+   \_divide\del_y\x_unit\del_y
+   \advance\x_value -\del_y 
+   \advance\y_value \del_x
+   \tailXup=\x_value \tailYup=\y_value
+   \advance\x_value 2\del_y \advance\y_value -2\del_x
+   \tailXdown=\x_value \tailYdown=\y_value
+   \q_join {\no_point\tailXdown} {\no_point\tailYdown} 
+      {\no_point\midXdown} {\no_point\midYdown} 
+      {\no_point\headX} {\no_point\headY}
+   \q_join {\no_point\tailXup} {\no_point\tailYup} 
+      {\no_point\midXup} {\no_point\midYup} 
+      {\no_point\headX} {\no_point\headY} 
+}
+\def\_arc #1 #2 #3 #4 {%
+   \dimen_X=#1 pt \advance\dimen_X #3 pt \dimen_X=0.5\dimen_X
+   \dimen_Y=#2 pt \advance\dimen_Y #4 pt \dimen_Y=0.5\dimen_Y
+   \edef\X{\no_point\dimen_X}%
+   \edef\Y{\no_point\dimen_Y}%
+   \directed_arc {#1} {#2} {#3} {#4} through {\X} {\Y}
+}
+\newdimen\central_angle
+\newdimen\_x \newdimen\_y
+\def\_cycle #1 <#2> at #3 #4 {% #1=n, #2=length of a side, (#3, #4)=center
+   \ifnum #1 < 3
+      \message{The cycle must have at least 3 vertices...}%
+   \else
+      \gen_angle=360pt \dimen_X=#1pt
+      \_divide\gen_angle\dimen_X\del_angle
+      \global\edef\_theta{\no_point\del_angle}%
+      \del_angle=0.5\del_angle
+      \central_angle=\del_angle
+      \Sin_Cos {\no_point\del_angle} 
+      \dimen_Z=#2  \dimen_X=\sine pt
+      \_divide\dimen_Z\dimen_X\dimen_Z
+      \dimen_Z=0.5\dimen_Z
+      \edef\_spoke{\no_point\dimen_Z}%
+      \_x=\sine\dimen_Z
+      \_y=-\cosine\dimen_Z
+      \dimen_X=#3 pt
+      \advance\dimen_X \_x
+      \edef\X_right{\no_point\dimen_X}%
+      \advance\dimen_X -2\_x
+      \edef\X_left{\no_point\dimen_X}%
+      \dimen_Y=#4 pt
+      \advance\dimen_Y \_y
+      \edef\Y_common{\no_point\dimen_Y}%
+      \put_circle{\v_radius}{\X_left}{\Y_common}%
+      \put_circle{\v_radius}{\X_right}{\Y_common}%
+      \draw_edge {\X_left} {\Y_common} {\X_right} {\Y_common}
+      \loop
+         {\dimen_X=\X_left pt \global\edef\Left_X{\no_point\dimen_X}% 
+         \dimen_X=\X_right pt \global\edef\Right_X{\no_point\dimen_X}% 
+         \dimen_Y=\Y_common pt \global\edef\Common_Y{\no_point\dimen_Y}%
+         \global\advance\central_angle \_theta pt
+         \Sin_Cos {\no_point\central_angle}
+         \dimen_Z=\_spoke pt
+         \_x=\sine\dimen_Z
+         \_y=-\cosine\dimen_Z
+         \dimen_X=#3 pt
+         \advance\dimen_X \_x
+         \global\edef\X_right{\no_point\dimen_X}%
+         \advance\dimen_X -2\_x
+         \global\edef\X_left{\no_point\dimen_X}%
+         \dimen_Y=#4 pt
+         \advance\dimen_Y \_y
+         \global\edef\Y_common{\no_point\dimen_Y}%
+         \draw_edge {\Left_X} {\Common_Y} {\X_left} {\Y_common} }%
+         \ifdim\central_angle < 181 pt
+            \put_circle{\v_radius}{\X_left}{\Y_common}
+            \draw_edge {\Right_X} {\Common_Y} {\X_right} {\Y_common} 
+            \put_circle{\v_radius}{\X_right}{\Y_common}
+      \repeat
+   \fi
+}
+\def\_wheel #1 <#2> at #3 #4 {% #1=n, #2=length of a side, (#3, #4)=center
+   \ifnum #1 < 3
+      \message{The wheel must have at least 3 circumferential vertices...}%
+   \else
+      \gen_angle=360pt \dimen_X=#1pt
+      \_divide\gen_angle\dimen_X\del_angle
+      \global\edef\_theta{\no_point\del_angle}%
+      \del_angle=0.5\del_angle
+      \central_angle=\del_angle
+      \Sin_Cos {\no_point\del_angle} 
+      \dimen_Z=#2  \dimen_X=\sine pt
+      \_divide\dimen_Z\dimen_X\dimen_Z
+      \dimen_Z=0.5\dimen_Z
+      \edef\_spoke{\no_point\dimen_Z}%
+      \_x=\sine\dimen_Z
+      \_y=-\cosine\dimen_Z
+      \dimen_X=#3 pt
+      \advance\dimen_X \_x
+      \edef\X_right{\no_point\dimen_X}%
+      \advance\dimen_X -2\_x
+      \edef\X_left{\no_point\dimen_X}%
+      \dimen_Y=#4 pt
+      \advance\dimen_Y \_y
+      \edef\Y_common{\no_point\dimen_Y}%
+      \put_circle{\v_radius}{#3}{#4}
+      \put_circle{\v_radius}{\X_left}{\Y_common}%
+      \put_circle{\v_radius}{\X_right}{\Y_common}%
+      \draw_edge {#3} {#4} {\X_left} {\Y_common}
+      \draw_edge {#3} {#4} {\X_right} {\Y_common}
+      \draw_edge {\X_left} {\Y_common} {\X_right} {\Y_common}
+      \loop
+         {\dimen_X=\X_left pt \global\edef\Left_X{\no_point\dimen_X}% 
+         \dimen_X=\X_right pt \global\edef\Right_X{\no_point\dimen_X}% 
+         \dimen_Y=\Y_common pt \global\edef\Common_Y{\no_point\dimen_Y}%
+         \global\advance\central_angle \_theta pt
+         \Sin_Cos {\no_point\central_angle}
+         \dimen_Z=\_spoke pt
+         \_x=\sine\dimen_Z
+         \_y=-\cosine\dimen_Z
+         \dimen_X=#3 pt
+         \advance\dimen_X \_x
+         \global\edef\X_right{\no_point\dimen_X}%
+         \advance\dimen_X -2\_x
+         \global\edef\X_left{\no_point\dimen_X}%
+         \dimen_Y=#4 pt
+         \advance\dimen_Y \_y
+         \global\edef\Y_common{\no_point\dimen_Y}%
+         \draw_edge {\Left_X} {\Common_Y} {\X_left} {\Y_common}
+         \draw_edge {#3} {#4} {\Right_X} {\Common_Y}
+         \draw_edge {#3} {#4} {\Left_X} {\Common_Y} }%
+         \ifdim\central_angle < 181 pt
+            {\put_circle{\v_radius}{\X_left}{\Y_common}
+            \draw_edge {\Right_X} {\Common_Y} {\X_right} {\Y_common} 
+            \put_circle{\v_radius}{\X_right}{\Y_common} }%
+      \repeat
+   \fi
+}
+\def\petersen_graph <#1> at #2 #3 {
+  \A_zero=#1 %the length of an outer edge
+  \_divide\A_zero\x_unit\A_zero
+  \c_one=0.5\A_zero
+  \Sin_Cos 36
+  \c_two=\sine pt
+  \_divide\c_one\c_two\c_one  % \c_one is the height of the
+                              % topmost vertex from the center.
+  \c_two=0.5\c_one
+  \A_one=#3pt \advance\A_one\c_one
+  \A_two=#3pt \advance\A_two\c_two
+  \_path {#2} {\nopt\A_one} {#2} {\nopt\A_two} /
+  \Sin_Cos 36
+  \x_value=\cosine\A_zero
+  \y_value=\sine\A_zero
+  \B_one=#2pt \advance\B_one \x_value
+  \B_two=#2pt \advance\B_two -\x_value
+  \B_zero=\A_one \advance\B_zero -\y_value
+  \put_circle{\v_radius}{\nopt\B_one}{\nopt\B_zero}
+  \put_circle{\v_radius}{\nopt\B_two}{\nopt\B_zero}
+  \edge {#2} {\nopt\A_one} {\nopt\B_one} {\nopt\B_zero}
+  \edge {#2} {\nopt\A_one} {\nopt\B_two} {\nopt\B_zero}
+  \Sin_Cos 18
+  \x_value=\cosine\c_two
+  \y_value=\sine\c_two
+  \x_dot=\B_one \y_dot=\B_two \t_value=\B_zero
+  \advance\x_dot -\x_value \advance\y_dot \x_value
+  \advance\t_value -\y_value
+  \_path {\nopt\x_dot} {\nopt\t_value} {\nopt\y_dot} {\nopt\t_value} /
+  \edge {\nopt\B_one} {\nopt\B_zero} {\nopt\x_dot} {\nopt\t_value}
+  \edge {\nopt\B_two} {\nopt\B_zero} {\nopt\y_dot} {\nopt\t_value}
+  \Sin_Cos 72
+  \x_value=\cosine\A_zero \y_value=\sine\A_zero
+  \tailXup=\B_two \advance\tailXup \x_value
+  \tailYup=\B_zero \advance\tailYup -\y_value
+  \tailXdown=\B_one \advance\tailXdown -\x_value
+  \Sin_Cos 54
+  \x_value=\cosine\c_two
+  \y_value=\sine\c_two
+  \midXup=\tailXup \advance\midXup \x_value
+  \midYup=\tailYup \advance\midYup \y_value
+  \midXdown=\tailXdown \advance\midXdown -\x_value
+  \_path {\nopt\midXup} {\nopt\midYup} {\nopt\tailXup} {\nopt\tailYup} /
+  \_path {\nopt\midXdown} {\nopt\midYup} {\nopt\tailXdown} {\nopt\tailYup} /
+  \edge {\nopt\B_two} {\nopt\B_zero} {\nopt\tailXup} {\nopt\tailYup}
+  \edge {\nopt\B_one} {\nopt\B_zero} {\nopt\tailXdown} {\nopt\tailYup}
+  \edge {\nopt\tailXup} {\nopt\tailYup} {\nopt\tailXdown} {\nopt\tailYup}
+  \edge {\nopt\y_dot} {\nopt\t_value} {\nopt\midXdown} {\nopt\midYup}
+  \edge {\nopt\x_dot} {\nopt\t_value} {\nopt\midXup} {\nopt\midYup}
+  \edge {#2} {\nopt\A_two} {\nopt\midXup} {\nopt\midYup}
+  \edge {#2} {\nopt\A_two} {\nopt\midXdown} {\nopt\midYup}
+}
+
+\let\drawcurve=\draw_curve
+\let\Edge=\curved_edge
+\let\Arc=\directed_arc
+\let\arc=\_arc
+\let\ellipse=\_ellipse
+\let\wheel=\_wheel
+\let\cycle=\_cycle
+\let\petersen=\petersen_graph
+   
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   ³  Restore the original category category codes ...
+   \catcode`_=8 \catcode`\³=12 \catcode`\Ú=12 \catcode`\À=12 \catcode`\±=12

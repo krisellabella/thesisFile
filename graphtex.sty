@@ -1,0 +1,6949 @@
+\immediate\write16{This is GraphTeX version 2.0 (2005)}
+\message{by S. V. Gervacio, DLSU-Manila City}
+\message{[ With research grant from the Research Faculty Program of DLSU ]}
+   %%%%%%%%%%%%%%%%  GRAPHTEX  version 2.0	 (2005) %%%%%%%%%%%%%%%%%%%%%
+   %	This is a set of drawing and related macros for undirected and    % 
+   %  directed graphs. This also includes general purpose drawing macros%
+   %  for making 2-dimensional and 3-dimensional drawings. Rigid plane  %
+   %  transformations (translation, reflection, and rotation) and       %
+   %  composition of of transformations are also included. A few        %
+   %  miscellaneous macros such as drawing a triple loop, a clock, and  %
+   %  creating a monthly calendar are also included.                    %
+   %	In case bugs are discoverd here, please contact the author at	    %
+   %  the following address and report your findings:					          %
+   %				 Severino V. Gervacio								                        %
+   %				 Department of Mathematics							                    %
+   %				 De La Salle University								                      %
+   %				 2401 Taft Avenue, Manila							                      %
+   %				 PHILIPPINES										                            %
+   %				 [ e-mail gervacios@dlsu.edu.ph ]					                  %
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	   
+%  Change the category code of _ from 8 to 11 temporarily ...
+\catcode`_=11
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%MACROS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   \font\ninerm=cmr9  \font\eightrm=cmr8  \font\sixrm=cmr6
+   \font\ninei=cmmi9  \font\eighti=cmmi8  \font\sixi=cmmi6
+   \font\ninesy=cmsy9 \font\eightsy=cmsy8 \font\sixsy=cmsy6
+   \font\ninebf=cmbx9 \font\eightbf=cmbx8 \font\sixbf=cmbx6
+   \font\ninett=cmtt9 \font\eighttt=cmtt8 \font\fiverm=cmr5
+   \font\nineit=cmti9 \font\eightit=cmti8 \font\sevenrm=cmr7
+   \font\ninesl=cmsl9 \font\eightsl=cmsl8 \font\sixtt=cmtt8 scaled 740
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%MACROS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Doing nothing
+\def\do_nothing{}
+\def\do_nothing_/{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Scanning characters from left to right
+\def\read_char#1#2#3{%
+	\ifx#1\next_char
+		\def\do_job{#2}\ignorespaces
+	\else
+		\def\do_job{#3}\ignorespaces
+	\fi%
+	\do_job}
+	
+%  Allocation of registers ... 
+\def\New_Dimen{\futurelet\next_char\test_dimen}
+\def\test_dimen{\read_char{(}\new_dimen\do_nothing}
+\def\new_dimen(#1) {\newdimen#1 \New_Dimen}
+
+\New_Dimen
+(\plot_interval) %  For	holding the value of the plot interval
+(\max_X)			%  Maximum abscissa in the entire drawing
+(\min_X)			%  Minimum abscissa in the entire drawing
+(\max_Y)			%  Maximum ordinate in the entire drawing
+(\min_Y)			%  Minimum ordinate in the entire drawing
+(\max_x)			%  Maximum abscissa in a sub drawing
+(\min_x)			%  Minimum abscissa in a sub drawing
+(\max_y)			%  Maximum ordinate in a sub drawing
+(\min_y)			%  Minimum ordinate in a sub drawing
+(\x_now)			%  Current extremum abscissa during drawing
+(\y_now)			%  Current extremum ordinate during drawing
+(\_base)			%  For computing hypotenuse
+(\_height)		%			   "
+(\dimen_AL) 	%  Drawing lines; drawing loops; conics
+(\dimen_BL) 	%		 "				"
+(\dimen_CL) 	%		 "				"
+(\dimen_DL) 	%		 "				"
+(\dimen_XL) 	%		 "				"
+(\dimen_YL) 	%		 "				"
+(\dimen_ZL) 	%		 "
+(\dimen_AP) 	%  For plotting points
+(\dimen_BP) 	%		 "
+(\dimen_XS) 	%  Sine/cosine; circular arc
+(\dimen_YS) 	%		 "			 "
+(\dimen_A)		%  Sine/cosine computations; x-axis; circle
+(\dimen_B)		%			"					 "	   "
+(\dimen_C)		%			"			   ; y-axis;  loop
+(\dimen_D)		%			"					 "
+(\dimen_X)		%  \dimen_X and \dimen_Y are used in sine/cosine,
+(\dimen_Y)		%  plotting (rectangular & polar), drawing lines
+							%  rays, circles and loops. Also in making																%  x-labels and computing for the hypotenuse of a													%  right triangle.
+(\dimen_Z)		%  Polar plotting, drawing rays, circles, and
+							%  computation of sine/cosine.
+(\dimen_XX)		%  For drawing circular arcs
+(\dimen_YY)		%		 "
+(\dimen_UU)		%		 "
+(\dimen_VV)		%		 "
+(\dimen_XT)		%  For \center_put, \right_put, \left_put
+(\dimen_YT)		%  and for drawing circular arcs
+(\dimen_AA)		%  For drawing edges
+(\dimen_BB)		%		 "
+(\dimen_CC)		%		 "
+(\dimen_ALL)	%		 "
+(\dimen_BLL)	%		 "
+(\dimen_CLL)	%		 "
+(\dimen_DLL)	%		 "
+(\_D) 				% Drawing a circle approximated by a Bezier curve 
+(\_Z) 				%		 "
+(\c_radius) 	%  Circle's radius
+(\v_radius) 	%  Vertex' radius
+(\del_angle) 	%  Angle interval in drawing a circle (radian)
+(\gen_angle) 	%  Angle (degrees)
+(\x_unit) 		%  x scale
+(\y_unit) 		%  y scale
+(\z_unit) 		%  z scale
+(\del_x) 			%  x increment
+(\del_y)  		%  y increment
+(\A_zero) 		%  coefficient in quadratic parametric equations
+(\A_one) 			%     " 
+(\A_two)			%			"
+(\B_zero) 		%			" 
+(\B_one)  		%			"
+(\B_two)			%			"
+(\x_dot)  		%	  first derivative
+(\y_dot)			%     " 
+(\x_value)		%		abscissa 
+(\y_value)		%		ordinate
+(\first_half)	   %		arc length computation 
+(\second_half)   %			" 
+(\arc_length)    %			"
+(\c_one)  		   %			"
+(\c_two)				 %			"
+(\del_arc) 			 %			"
+(\current_arc) 	 %			"
+(\t_value)			 %		parameter
+(\central_angle) %		computation of sine and cosine
+(\_x) 					 %		abscissa 
+(\_y) 					 %		odinate
+(\A_X)		  %		Bezier curve drawing
+(\B_X)		  %			"
+(\C_X)		  %			"
+(\A_Y)		  %			"
+(\B_Y)		  %			"
+(\C_Y)		  %			"
+(\X_zero)   %			"
+(\Y_zero)   %			"
+(\pts_inch) %   For holding the constant 72.27 pts/inch
+(\_X)     	%		For three-dimansional drawing
+(\_Y)     	%				"
+(\_Z)     	%				"
+(\_A)     	%				"
+(\_B)     	%				"
+(\_C)     	%				"
+
+\def\New_Count{\futurelet\next_char\test_count}
+\def\test_count{\read_char{(}\new_count\do_nothing}
+\def\new_count(#1) {\newcount#1 \New_Count}
+
+\New_Count
+(\count_A)		%  Sine/cosine computation & division algorithm
+(\count_B)		%			   "					   "	   
+(\count_C)		%			   "					   "
+(\count_D)		%			   "					   "
+(\count_E)		%			   "
+(\count_F)		%  Drawing the generalized Petersen graph
+(\count_Z)		%  Computation of sine and cosine of small angles
+(\_Angle) 		%			   "
+
+\def\New_Box{\futurelet\next_char\test_box}
+\def\test_box{\read_char{(}\new_box\do_nothing}
+\def\new_box(#1) {\newbox#1 \New_Box}
+
+\New_Box
+(\pic_box)			%  The picture box
+(\sub_pic_box)	%  The sub picture box
+(\obj_box)			%  Object box
+(\dot_box)			%  The tracing dot box
+(\vertex_box) 	%  The vertex box
+(\array_box)		%		Drawing rectangular array
+(\pic_item) 		%				"
+(\Gbox) 				%		GraphTeX sign
+(\rbox) 				%				"
+(\box_pic)			%   box for a sub picture
+
+\def\New_If{\futurelet\next_char\test_if}
+\def\test_if{\read_char{(}\new_if\do_nothing}
+\def\new_if(#1) {\newif#1 \New_If}
+
+\New_If
+(\if_silent)    				%  For messaging (on or off)
+(\if_rotated)	    			%  For rotating drawings
+(\if_reflected)	    		%  For reflecting drawings
+(\if_translated)    		%  For translating drawings
+(\if_subpicture)      	%  For sub picture
+(\ifprevious_rotate)		%
+(\ifprevious_reflect)		%	
+(\ifprevious_translate)	%
+(\if_dashes)						%	 Drawing dashed-lines
+(\ifarrow_dashes)				%			"
+(\ifvertex_dashes)			%			"
+(\ifleap_year)					%   Calendar program
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Constants ...
+\pts_inch=72.27pt
+\def\_pi{3.1415926536} 
+\def\half_pi{1.5707963268}
+\def\_euler{2.718281828}
+\def\_radian{0.0174532925199}
+\def\cos_fortyfive{0.70710678}
+\def\b_const{0.55228475}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Plot sizes of the plotting point ...
+\font\size_zero=cmr12 scaled 100
+\font\size_one=cmr12 scaled 200
+\font\size_two=cmr12 scaled 375%
+\font\size_three=cmr12 scaled 450%
+\font\size_four=cmr12 scaled 700%
+\font\size_five=cmr12 scaled 950%
+\font\size_six=cmr12 scaled 1200%
+\font\size_seven=cmr12 scaled 1450%
+\font\size_eight=cmr12 scaled 1700%
+\font\size_nine=cmr12 scaled 1950%
+\font\size_ten=cmr12 scaled 2200%
+\font\size_eleven=cmr12 scaled 2450%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%MACROS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  GraphTeX run modes
+\def\Message_Mode{%
+	\_silentfalse
+	\message{<Running graphtex in message mode>}%
+}
+\def\Silent_Mode{%
+	\_silenttrue
+	\message{<Running graphtex in silent mode>}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Default values
+\x_unit=1pt 
+\y_unit=1pt
+\z_unit1pt
+\v_radius=2pt
+\_dashesfalse
+\_reflectedfalse
+\_rotatedfalse
+\_silenttrue
+\_subpicturefalse
+\_translatedfalse
+\previous_reflectfalse
+\previous_rotatefalse
+\previous_translatefalse
+\arrow_dashesfalse
+\vertex_dashesfalse
+\leap_yearfalse
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+%  Writing long comments ...
+%  Everything between \rem and \mer will not be processed by TeX
+%  Be sure that there are no \newcount, \newdimen, \newbox, \newif, ...
+%  between \rem and \mer
+\long\def\rem#1\mer{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Compare (x_now,y_now) with current extreme points ...
+\def\test_xy{%
+	\if_subpicture
+		{\ifdim\x_now > \max_x \global\max_x=\x_now \fi
+		\ifdim\x_now  < \min_x \global\min_x=\x_now \fi
+		\ifdim\y_now  > \max_y \global\max_y=\y_now \fi
+		\ifdim\y_now  < \min_y \global\min_y=\y_now \fi}\ignorespaces	
+	\else
+		{\ifdim\x_now > \max_X \global\max_X=\x_now \fi
+		\ifdim\x_now  < \min_X \global\min_X=\x_now \fi
+		\ifdim\y_now  > \max_Y \global\max_Y=\y_now \fi
+		\ifdim\y_now  < \min_Y \global\min_Y=\y_now \fi}\ignorespaces
+	\fi}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Removing the tag pt from a dimension value in points ...
+%  This is a macro  which takes a dimen register as a parameter
+%  and which returns the contents (in points) of the register
+%  without the pt. If \dimenA=12.5pt then \no_point\dimenA
+%  stands for 12.5 which can be used as a multiplier. If \dimenB=2pt
+%  then \dimenC=\no_point\dimenA\dimenB would make \dimenC=25pt
+{\catcode`p=12 \catcode`t=12 \gdef\NO_POINT#1pt{#1}}
+\def\no_point#1{\expandafter\NO_POINT\the#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Getting the integer part and the decimal part of a number ...
+%  If \dimenA is a dimension register holding the value -12.345pt,
+%  then \_integer\dimenA is -12 and \_decimal\dimenA is 0.345
+{\catcode`.=12 \catcode`p=12 \catcode`t=12
+\gdef\_whole#1.#2pt{#1} 
+\gdef\_frac#1.#2pt{#2}}
+\def\_integer#1{\expandafter\_whole\the#1}
+\def\_decimal#1{0.\expandafter\_frac\the#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Division of a dimen by a dimen ...
+{\global\def\_divide#1#2#3{%    *  This sets the dimen reg #3 to  #1/#2 pt
+	\count_B=#1%         					*  Let \dimenA=13pt and \dimenB=2pt
+	\count_C=#2%         					*  Then \_divide\dimenA\dimenB\dimenB
+	\count_D=\count_B%						*  gives \dimenB=6.5pt   
+	\divide\count_D \count_C
+	\count_A=\count_D
+	\multiply\count_D \count_C
+	\advance\count_B -\count_D
+	\count_D=\count_C
+	\ifnum\count_D<0 \count_D=-\count_D \fi\ignorespaces
+	\ifnum\count_D<4204304
+		\div_step[256]\div_step[256]
+	\else
+		\_Divide
+	\fi\ignorespaces
+	\global#3=\count_A sp\ignorespaces}
+}
+
+{\global\def\_Divide{%
+	\ifnum\count_D<1677216
+		\div_step[64]\div_step[32]\div_step[32]
+	\else
+		\div_step[8]\div_step[8]\div_step[8]\div_step[8]\div_step[8]
+		\multiply\count_A 2
+	\fi\ignorespaces}
+}
+ 
+{\global\def\div_step[#1]{%
+	\multiply\count_B #1%
+	\count_D=\count_B
+	\divide\count_D \count_C
+	\multiply\count_A #1%
+	\advance\count_A \count_D
+	\multiply\count_D \count_C
+	\advance\count_B -\count_D\ignorespaces}
+}
+
+\def\do_divide(#1,#2){%
+	\dimen_X=#1pt
+	\dimen_Y=#2pt
+	\_divide\dimen_X\dimen_Y\dimen_X
+	\edef\ratio{\no_point\dimen_X}%
+	\ratio
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Multiplication and summation
+
+\def\_Multiply{\count_A=0\_multiply}
+
+\def\_multiply{\futurelet\next_char\test_number}
+
+\def\test_number{\read_char{/}\give_product{\advance\count_A 1 \do_multiply}}
+
+\def\do_multiply#1 {%
+	\ifnum\count_A=1 \edef\_product{1} \fi
+	\dimen_X=#1pt
+	\dimen_X=\_product\dimen_X
+	\edef\_product{\no_point\dimen_X}%
+	\_multiply
+}
+
+\def\give_product/{%
+	\dimen_X=\_product pt
+	\ifdim \_decimal\dimen_X pt=0pt
+		\edef\_product{\Integer\dimen_X}%
+	\else
+		\edef\_product{\no_point\dimen_X}%
+	\fi	
+	\_product}
+
+%  Summation
+
+\def\_Summation{\count_A=0 \_summation}
+
+\def\_summation{\futurelet\next_char\test_next_term}
+
+\def\test_next_term{\read_char{/}\give_sum{\advance\count_A 1 \do_add}}
+
+\def\do_add#1 {%
+	\ifnum\count_A=1 \edef\_sum{0} \fi
+	\dimen_X=#1pt
+	\advance\dimen_X \_sum pt
+	\edef\_sum{\no_point\dimen_X}%
+	\_summation
+}
+
+\def\give_sum/{%
+	\dimen_X=\_sum pt
+	\ifdim \_decimal\dimen_X pt=0pt
+		\edef\_sum{\Integer\dimen_X}%
+	\else
+		\edef\_sum{\no_point\dimen_X}%
+	\fi
+	\_sum}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Alignment macros
+\def\_align{\count_A=0\_Align}
+
+\def\_Align{%
+	\futurelet\next_char\see_next_char}
+
+\def\see_next_char{%
+	\read_char{]}\_process{\advance\count_A 1\get_next}}
+
+\def\get_next#1{%
+	\ifnum\count_A=1
+		\let\_xx#1\let\_yy=d%
+	\else
+		\let\_yy#1%
+	\fi
+	\_Align
+}
+
+\def\_process] (#1) {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+	\setbox\obj_box=\hbox{#1}%
+	\dimen_AL=\wd\obj_box%
+	\check_for_more
+}
+
+\def\check_for_more{%
+	\futurelet\next_char\read_more_char}
+
+\def\read_more_char{%
+	\read_char{(}\add_box\do_nothing}
+
+\def\add_box(#1,#2) {%
+	\transform_point{#1}{#2}\A_L\B_L%
+	\dimen_XT=\A_L pt
+	\dimen_YT=\B_L pt
+	\ifx c\_xx% Center
+		\advance\dimen_XT-0.5\wd\obj_box%
+		\advance\dimen_YT-0.5\ht\obj_box%
+		\advance\dimen_YT0.5\dp\obj_box%
+	\else
+		\ifx t\_xx% Top
+			\advance\dimen_XT-0.5\wd\obj_box%
+			\advance\dimen_YT-\ht\obj_box%
+		\else
+			\ifx b\_xx% Bottom
+				\advance\dimen_XT-0.5\wd\obj_box%
+				\advance\dimen_YT\dp\obj_box%
+			\else
+				\ifx r\_xx% Right
+					\advance\dimen_XT-\wd\obj_box%
+					\advance\dimen_YT-0.5\ht\obj_box%
+					\advance\dimen_YT0.5\dp\obj_box%
+				\else
+					\ifx l\_xx
+						\ifx l\_yy% Lower Left
+							\advance\dimen_YT\dp\obj_box%
+						\else
+							\ifx r\_yy% Lower Right
+							\advance\dimen_XT-\wd\obj_box%
+							\advance\dimen_YT\dp\obj_box%	
+					\else% Left
+						\advance\dimen_YT-0.5\ht\obj_box%
+						\advance\dimen_YT0.5\dp\obj_box%	
+					\fi%
+				\fi%
+				\else
+					\ifx u\_xx 
+						\ifx l\_yy% Upper Left
+							\advance\dimen_YT-\ht\obj_box%
+						\else
+							\ifx r\_yy% Upper Right
+								\advance\dimen_XT-\wd\obj_box%
+								\advance\dimen_YT-\ht\obj_box%
+							\else% Center
+								\advance\dimen_XT-0.5\wd\obj_box%
+								\advance\dimen_YT-0.5\ht\obj_box%
+								\advance\dimen_YT0.5\dp\obj_box%
+							\fi
+						\fi
+						\else% Center
+							\advance\dimen_XT-0.5\wd\obj_box%
+							\advance\dimen_YT-0.5\ht\obj_box%
+							\advance\dimen_YT0.5\dp\obj_box%
+						\fi
+					\fi
+				\fi
+			\fi
+		\fi
+	\fi%
+	\wd\obj_box=0pt%
+	\kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT%
+	\wd\obj_box=\dimen_AL%
+	\x_now=\dimen_XT\y_now=\dimen_YT%
+	\advance\y_now\ht\obj_box%
+	\test_xy%
+	\advance\x_now\wd\obj_box%
+	\advance\y_now-\ht\obj_box%
+	\advance\y_now-\dp\obj_box%
+	\test_xy%
+	\check_for_more%
+}
+
+\def\C_align #1 at #2 #3 {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+	\setbox\obj_box\hbox{\off_rotate#1}%
+	\transform_point{#2}{#3}\_AL\_BL
+	\dimen_XT=\_AL pt
+	\dimen_YT=\_BL pt
+	\x_now\dimen_XT\advance\x_now0.5\wd\obj_box%
+	\y_now\dimen_YT\advance\y_now\ht\obj_box%
+	\test_xy% upper right corner of the box
+	\advance\x_now-\wd\obj_box%
+	\advance\y_now-\ht\obj_box \advance\y_now-\dp\obj_box%
+	\test_xy%
+	\advance\dimen_XT-0.5\wd\obj_box%
+	\advance\dimen_YT-0.5\ht\obj_box \advance\dimen_YT0.5\dp\obj_box%
+	\wd\obj_box=0pt%
+	\kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT%
+}
+
+\def\L_align #1 at #2 #3 {%	
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+	\setbox\obj_box\hbox{\off_rotate#1}%
+	\transform_point{#2}{#3}\_AL\_BL
+	\dimen_XT=\_AL pt
+	\dimen_YT=\_BL pt
+	\advance\dimen_XT-0.5\wd\dot_box%
+	\x_now\dimen_XT\advance\x_now0.5\wd\obj_box%
+	\y_now\dimen_YT\advance\y_now\ht\obj_box%
+	\test_xy% upper right corner of the box
+	\advance\x_now-\wd\obj_box%
+	\advance\y_now-\ht\obj_box \advance\y_now-\dp\obj_box%
+	\test_xy%
+	\advance\dimen_YT-0.5\ht\obj_box%
+	\advance\dimen_YT0.5\dp\obj_box%
+	\wd\obj_box=0pt%
+	\kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT%
+}
+
+\def\R_align #1 at #2 #3 {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+	\setbox\obj_box\hbox{\off_rotate#1}%
+	\transform_point{#2}{#3}\_AL\_BL
+	\dimen_XT=\_AL pt
+	\dimen_YT=\_BL pt
+	\advance\dimen_XT0.5\wd\dot_box%
+	\x_now\dimen_XT\advance\x_now0.5\wd\obj_box%
+	\y_now\dimen_YT\advance\y_now\ht\obj_box%
+	\test_xy% upper right corner of the box
+	\advance\x_now-\wd\obj_box%
+	\advance\y_now-\ht\obj_box \advance\y_now-\dp\obj_box%
+	\test_xy%
+	\advance\dimen_XT-\wd\obj_box%
+	\advance\dimen_YT-0.5\ht\obj_box\advance\dimen_YT0.5\dp\obj_box%
+	\wd\obj_box=0pt%
+	\kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT%
+}
+
+\def\T_align #1 at #2 #3 {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+	\setbox\obj_box\hbox{\off_rotate#1}%
+	\transform_point{#2}{#3}\_AL\_BL
+	\dimen_XT=\_AL pt
+	\dimen_YT=\_BL pt
+	\x_now\dimen_XT\advance\x_now0.5\wd\obj_box%
+	\y_now\dimen_YT\advance\y_now\ht\obj_box%
+	\test_xy% upper right corner of the box
+	\advance\x_now-\wd\obj_box%
+	\advance\y_now-\ht\obj_box \advance\y_now-\dp\obj_box%
+	\test_xy%
+	\advance\dimen_XT-0.5\wd\obj_box%
+	\advance\dimen_YT-\ht\obj_box%
+	\wd\obj_box=0pt%
+	\kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT%
+}
+
+\def\B_align #1 at #2 #3 {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+	\setbox\obj_box\hbox{\off_rotate#1}%
+	\transform_point{#2}{#3}\_AL\_BL
+	\dimen_XT=\_AL pt
+	\dimen_YT=\_BL pt
+	\x_now\dimen_XT\advance\x_now0.5\wd\obj_box%
+	\y_now\dimen_YT\advance\y_now\ht\obj_box%
+	\test_xy% upper right corner of the box
+	\advance\x_now-\wd\obj_box%
+	\advance\y_now-\ht\obj_box \advance\y_now-\dp\obj_box%
+	\test_xy%
+	\advance\dimen_XT-0.5\wd\obj_box%
+	\advance\dimen_YT\dp\obj_box%
+	\wd\obj_box=0pt%
+	\kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT%
+}
+
+\def\UR_align #1 at #2 #3 {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+	\setbox\obj_box\hbox{\off_rotate#1}%
+	\transform_point{#2}{#3}\_AL\_BL
+	\dimen_XT=\_AL pt
+	\dimen_YT=\_BL pt
+	\x_now\dimen_XT\advance\x_now0.5\wd\obj_box%
+	\y_now\dimen_YT\advance\y_now\ht\obj_box%
+	\test_xy% upper right corner of the box
+	\advance\x_now-\wd\obj_box%
+	\advance\y_now-\ht\obj_box \advance\y_now-\dp\obj_box%
+	\test_xy%
+	\advance\dimen_XT-\wd\obj_box%
+	\advance\dimen_YT-\ht\obj_box%
+	\wd\obj_box=0pt%
+	\kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT%
+}
+
+\def\UL_align #1 at #2 #3 {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+	\setbox\obj_box\hbox{\off_rotate#1}%
+	\transform_point{#2}{#3}\_AL\_BL
+	\dimen_XT=\_AL pt
+	\dimen_YT=\_BL pt
+	\x_now\dimen_XT%
+	\y_now\dimen_YT%
+	\test_xy% upper right corner of the box
+	\advance\x_now-\wd\obj_box%
+	\advance\y_now-\ht\obj_box \advance\y_now-\dp\obj_box%
+	\test_xy%
+	\advance\dimen_YT-\ht\obj_box%
+	\wd\obj_box=0pt%
+	\kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT%
+}
+
+\def\LR_align#1 at #2 #3 {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+	\setbox\obj_box\hbox{\off_rotate#1}%
+	\transform_point{#2}{#3}\_AL\_BL
+	\dimen_XT=\_AL pt
+	\dimen_YT=\_BL pt
+	\x_now\dimen_XT\advance\x_now0.5\wd\obj_box%
+	\y_now\dimen_YT\advance\y_now\ht\obj_box%
+	\test_xy% upper right corner of the box
+	\advance\x_now-\wd\obj_box%
+	\advance\y_now-\ht\obj_box \advance\y_now-\dp\obj_box%
+	\test_xy%
+	\advance\dimen_XT-\wd\obj_box%
+	\advance\dimen_YT\dp\obj_box%
+	\wd\obj_box=0pt%
+	\kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT%
+}
+
+\def\LL_align #1 at #2 #3 {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+	\setbox\obj_box\hbox{\off_rotate#1}%
+	\transform_point{#2}{#3}\_AL\_BL
+	\dimen_XT=\_AL pt
+	\dimen_YT=\_BL pt
+	\x_now\dimen_XT\advance\x_now0.5\wd\obj_box%
+	\y_now\dimen_YT\advance\y_now\ht\obj_box%
+	\test_xy% upper right corner of the box
+	\advance\x_now-\wd\obj_box
+	\advance\y_now-\ht\obj_box \advance\y_now-\dp\obj_box
+	\test_xy%
+	\advance\dimen_YT\dp\obj_box%
+	\wd\obj_box=0pt%
+	\kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT%
+}
+
+%  Centered ...   
+\def\c_multiput #1 at {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+	\def\box_object{#1}%
+  \more_c_objects}
+  
+\def\more_c_objects{%
+	\futurelet\next_char\c_test_next_char}
+	
+\def\c_test_next_char{%
+	\read_char{/}\do_nothing_\do_put_c_object}
+  
+\def\do_put_c_object#1 #2 {%
+	\let\_xx=c\let\_yy=d%
+	\_process] (\box_object) (#1,#2)
+  \more_c_objects}
+
+%  Right-aligned ...
+\def\r_multiput #1 at {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+  \def\box_object{#1}%
+  \more_r_objects}
+
+\def\more_r_objects{%
+	\read_char{/}\do_nothing_\do_put_r_object}
+
+\def\do_put_r_object#1 #2 {%
+  \let\_xx=r\let\_yy=d%
+  \_process] (\box_object) (#1,#2) 
+  \more_r_objects}
+   
+%  Left-aligned ...
+\def\l_multiput #1 at {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+   \def\box_object{#1}%
+   \more_l_objects}
+   
+\def\more_l_objects{%
+  \futurelet\next_char\l_test_next_char}
+
+\def\l_test_next_char{%
+	\read_char{/}\do_nothing_\do_put_l_object}
+
+\def\do_put_l_object#1 #2 {%
+  \let\_xx=l\let\_yy=d%
+  \_process] (\box_object) (#1,#2) 
+  \more_l_objects}
+
+%  Bottom aligned
+\def\b_multiput #1 at {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+   \def\box_object{#1}%
+   \more_b_objects}
+   
+\def\more_b_objects{%
+  \futurelet\next_char\b_test_next_char}
+
+\def\b_test_next_char{%
+	\read_char{/}\do_nothing_\do_put_b_object}
+
+\def\do_put_b_object#1 #2 {%
+  \let\_xx=b\let\_yy=d%
+  \_process] (\box_object) (#1,#2) 
+  \more_b_objects}
+  
+%  Top-aligned
+\def\t_multiput #1 at {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+   \def\box_object{#1}%
+   \more_t_objects}
+   
+\def\more_t_objects{%
+  \futurelet\next_char\t_test_next_char}
+
+\def\t_test_next_char{%
+	\read_char{/}\do_nothing_\do_put_t_object}
+
+\def\do_put_t_object#1 #2 {%
+  \let\_xx=t\let\_yy=d%
+  \_process] (\box_object) (#1,#2) 
+  \more_t_objects}
+
+%  Upper left-aligned
+\def\ul_multiput #1 at {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+   \def\box_object{#1}%
+   \more_ul_objects}
+   
+\def\more_ul_objects{%
+  \futurelet\next_char\ul_test_next_char}
+
+\def\ul_test_next_char{%
+	\read_char{/}\do_nothing_\do_put_ul_object}
+
+\def\do_put_ul_object#1 #2 {%
+  \let\_xx=u\let\_yy=l%
+  \_process] (\box_object) (#1,#2) 
+  \more_ul_objects}
+  
+%  Lower left-aligned
+\def\ll_multiput #1 at {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+   \def\box_object{#1}%
+   \more_ll_objects}
+   
+\def\more_ll_objects{%
+  \futurelet\next_char\ll_test_next_char}
+
+\def\ll_test_next_char{%
+	\read_char{/}\do_nothing_\do_put_ll_object}
+
+\def\do_put_ll_object#1 #2 {%
+  \let\_xx=l\let\_yy=l%
+  \_process] (\box_object) (#1,#2) 
+  \more_ll_objects}
+  
+%  Upper right-aligned
+\def\ur_multiput #1 at {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+  \def\box_object{#1}%
+  \more_ur_objects}
+   
+\def\more_ur_objects{%
+  \futurelet\next_char\ur_test_next_char}
+
+\def\ur_test_next_char{%
+	\read_char{/}\do_nothing_\do_put_ur_object}
+
+\def\do_put_ur_object#1 #2 {%
+  \let\_xx=u\let\_yy=r%
+  \_process] (\box_object) (#1,#2) 
+  \more_ur_objects}
+  
+%  Lower right-aligned
+\def\lr_multiput #1 at {%
+	\if_silent
+	\else
+		\message{<Aligning...>}%
+	\fi
+  \def\box_object{#1}%
+  \more_lr_objects}
+   
+\def\more_lr_objects{%
+  \futurelet\next_char\lr_test_next_char}
+
+\def\lr_test_next_char{%
+	\read_char{/}\do_nothing_\do_put_lr_object}
+
+\def\do_put_lr_object#1 #2 {%
+  \let\_xx=l\let\_yy=r%
+  \_process] (\box_object) (#1,#2) 
+  \more_lr_objects}
+
+\def\Pic_Box#1{%
+	\setbox\box_pic
+	\hbox{\sub_picture\start_picture#1\end_picture}\ignorespaces
+}
+
+\def\Box_Pic{%
+	\copy\box_pic\ignorespaces
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Arrays
+
+%Rectangular array
+\def\rectangular_array#1#2#3#4#5#6{%
+	\if_silent
+	\else
+		\message{<Drawing a rectangular array...>}%
+	\fi
+	\setbox\pic_item=\hbox{#2}%
+	\dimen_XX=\wd\pic_item
+	\edef\_hordim{#4\dimen_XX}%
+	\dimen_YY=\ht\pic_item
+	\edef\_verdim{#3\dimen_YY}%
+	\dimen_AL=0pt
+	\dimen_BL=0pt
+	\count_A=#3% rows
+	\count_B=#4% columns
+	\wd\obj_box=0pt
+	\setbox\array_box=\hbox{\start_picture%
+		\loop%
+			\count_B=#4
+			\dimen_BL=0pt
+			\wd\pic_item=0pt
+			{\loop
+				\kern\dimen_BL\raise\dimen_AL\copy\pic_item\kern-\dimen_BL
+				\advance\count_B -1
+				\advance\dimen_BL \dimen_XX
+				\ifnum\count_B>0
+			\repeat}%
+			\advance\count_A -1
+			\advance\dimen_AL \dimen_YY
+			\ifnum\count_A>0
+		\repeat%
+	\end_picture}%
+	\global\wd\array_box=\_hordim%
+	\global\ht\array_box=\_verdim%
+	\_align[#1] ({\box\array_box}) (#5,#6) %
+}
+			
+\def\Rectangular_Array[#1] (#2) (#3,#4) (#5,#6) {%
+	\rectangular_array{#1}{#2}{#3}{#4}{#5}{#6}
+}
+
+%  Polar Array
+\def\polar_array#1#2#3#4#5{{%
+	\if_silent
+	\else
+		\message{<Drawing a polar array...>}%
+	\fi
+	\setbox\pic_item=\hbox{#1}%
+	\dimen_AL=360pt
+	\divide\dimen_AL #2 % \dimen_A is the angle of rotation (per object)
+	\edef\delta_ang{\no_point\dimen_AL}%
+	\X_zero=#5\y_unit
+	\advance\X_zero #3
+	\_divide\X_zero\y_unit\Y_zero
+	\edef\_vdist{\no_point\Y_zero}%
+	\dimen_XL=0pt
+	\edef\new_ang{0}%
+	\count_F=#2
+	\loop	
+		\Rotate[\new_ang] (#4,#5)
+		\Align[c] (\copy\pic_item) (#4,\_vdist)
+		\advance\count_F -1
+		\ifnum \count_F>0
+			\advance\dimen_XL \delta_ang pt
+			\edef\new_ang{\no_point\dimen_XL}%
+	\repeat
+}%
+}
+
+\def\Polar_Array(#1) (#2) [#3] (#4,#5) {%
+	\polar_array{#1}{#2}{#3}{#4}{#5}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Distance and related macros
+
+%  The sqaure root of a non-negative real number
+\def\sq_root#1#2{{%
+	\dimen_AA=#1%
+	\ifdim\dimen_AA>3in 
+		\dimen_AA=0.015625\dimen_AA%
+		\count_Z=10% 
+		\def\c_times{8}%
+	\else
+		\count_Z=6%
+		\def\c_times{1}%
+	\fi%
+	\dimen_BB=1pt%
+	\t_value=\dimen_AA%
+	\advance\t_value\dimen_BB%
+	\t_value=0.5\t_value%
+	\dimen_BB=\t_value%
+	\_divide\dimen_AA\dimen_BB\t_value%
+	\advance\t_value\dimen_BB%
+	\t_value=0.5\t_value%
+	\loop
+		\dimen_BB=\t_value
+		\_divide\dimen_AA\dimen_BB\t_value%
+		\advance\t_value\dimen_BB%
+		\t_value=0.5\t_value%
+		\advance\count_Z -1%
+		\ifnum\count_Z>0
+	\repeat%
+	\t_value=\c_times\t_value%
+	\global\edef#2{\no_point\t_value}%
+	}\ignorespaces
+}
+
+\def\Square_Root#1 {%
+	\dimen_AA=#1pt
+	\sq_root\dimen_AA\s_root
+	\s_root
+}
+%  Getting the hypotenuse of a right triangle ...
+{\gdef\_hypotenuse#1#2#3{%
+	\bgroup
+		\_base=#1% 
+		\_height=#2%
+		\ifdim\_base<0pt \_base=-\_base\fi
+		\ifdim\_height<0pt \_height=-\_height\fi
+		\advance\_height \_base
+		\ifdim\_height=0pt  % changed for experiment, 17 May 1995
+		%\ifdim\_height<0.0001 pt
+			#3=0pt 
+		\else
+			\dimen_Z=8\_base
+			\_divide\dimen_Z\_height\_base
+			\advance\_base -4pt%
+			\_base=2\_base%
+			\_base=\no_point\_base\_base
+			\advance\_base 64pt%
+			\divide\_base 2%
+			\dimen_X=7pt%
+			\_Newton\_Newton\_Newton
+			#3=\no_point\dimen_X\_height
+			\divide #3 by 8%
+			\global#3=#3%
+		\fi\ignorespaces
+	\egroup}
+}
+
+{\gdef\_Newton{%
+	\_divide\_base\dimen_X\dimen_Y
+	\advance\dimen_X\dimen_Y
+	\divide\dimen_X 2}
+}
+
+\def\_Hypotenuse(#1,#2){%
+	\dimen_X=#1pt
+	\dimen_Y=#2pt
+	\_hypotenuse\dimen_X\dimen_Y\dimen_Z
+	\edef\_result{\no_point\dimen_Z}%
+	\_result
+}
+
+%  Distance between two points (#1, #2) and (#3, #4) on paper...
+\def\paper_dist (#1,#2) (#3,#4) {%
+	\if_silent
+	\else
+		\message{<Computing paper distance...>}%
+	\fi
+	\dimen_X=#3\x_unit \advance\dimen_X -#1\x_unit
+	\dimen_Y=#4\y_unit \advance\dimen_Y -#2\y_unit
+	\_hypotenuse\dimen_X\dimen_Y\dimen_Z
+	\no_point\dimen_Z}
+
+%  Distance between two points (#1, #2) and (#3, #4) (real)
+\def\real_dist(#1,#2) (#3,#4) {%
+	\if_silent
+	\else
+		\message{<Computing real distance...>}%
+	\fi
+	\dimen_X=#3pt \advance\dimen_X -#1pt
+	\dimen_Y=#4pt \advance\dimen_Y -#2pt
+	\_hypotenuse\dimen_X\dimen_Y\dimen_Z
+	\no_point\dimen_Z}
+
+%   Distance between two points (#1,#2,#3) and (#4,#5,#6) on paper
+\def\Paper_Dist(#1,#2,#3) (#4,#5,#6) {%
+	\if_silent
+	\else
+		\message{<Computing paper distance...>}%
+	\fi
+	\_map{#1}{#2}{#3}\X_One\Y_One
+	\_map{#4}{#5}{#6}\X_Two\Y_Two
+	\paper_dist(\X_One,\Y_One) (\X_Two,\Y_Two)
+} 
+
+%   Distance between two points (#1,#2,#3) and (#4,#5,#6) (real)
+\def\Real_Dist(#1,#2,#3) (#4,#5,#6) {%
+	\if_silent
+	\else
+		\message{<Computing real distance...>}%
+	\fi
+	\dimen_X=#4pt \advance\dimen_X -#1pt
+	\dimen_Y=#5pt \advance\dimen_Y -#2pt
+	\_hypotenuse\dimen_X\dimen_Y\dimen_Z
+	\dimen_X=#6pt \advance\dimen_X -#3pt
+	\_hypotenuse\dimen_X\dimen_Z\dimen_Y
+	\no_point\dimen_Y
+}
+
+%  Setting the plot size
+\def\Plot_Size#1 {%
+	\if_silent
+	\else
+		\message{<Setting plot size to #1>}%
+	\fi
+	\count_F=#1
+	\advance\count_F 1
+	\ifcase\count_F
+		\or \plot_interval 0.25pt\def\plot_size{\size_zero}%
+		\or \plot_interval 0.28pt\def\plot_size{\size_one}%
+		\or \plot_interval 0.31pt\def\plot_size{\size_two}%
+		\or \plot_interval 0.35pt\def\plot_size{\size_three}%
+	\else
+		\advance\count_F -4
+		\multiply\count_F 250
+		\advance\count_F 450
+		\font\this_size=cmr12 scaled\the\count_F
+		\def\plot_size{\this_size}%
+		\count_F=#1
+		\advance\count_F -4
+		\dimen_Z=0.05pt
+		\dimen_Z=\the\count_F\dimen_Z
+		\advance\dimen_Z 0.35pt
+		\ifdim\dimen_Z<0.75pt 
+			\plot_interval \dimen_Z
+		\else
+			\plot_interval 0.75pt
+		\fi
+	\fi
+}
+
+\Plot_Size3 %Default
+
+%  Changing the symbol used for drawing ...
+\def\set_plot_symbol(#1){%
+	\if_silent
+	\else
+		\message{<Setting the plot symbol...>}%
+	\fi
+	\def\_dot{\plot_size#1}\ignorespaces}
+
+\set_plot_symbol(.)%  Default
+
+%  Changing the drawing scale (magnification)
+\def\drawing_scale#1 {%
+	\if_silent
+	\else
+		\message{<Applying a magnification factor of #1>}%
+	\fi
+	\x_unit=#1\x_unit
+	\y_unit=#1\y_unit
+	\z_unit=#1\z_unit
+}
+
+%  Drawing resolution
+\def\_resolution#1 {%
+	\if_silent
+	\else
+		\message{<Setting drawing resolution to #1>}%
+	\fi
+	\dimen_X=0.01pt
+	\dimen_X=#1\dimen_X
+	\ifdim\dimen_X>1500pt 
+		\message{[Resolution too high! plot interval set to the maximum allowable.]}%
+		\plot_interval0.00048pt
+	\else
+		\ifdim\dimen_X<0pt 
+			\message{[Positive argument is required. Plot interval unchanged.]}%
+		\else
+			\_divide\pts_inch\dimen_X\plot_interval
+			\plot_interval=0.01\plot_interval
+		\fi
+	\fi
+}
+%\_resolution 206 %  Default, automatically set by default PlotSize
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Sine and cosine of small angle in radians ...
+%  Angle A = #1 radians and A > 0.
+\def\sin_cos#1#2#3{%
+	\dimen_X=#1% = a, an angle in radians
+	\dimen_X=\no_point\dimen_X\dimen_X% = a^2
+	\dimen_A=\dimen_X
+	\divide\dimen_A 24
+	\advance\dimen_A -0.5pt
+	\dimen_A=\no_point\dimen_X\dimen_A
+	\advance\dimen_A 1 pt% 1 - a^2/2 + a^4/24
+	#3=\dimen_A% cosine A
+	\dimen_B=\dimen_X
+	\divide\dimen_B 120% =a^2/120
+	\advance\dimen_B -0.16666666 pt
+	\dimen_B=\no_point\dimen_X\dimen_B
+	\advance\dimen_B 1 pt
+	\dimen_B=\no_point\dimen_B #1% a - a^3/6 + a^5/120
+	#2=\dimen_B% sine A
+}
+
+%  Sine and Cosine of whole angles ...
+%  \sin_cos_whole #1 sets the definitions \def\sine{sin(#1)} and
+%  \def\cosine{cos(#1)}, where #1 is an integer.
+\def\sin_cos_whole #1 {%         *  sine and cosine of angle #1
+	\count_A=#1%                   *  ( #1 is an integer )
+  \ifnum\count_A<0 
+  	\count_E=-1 
+    \count_A=-\count_A
+  \else
+    \count_E=1
+  \fi
+  \count_B=\count_A%
+  \divide\count_B 45               
+  \count_C=\count_B%
+  \multiply\count_B 45
+  \advance\count_A -\count_B%   *  angle=45n+a, \count_C=n, \count_A=a
+  \count_B=\count_C%
+  \divide\count_B 4
+  \count_D=\count_B%
+  \multiply\count_B 4
+  \advance\count_C -\count_B%   *  n=4k+r, \count_D=k, \count_C=r
+  \ifodd\count_C
+  	\advance\count_A -45
+  	\count_A=-\count_A%
+	\fi
+  \_Angle=\count_A%
+  \small_angle {\_Angle} \ignorespaces
+  \ifcase\count_C%              *  r=0
+  	\dimen_X=\cosine pt
+  	\dimen_Y=\sine pt
+  	\ifodd\count_D
+  		\dimen_X=-\dimen_X%
+    	\dimen_Y=-\dimen_Y%
+  	\fi
+  \or%                          *  r=1
+  	\dimen_X=\sine pt
+    \dimen_Y=\cosine pt
+    \ifodd\count_D
+    	\dimen_X=-\dimen_X%
+      \dimen_Y=-\dimen_Y%
+    \fi
+  \or%                          *  r=2
+    \dimen_X=\sine pt
+    \dimen_Y=\cosine pt
+    \ifodd\count_D
+    	\dimen_Y=-\dimen_Y%
+    \else
+      \dimen_X=-\dimen_X%
+    \fi
+  \or%                          *  r=3
+    \dimen_X=\cosine pt
+    \dimen_Y=\sine pt
+    \ifodd\count_D
+    	\dimen_Y=-\dimen_Y%
+    \else
+      \dimen_X=-\dimen_X%
+    \fi
+  \fi
+  \edef\cosine{\no_point\dimen_X}%
+  \edef\sine{\no_point\dimen_Y}%
+  \ifnum\count_E < 0
+  	\dimen_Y=-\sine pt
+  	\edef\sine{\no_point\dimen_Y}%
+  \fi}
+        
+%  Sine and cosine of angle #1 (real number) ...
+\def\Sin_Cos#1 {%
+	\gen_angle=#1 pt%
+  \dimen_XS=\gen_angle%
+  \expandafter\sin_cos_whole\_integer\gen_angle%  *  integer part
+  \dimen_YS=\_decimal\dimen_XS pt
+  \ifdim\dimen_YS=0pt
+		\del_y=0pt
+    \del_x=1pt
+  \else
+    \dimen_YS=\_radian\dimen_YS%
+    \sin_cos\dimen_YS\del_y\del_x%               *  decimal part
+    \ifdim\dimen_XS < 0pt
+			\del_y=-\del_y%
+    \fi
+  \fi
+  \dimen_YS=\cosine\del_y%
+  \dimen_XS=\cosine\del_x%
+  \advance\dimen_YS \sine\del_x
+  \advance\dimen_XS -\sine\del_y
+  \edef\sine{\no_point\dimen_YS}%
+  \edef\cosine{\no_point\dimen_XS}\ignorespaces}
+
+%  get the cosine and sine of a nonnegative angle not exceeding 45 degrees.
+%	abgle=#1 and cosine and sine are \cosine and \sine respectively.
+\def\small_angle#1 {%
+	\count_Z=#1%
+	\ifnum\count_Z=0
+		\global\def\cosine{1}\ignorespaces
+		\global\def\sine{0}\ignorespaces
+	\else
+		\ifnum #1 <16 
+			\do_first 
+		\else 
+			\ifnum #1 <31 
+				\do_second 
+			\else \do_third
+			\fi
+		\fi
+	\fi\ignorespaces}
+	
+\def\do_first {%
+	\ifnum \count_Z <6 
+		\first_a 
+	\else 
+		\ifnum \count_Z <11 
+			\first_b 
+		\else 
+			\first_c 
+		\fi
+	\fi\ignorespaces
+}
+
+\def\do_second {%
+	\ifnum \count_Z <21 
+		\second_a 
+	\else 
+		\ifnum \count_Z<26 
+			\second_b 
+		\else 
+			\second_c 
+		\fi
+	\fi\ignorespaces
+}
+
+\def\do_third {%
+	\ifnum \count_Z <36 
+		\third_a 
+	\else 
+		\ifnum \count_Z <41 
+			\third_b 
+		\else 
+			\third_c 
+		\fi
+	\fi\ignorespaces
+}
+   
+\def\first_a  {%
+	\ifcase \count_Z 
+		\or \gdef\cosine{0.99984770}\ignorespaces
+				\gdef\sine{0.01745241}\ignorespaces
+		\or \gdef\cosine{0.99939083}\ignorespaces
+   			\gdef\sine{0.03489950}\ignorespaces
+   	\or \gdef\cosine{0.99862953}\ignorespaces
+   			\gdef\sine{0.05233596}\ignorespaces
+   	\or \gdef\cosine{0.99756405}\ignorespaces
+   			\gdef\sine{0.06975647}\ignorespaces
+   	\or \gdef\cosine{0.99619470}\ignorespaces
+   			\gdef\sine{0.08715574}\ignorespaces
+  \fi\ignorespaces
+}
+									   									
+\def\first_b {%
+	\advance \count_Z -5 
+	\ifcase \count_Z
+		\or \gdef\cosine{0.99452190}\ignorespaces
+   			\gdef\sine{0.10452846}\ignorespaces 
+   	\or \gdef\cosine{0.99254615}\ignorespaces
+   			\gdef\sine{0.12186934}\ignorespaces
+   	\or \gdef\cosine{0.99026807}\ignorespaces
+   			\gdef\sine{0.13917310}\ignorespaces
+   	\or \gdef\cosine{0.98768834}\ignorespaces
+   			\gdef\sine{0.15643447}\ignorespaces
+   	\or \gdef\cosine{0.98480775}\ignorespaces
+   			\gdef\sine{0.17364818}\ignorespaces
+  \fi\ignorespaces
+}
+  									 		
+\def\first_c {%
+	\advance \count_Z -10 
+	\ifcase \count_Z
+		\or \gdef\cosine{0.98162718}\ignorespaces
+   			\gdef\sine{0.19080900}\ignorespaces
+   	\or \gdef\cosine{0.97814760}\ignorespaces
+   			\gdef\sine{0.20791169}\ignorespaces
+   	\or \gdef\cosine{0.97437006}\ignorespaces
+   			\gdef\sine{0.22495105}\ignorespaces
+   	\or \gdef\cosine{0.97029573}\ignorespaces
+   			\gdef\sine{0.24192190}\ignorespaces
+   	\or \gdef\cosine{0.96592583}\ignorespaces
+   			\gdef\sine{0.25881905}\ignorespaces
+	\fi\ignorespaces
+}   
+  																									
+\def\second_a {%
+	\advance \count_Z -15 
+	\ifcase \count_Z 
+		\or \gdef\cosine{0.96126170}\ignorespaces
+				\gdef\sine{0.27563736}\ignorespaces
+   	\or \gdef\cosine{0.95630476}\ignorespaces
+   			\gdef\sine{0.29237170}\ignorespaces
+   	\or \gdef\cosine{0.95105652}\ignorespaces
+   			\gdef\sine{0.30901699}\ignorespaces
+   	\or \gdef\cosine{0.94551858}\ignorespaces
+   			\gdef\sine{0.32556815}\ignorespaces
+   	\or \gdef\cosine{0.93969262}\ignorespaces
+   			\gdef\sine{0.34202014}\ignorespaces
+	\fi\ignorespaces
+}   			
+   									   														
+\def\second_b {%
+	\advance \count_Z -20 
+	\ifcase \count_Z 
+		\or \gdef\cosine{0.93358043}\ignorespaces
+   			\gdef\sine{0.35836795}\ignorespaces
+   	\or \gdef\cosine{0.92718385}\ignorespaces
+   			\gdef\sine{0.37460659}\ignorespaces
+   	\or \gdef\cosine{0.92050485}\ignorespaces
+   			\gdef\sine{0.39073113}\ignorespaces
+   	\or \gdef\cosine{0.91354546}\ignorespaces
+   			\gdef\sine{0.40673664}\ignorespaces
+   	\or \gdef\cosine{0.90630779}\ignorespaces
+   			\gdef\sine{0.42261826}\ignorespaces
+	\fi\ignorespaces
+}  
+  									 															
+\def\second_c {%
+	\advance \count_Z -25 
+	\ifcase \count_Z 
+		\or \gdef\cosine{0.89879405}\ignorespaces
+   			\gdef\sine{0.43837115}\ignorespaces
+   	\or \gdef\cosine{0.89100652}\ignorespaces
+   			\gdef\sine{0.45399050}\ignorespaces
+   	\or \gdef\cosine{0.88294759}\ignorespaces
+   			\gdef\sine{0.46947156}\ignorespaces
+   	\or \gdef\cosine{0.87461971}\ignorespaces
+   			\gdef\sine{0.48480962}\ignorespaces
+   	\or \gdef\cosine{0.86602540}\ignorespaces
+   			\gdef\sine{0.50000000}\ignorespaces
+	\fi\ignorespaces
+}   		
+    																
+\def\third_a {%
+	\advance \count_Z -30 
+	\ifcase \count_Z
+		\or \gdef\cosine{0.85716730}\ignorespaces
+   			\gdef\sine{0.51503807}\ignorespaces
+   	\or \gdef\cosine{0.84804810}\ignorespaces
+   			\gdef\sine{0.52991926}\ignorespaces
+   	\or \gdef\cosine{0.83867057}\ignorespaces
+   			\gdef\sine{0.54463904}\ignorespaces
+   	\or \gdef\cosine{0.82903757}\ignorespaces
+   			\gdef\sine{0.55919290}\ignorespaces
+   	\or \gdef\cosine{0.81915204}\ignorespaces
+   			\gdef\sine{0.57357644}\ignorespaces
+	\fi\ignorespaces
+}  
+     									 									
+\def\third_b {%
+	\advance \count_Z -35 
+	\ifcase \count_Z 
+		\or \gdef\cosine{0.80901699}\ignorespaces
+   			\gdef\sine{0.58778525}\ignorespaces
+   	\or \gdef\cosine{0.79863551}\ignorespaces
+   			\gdef\sine{0.60181502}\ignorespaces
+   	\or \gdef\cosine{0.78801075}\ignorespaces
+   			\gdef\sine{0.61566148}\ignorespaces
+   	\or \gdef\cosine{0.77714596}\ignorespaces
+   			\gdef\sine{0.62932039}\ignorespaces
+   	\or \gdef\cosine{0.76604444}\ignorespaces
+   			\gdef\sine{0.64278761}\ignorespaces
+	\fi\ignorespaces
+}   							
+ 				
+\def\third_c {%
+	\advance \count_Z -40 
+	\ifcase \count_Z 
+		\or \gdef\cosine{0.75470958}\ignorespaces
+				\gdef\sine{0.65605903}\ignorespaces
+   	\or \gdef\cosine{0.74314483}\ignorespaces
+   			\gdef\sine{0.66913061}\ignorespaces
+   	\or \gdef\cosine{0.73135370}\ignorespaces
+   			\gdef\sine{0.68199836}\ignorespaces
+   	\or \gdef\cosine{0.71933980}\ignorespaces
+   			\gdef\sine{0.69465837}\ignorespaces
+   	\or \gdef\cosine{0.70710678}\ignorespaces
+   			\gdef\sine{0.70710678}\ignorespaces
+	\fi\ignorespaces
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Sub picture
+\def\sub_picture{\_subpicturetrue}%
+
+%  Starting a drawing
+\def\start_picture{\ignorespaces
+	\if_silent
+	\else
+		\message{<Starting a drawing...>}%
+	\fi
+	\if_subpicture
+		\setbox\sub_pic_box=\hbox\bgroup%
+		\max_x=-\hsize%
+		\min_x=\hsize%
+		\max_y=-\vsize%
+		\min_y=\vsize%	
+	\else
+		\setbox\pic_box=\hbox\bgroup%
+		\max_X=-\hsize%
+		\min_X=\hsize%
+		\max_Y=-\vsize%
+		\min_Y=\vsize%
+	\fi}
+   
+%  Ending a drawing ...
+\def\end_picture{%
+	\if_silent
+	\else
+		\message{<Ending a drawing...>}%
+	\fi
+	\if_subpicture
+		\ifdim\min_x = \hsize 
+			\max_x=0pt \global\min_x=0pt%
+			\max_y=0pt \global\min_y=0pt%
+		\fi%
+		\egroup%
+		\dp\sub_pic_box=-\min_y
+		\ht\sub_pic_box=\max_y%
+		\wd\sub_pic_box=0pt%
+		\hbox{\kern-\min_x\lower\min_y\box\sub_pic_box \kern\max_x}%
+	\else
+		\ifdim\min_X = \hsize 
+			\max_X=0pt \global\min_X=0pt%
+			\max_Y=0pt \global\min_Y=0pt%
+		\fi%
+		\egroup%
+		\dp\pic_box=-\min_Y
+		\ht\pic_box=\max_Y%
+		\wd\pic_box=0pt%
+		\hbox{\kern-\min_X\lower\min_Y\box\pic_box \kern\max_X}%
+	\fi
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Setting the origin ...
+\def\set_origin #1 #2 {%
+	\edef\origin_X{#1}%
+	\edef\origin_Y{#2}}
+
+\set_origin 0 0   %  Default (and never to be changed!)
+
+%  Setting the pole ...
+\def\set_pole(#1,#2) {%
+	\if_silent
+	\else
+		\message{<Setting the pole to (#1,#2)>}%
+	\fi
+	\def\pole_X{#1}%
+	\def\pole_Y{#2}%
+}
+
+\set_pole(0,0) %  Default
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Plotting points in two-dimensional space
+{\global\def\_plot #1 #2 {%     * This is not affected by \_rotate and \set_origin
+	\dimen_X=#1\x_unit \dimen_Y=#2\y_unit
+	\put_dot\dimen_X\dimen_Y
+	\x_now=\dimen_X%
+	\y_now=\dimen_Y%
+	\test_xy
+}}
+
+\def\put_dot#1#2{%
+	\dimen_AP=#1%
+	\dimen_BP=#2%
+	\setbox\dot_box=\hbox{\_dot}%
+	\advance\dimen_AP -0.5\wd\dot_box%
+	\advance\dimen_BP -0.5\ht\dot_box% 
+	\advance\dimen_BP 0.5\dp\dot_box%
+	\wd\dot_box=0pt%
+	\kern\dimen_AP\raise\dimen_BP\copy\dot_box\kern-\dimen_AP
+}
+
+\def\dot_set{%
+	\if_silent
+	\else
+		\message{<Plotting points...>}%
+	\fi
+	\dot_set_
+}
+
+\def\dot_set_{%
+	\futurelet\next_char\test_dot}
+
+\def\test_dot{%
+	\read_char{(}\do_put_dot\do_nothing%
+}
+
+\def\do_put_dot(#1,#2) {%
+	\transform_point{#1}{#2}\AL_\BL_
+	\dimen_UU=\AL_ pt
+	\dimen_VV=\BL_ pt
+	\x_now=\dimen_UU
+	\y_now=\dimen_VV
+	\test_xy
+	\put_dot\dimen_UU\dimen_VV
+  \dot_set_
+}
+
+%  Plotting points with given polar coordinates
+\def\Polar_Plot{%
+	\if_silent
+	\else
+		\message{<Plotting points (polar coordinates)...>}%
+	\fi
+	\Polar_Plot_
+}
+
+\def\Polar_Plot_{\futurelet\next_char\next_polar_plot}
+
+\def\next_polar_plot{%
+	\read_char{(}\polar_plot\do_nothing}
+	
+\def\polar_plot(#1,#2) {%
+	\Sin_Cos #2
+	\dimen_Z=#1 
+	\dimen_X=\cosine\dimen_Z
+	\_divide\dimen_X\x_unit\dimen_X
+	\dimen_Y=\sine\dimen_Z
+	\_divide\dimen_Y\y_unit\dimen_Y
+	\advance\dimen_X \pole_X pt
+	\advance\dimen_Y \pole_Y pt
+	\edef\x_new{\no_point\dimen_X}%
+	\edef\y_new{\no_point\dimen_Y}%
+	\dot_set(\x_new,\y_new)
+	\Polar_Plot_
+	}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Defining dashed-lines
+\def\dashed_line[#1,#2] {%
+	\_dashesfalse
+	\_X=#1
+	\_Y=#2
+	\ifdim\_X<0pt
+		\message{[error: first parameter must be positive]}%
+	\else
+		\ifdim \_Y<0pt
+			\message{[error: second parameter must be positive]}%
+		\else
+			\_dashestrue
+			\edef\_solid{#1}%
+			\edef\_gap{#2}%
+			\if_silent
+			\else
+				\message{<Defining dashes...>}%
+			\fi
+		\fi
+	\fi
+}
+
+\edef\_solid{3pt}%  Default
+\edef\_gap{1pt}%  Default
+\def\off_dashes{%
+	\if_silent
+	\else
+		\message{<Dashes off...>}%
+	\fi
+	\_dashesfalse}%
+	
+\def\on_dashes{%
+	\if_silent
+	\else
+		\message{<Dashes on...>}%
+	\fi
+	\_dashestrue}%
+	
+\def\on_arrow_dashes{%
+	\if_silent
+	\else
+		\message{<Arrow dashes on...>}%
+	\fi
+	\arrow_dashestrue}%
+	
+\def\off_arrow_dashes{%
+	\if_silent
+	\else
+		\message{<Arrow dashes off...>}%
+	\fi
+	\arrow_dashesfalse}%
+	
+\def\on_vertex_dashes{%
+	\if_silent
+	\else
+		\message{<Vertex dashes on...>}%
+	\fi
+	\vertex_dashestrue}%
+	
+\def\off_vertex_dashes{%
+	\if_silent
+	\else
+		\message{<Vertex dashes off...>}%
+	\fi
+	\vertex_dashesfalse}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Drawing lines
+\def\draw_line#1#2#3#4{{%
+	\if_silent
+	\else
+		\message{<Drawing a line...>}%
+	\fi
+	\dimen_AL=#1\x_unit
+	\dimen_BL=#2\y_unit
+	\dimen_CL=#3\x_unit
+	\dimen_DL=#4\y_unit
+	\dimen_X=\dimen_AL\advance\dimen_X  -\dimen_CL%
+	\ifdim\dimen_X=0pt\else\dimen_X=1pt\fi%
+	\dimen_Y=\dimen_BL \advance\dimen_Y -\dimen_DL%
+	\ifdim\dimen_Y=0pt\else\dimen_Y=1pt\fi%
+	\advance\dimen_X\dimen_Y%
+	\ifdim\dimen_X>0pt%    Do not draw line if length = 0
+		\transform_point{#1}{#2}\A_l\B_l
+		\transform_point{#3}{#4}\C_l\D_l
+		\dimen_AL=\A_l pt
+		\dimen_BL=\B_l pt
+		\dimen_CL=\C_l pt
+		\dimen_DL=\D_l pt
+	% We must trace a line from left to right if the abscissas are unequal
+	% and if the abscissas are equal, from botom to top. This is to avoid
+	% unequal line resolution when a line is retraced. Retracing happens
+	% in multiple usage of \BoxGraph for example. Below is the solution:
+		\edef\_AL{\no_point\dimen_AL}%
+		\edef\_BL{\no_point\dimen_BL}%
+		\edef\_CL{\no_point\dimen_CL}%
+		\edef\_DL{\no_point\dimen_DL}%
+		\ifdim\dimen_AL >\dimen_CL
+			\dimen_AL=\_CL pt
+			\dimen_BL=\_DL pt
+			\dimen_CL=\_AL pt
+			\dimen_DL=\_BL pt
+		\else
+			\ifdim\dimen_AL<\dimen_CL
+			\else
+				\ifdim\dimen_BL>\dimen_DL
+					\dimen_AL=\_CL pt
+					\dimen_BL=\_DL pt
+					\dimen_CL=\_AL pt
+					\dimen_DL=\_BL pt	
+				\fi
+			\fi	
+		\fi
+		\x_now=\dimen_CL\y_now=\dimen_DL\test_xy%
+		\x_now=\dimen_AL\y_now=\dimen_BL\test_xy%
+		%Draw a line connecting P1=(\dimen_AL, \dimen_BL) and P2=(\dimen_CL, 			\dimen_DL)
+		%If P is any point on the line segment, then P=(1-t)P1+tP2, 0<= t <= 1
+		%Equivalently, P=P1+t(P2-P1)
+		\x_now=\dimen_AL\advance\x_now-\dimen_CL%
+		\ifdim\x_now>0pt \else\x_now=-\x_now\fi
+		\y_now=\dimen_BL\advance\y_now-\dimen_DL
+		\ifdim\y_now>0pt \else\y_now=-\y_now\fi
+		\_hypotenuse\x_now\y_now\x_now% \x_now is the length of the line segment
+		\_divide\plot_interval\x_now\dimen_XT% \dimen_XT is delta t
+		\dimen_A=\_solid
+		\_divide\dimen_A\x_now\dimen_A
+		\_divide\dimen_A\dimen_XT\dimen_A
+		\count_Z=\_integer\dimen_A%  number of iterations to draw a dash
+		\_divide\plot_interval\x_now\dimen_XT% \dimen_XT is delta t
+		\dimen_X=\_gap
+		\_divide\dimen_X\x_now\dimen_X
+		\edef\dash_gap{\no_point\dimen_X}%  delta t for one gap
+		\dimen_X=0pt% initial value of t
+		\advance\dimen_CL-\dimen_AL% this is x_2-x_1
+		\advance\dimen_DL-\dimen_BL% this is y_2-y_1 (\dimen_CL, dimen_DL) is P2-P1
+		\put_dot\dimen_AL\dimen_BL%
+		%\x_now=\dimen_AL\y_now=\dimen_BL%
+		\if_dashes
+			\loop
+				\advance\dimen_X-\dimen_XT
+				\count_A=\count_Z
+				\advance\count_A 1
+				{\loop
+					\advance\count_A -1
+					\global\advance\dimen_X\dimen_XT%
+					\dimen_A=\no_point\dimen_X\dimen_CL%
+					\dimen_B=\no_point\dimen_X\dimen_DL%
+					\advance\dimen_A\dimen_AL%
+					\advance\dimen_B\dimen_BL%
+					\ifnum\count_A>0
+						\ifdim\dimen_X<1pt
+							\put_dot\dimen_A\dimen_B
+						\fi%
+				\repeat}%
+				\advance\dimen_X \dash_gap pt
+				\ifdim\dimen_X<1pt
+			\repeat%		
+		\else
+			\advance\dimen_X-\dimen_XT
+			\loop
+				\advance\dimen_X\dimen_XT%
+				\dimen_A=\no_point\dimen_X\dimen_CL%
+				\dimen_B=\no_point\dimen_X\dimen_DL%
+				\advance\dimen_A\dimen_AL%
+				\advance\dimen_B\dimen_BL%
+				\ifdim\dimen_X<1.0pt
+					\put_dot\dimen_A\dimen_B
+			\repeat
+		\fi
+	\fi
+	}\ignorespaces
+} 
+
+%  Drawing a broken line (polyline) ...
+\def\poly_line(#1,#2) {%
+	\if_silent
+	\else
+		\message{<Drawing a zig-zag line...>}%
+	\fi
+	\def\last_X{#1}%
+	\def\last_Y{#2}%
+	\broken_line
+}
+   
+\def\broken_line{%
+	\futurelet\next_char\next_line}
+
+\def\next_line{%
+	\read_char{(}\some_more_lines\do_nothing}
+
+\def\some_more_lines(#1,#2) {%
+	\draw_line\last_X\last_Y{#1}{#2}
+	\def\last_X{#1}%
+	\def\last_Y{#2}%
+	\broken_line%
+}
+
+%  Drawing a rectangle
+\def\_rectangle(#1,#2) (#3,#4) {%
+	\if_silent
+	\else
+		\message{<Drawing a rectangle...>}%
+	\fi
+	\draw_line{#1}{#2}{#3}{#2}
+	\draw_line{#3}{#2}{#3}{#4}
+	\draw_line{#3}{#4}{#1}{#4}
+	\draw_line{#1}{#4}{#1}{#2}
+}  
+
+%  Drawing a ray (polar coordinates)
+\def\draw_ray<#1> #2 degrees {%  Responds to all transformations
+	\if_silent
+	\else
+		\message{<Drawing a ray...>}%
+	\fi
+	\Sin_Cos #2
+	\dimen_Z=#1 
+	\dimen_X=\cosine\dimen_Z
+	\dimen_Y=\sine\dimen_Z
+	\_divide\dimen_X\x_unit\dimen_X
+	\_divide\dimen_Y\y_unit\dimen_Y	
+	\advance\dimen_X \pole_X pt
+	\advance\dimen_Y \pole_Y pt
+	\edef\x_coord{\no_point\dimen_X}%
+	\edef\y_coord{\no_point\dimen_Y}%
+	\draw_line\pole_X\pole_Y\x_coord\y_coord
+}
+
+\def\ray_set{%
+	\if_silent
+	\else
+		\message{<Drawing a set of rays...>}%
+	\fi
+	\ray_set_
+}
+
+\def\ray_set_{\futurelet\next_char\the_next_ray}
+
+\def\the_next_ray{%
+	\read_char{(}\add_ray\do_nothing}
+	
+\def\add_ray(#1,#2) {%       * responds to all transformations
+	\draw_ray<#1> #2 degrees
+	\ray_set_
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Drawing the coordinate axes
+\def\x_axis[#1,#2] {{%
+	\if_silent
+	\else
+		\message{<Drawing the x-axis...>}%
+	\fi
+	\dimen_XL=#1pt \advance\dimen_XL \origin_X pt
+	\dimen_YL=#2pt \advance\dimen_YL \origin_X pt
+	\edef\x_left{\no_point\dimen_XL}%
+	\edef\x_right{\no_point\dimen_YL}%
+	\advance\dimen_XL \dimen_YL
+	\dimen_XL=0.51\dimen_XL
+	\edef\x_mid{\no_point\dimen_XL}%
+	\v_radius0pt
+	\curved_edge(\x_left,\origin_Y) (\x_mid,\origin_Y) (\x_right,\origin_Y)
+	\arrow_head
+}%
+}
+
+\def\X_AXIS[#1,#2] {{%
+	\if_silent
+	\else
+		\message{<Drawing the x-axis...>}%
+	\fi
+	\_map{#1}{0}{0}\X_INI\Y_INI
+	\_map{#2}{0}{0}\X_FIN\Y_FIN
+	\v_radius0pt
+	\_arc(\X_INI,\Y_INI) (\X_FIN,\Y_FIN)
+	\dimen_XX=\X_FIN pt
+	\advance\dimen_XX -\X_INI pt
+	\dimen_YY=\Y_FIN pt
+	\advance\dimen_YY -\Y_INI pt
+	\_hypotenuse\dimen_XX\dimen_YY\dimen_Z
+	\_divide\dimen_XX\dimen_Z\dimen_XX
+	\dimen_XX=8\dimen_XX
+	\_divide\dimen_XX\x_unit\dimen_XX
+	\_divide\dimen_YY\dimen_Z\dimen_YY
+	\dimen_YY=8\dimen_YY
+	\_divide\dimen_YY\y_unit\dimen_YY
+	\advance\dimen_XX \X_FIN pt
+	\advance\dimen_YY \Y_FIN pt	
+	\_align[c] ($\scriptstyle x$) (\no_point\dimen_XX,\no_point\dimen_YY)
+}%
+}
+
+\def\y_axis[#1,#2] {{%
+	\if_silent
+	\else
+		\message{<Drawing the y-axis...>}%
+	\fi
+	\dimen_XL=#1pt \advance\dimen_XL \origin_Y pt
+	\dimen_YL=#2pt \advance\dimen_YL \origin_Y pt
+	\edef\y_init{\no_point\dimen_XL}%
+	\edef\y_fin{\no_point\dimen_YL}%
+	\advance\dimen_XL \dimen_YL
+	\dimen_XL=0.51\dimen_XL
+	\edef\y_mid{\no_point\dimen_XL}%
+	\v_radius0pt
+	\curved_edge(\origin_X,\y_init) (\origin_X,\y_mid) (\origin_X,\y_fin) 
+	\arrow_head
+}%
+}
+\def\Y_AXIS[#1,#2] {{%
+	\if_silent
+	\else
+		\message{<Drawing the y-axis...>}%
+	\fi
+	\_map{0}{#1}{0}\X_INI\Y_INI
+	\_map{0}{#2}{0}\X_FIN\Y_FIN
+	\v_radius0pt
+	\_arc(\X_INI,\Y_INI) (\X_FIN,\Y_FIN)
+	\dimen_XX=\X_FIN pt
+	\advance\dimen_XX -\X_INI pt
+	\dimen_YY=\Y_FIN pt
+	\advance\dimen_YY -\Y_INI pt
+	\_hypotenuse\dimen_XX\dimen_YY\dimen_Z
+	\_divide\dimen_XX\dimen_Z\dimen_XX
+	\dimen_XX=8\dimen_XX
+	\_divide\dimen_XX\x_unit\dimen_XX
+	\_divide\dimen_YY\dimen_Z\dimen_YY
+	\dimen_YY=8\dimen_YY
+	\_divide\dimen_YY\y_unit\dimen_YY
+	\advance\dimen_XX \X_FIN pt
+	\advance\dimen_YY \Y_FIN pt	
+	\_align[c] ($\scriptstyle y$) (\no_point\dimen_XX,\no_point\dimen_YY)
+}%
+}
+
+\def\Z_AXIS[#1,#2] {{%
+	\if_silent
+	\else
+		\message{<Drawing the z-axis...>}%
+	\fi
+	\_map{0}{0}{#1}\X_INI\Y_INI
+	\_map{0}{0}{#2}\X_FIN\Y_FIN
+	\v_radius0pt
+	\_arc(\X_INI,\Y_INI) (\X_FIN,\Y_FIN)
+	\dimen_XX=\X_FIN pt
+	\advance\dimen_XX -\X_INI pt
+	\dimen_YY=\Y_FIN pt
+	\advance\dimen_YY -\Y_INI pt
+	\_hypotenuse\dimen_XX\dimen_YY\dimen_Z
+	\_divide\dimen_XX\dimen_Z\dimen_XX
+	\dimen_XX=8\dimen_XX
+	\_divide\dimen_XX\x_unit\dimen_XX
+	\_divide\dimen_YY\dimen_Z\dimen_YY
+	\dimen_YY=8\dimen_YY
+	\_divide\dimen_YY\y_unit\dimen_YY
+	\advance\dimen_XX \X_FIN pt
+	\advance\dimen_YY \Y_FIN pt	
+	\_align[c] ($\scriptstyle z$) (\no_point\dimen_XX,\no_point\dimen_YY)
+}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Drawing curves
+\def\update_values{% 
+	\x_value=\no_point\A_two\current_arc
+	\advance\x_value \A_one
+	\x_value=\no_point\current_arc\x_value
+	\advance\x_value \A_zero
+	\y_value=\no_point\B_two\current_arc
+	\advance\y_value \B_one
+	\y_value=\no_point\current_arc\y_value
+	\advance\y_value \B_zero
+	\dimen_X=\no_point\A_two\current_arc
+	\dimen_X=2\dimen_X
+	\advance\dimen_X\A_one
+	\dimen_Y=\no_point\B_two\current_arc
+	\dimen_Y=2\dimen_Y
+	\advance\dimen_Y\B_one
+	\_hypotenuse\dimen_X\dimen_Y\dimen_Y
+	\_divide\plot_interval\dimen_Y\del_arc
+}
+
+%  critical points
+\def\critical_points{%  Used by q_join
+  %critical values of y
+  %set y_dot to 0
+  %y_critical = -\B_one / 2\B_two
+  \ifdim\B_two = 0 pt
+  \else
+  	\_divide\B_one\B_two\t_value
+    \t_value=-0.5\t_value
+    \ifdim\t_value < 0pt
+    \else
+     	\ifdim\t_value>1 pt
+      \else
+      	\x_now=\no_point\A_two\t_value
+        \advance\x_now \A_one
+        \x_now=\nopt\t_value\x_now
+        \advance\x_now \A_zero
+        \y_now=\no_point\B_two\t_value
+        \advance\y_now \B_one
+        \y_now=\no_point\t_value\y_now
+        \advance\y_now \B_zero
+        \test_xy
+      \fi
+    \fi
+  \fi
+  %set x_dot to 0
+  %x_critical = -\A_one / 2\A_two
+  \ifdim\A_two = 0 pt
+  \else
+  	\_divide\A_one\A_two\t_value
+    \t_value=-0.5\t_value
+    \ifdim\t_value < 0pt
+    \else
+    	\ifdim\t_value>1 pt
+      \else
+      	\x_now=\no_point\A_two\t_value
+        \advance\x_now \A_one
+        \x_now=\no_point\t_value\x_now
+        \advance\x_now \A_zero
+        \y_now=\no_point\B_two\t_value
+        \advance\y_now \B_one
+        \y_now=\no_point\t_value\y_now
+        \advance\y_now \B_zero
+        \test_xy
+      \fi
+    \fi
+  \fi
+}
+
+%  Quadratic parametric equation
+\def\q_join#1#2#3#4#5#6{%
+%Test first if there is really an arc to draw:
+\x_now=#5pt
+\advance\x_now-#1pt
+\ifdim\x_now<0pt \x_now=-\x_now\fi
+\y_now=#6pt
+\advance\y_now-#2pt
+\ifdim\y_now<0pt \y_now=-\y_now\fi
+\advance\x_now\y_now
+\ifdim\x_now=0pt \arc_length=0pt% there is no arc to draw
+	\else
+	\transform_point{#1}{#2}\A_L\B_L
+	\transform_point{#3}{#4}\A_LL\B_LL
+	\transform_point{#5}{#6}\A_LLL\B_LLL
+  \global\A_zero=\A_L pt%
+  \global\B_zero=\B_L pt%
+  \x_now=\A_zero \y_now=\B_zero \test_xy 
+  \x_now=\A_LLL pt%
+  \y_now=\B_LLL pt%
+  \test_xy
+  \dimen_A=\A_LL pt%
+  \dimen_B=\A_LLL pt%
+  \A_one=-3\A_zero \advance\A_one 4\dimen_A \advance\A_one -\dimen_B%
+  \A_two=2\A_zero \advance\A_two -4\dimen_A \advance\A_two 2\dimen_B%
+  \dimen_A=\B_LL pt%
+  \dimen_B=\B_LLL pt%
+  \B_one=-3\B_zero \advance\B_one 4\dimen_A \advance\B_one -\dimen_B%
+  \B_two=2\B_zero \advance\B_two -4\dimen_A \advance\B_two 2\dimen_B%
+  \critical_points
+  %\x_dot = \A_one + 2\A_two t  and  \y_dot = \B_one + 2\B_two t
+  %use \arc_length temporarily as scratch register
+  %first half of arclength (not actually half of arclength)
+  %first, t=0
+  \x_dot=\A_one \y_dot = \B_one
+  \_hypotenuse\x_dot\y_dot\first_half
+  %next, t=1/4
+  \advance\x_dot 0.5\A_two \advance\y_dot 0.5\B_two
+  \_hypotenuse\x_dot\y_dot\arc_length
+  \advance\first_half 4\arc_length
+  %last, t=1/2
+  \advance\x_dot 0.5\A_two \advance\y_dot 0.5\B_two
+  \_hypotenuse\x_dot\y_dot\arc_length
+  \advance\first_half \arc_length
+  \divide\first_half 12%
+  %second half
+  %first, t=1/2
+  \second_half=\arc_length
+  %next, t=3/4
+  \advance\x_dot 0.5\A_two \advance\y_dot 0.5\B_two
+  \_hypotenuse\x_dot\y_dot\arc_length
+  \advance\second_half 4\arc_length
+  %last, t=1
+  \advance\x_dot 0.5\A_two \advance\y_dot 0.5\B_two
+  \_hypotenuse\x_dot\y_dot\arc_length
+  \advance\second_half \arc_length
+  \divide\second_half 12%
+  \arc_length=\first_half \advance\arc_length \second_half
+  \_divide\plot_interval\arc_length\del_arc
+  \dimen_X=\_solid
+  \_divide\dimen_X\arc_length\dimen_X
+  \_divide\dimen_X\del_arc\dimen_X
+  \count_Z=\_integer\dimen_X%  number of iterations to draw a dash
+	\dimen_X=\_gap
+	\_divide\dimen_X\arc_length\dimen_X
+	\_divide\dimen_X\del_arc\dimen_X
+	\count_F=\_integer\dimen_X%  number of iterations to produce a gap
+  \current_arc=0pt
+  \put_dot\A_zero\B_zero%
+  \if_dashes
+		\loop
+			\count_A=\count_Z
+			\advance\count_A 1
+			{\loop
+				\advance\count_A -1
+				\global\advance\current_arc\del_arc%
+				\ifnum\count_A>0
+					{\ifdim\current_arc<1pt
+					\update_values
+					\put_dot\x_value\y_value
+					\fi}%
+			\repeat}%
+			\count_A=\count_F
+			\advance\count_A 1
+			{\loop
+				\advance\count_A -1
+				\global\advance\current_arc\del_arc%
+				\ifnum\count_A>0
+					{\ifdim\current_arc<1pt
+					\update_values
+					\fi}%
+			\repeat}%
+			\ifdim\current_arc<1pt
+		\repeat%	   
+   	\else
+   	\loop
+      \advance\current_arc \del_arc%
+      \ifdim\current_arc < 1 pt \update_values 
+      \put_dot\x_value\y_value\fi
+      \ifdim\current_arc < 1pt
+   	\repeat
+  \fi
+\fi%
+}
+
+\def\draw_curve(#1,#2) {%
+	\if_silent
+	\else
+		\message{<Drawing a plane curve (quadratic parametric equations)...>}%
+	\fi
+	\def\x_previous{#1}%
+  \def\y_previous{#2}%
+  \Q_join}
+   
+\def\Q_join{%
+	\futurelet\next_char\test_for_more}
+
+\def\test_for_more{%
+	\read_char{(}\Q_continue\do_nothing}
+
+\def\Q_continue(#1,#2) (#3,#4) {%
+  \q_join{\x_previous}{\y_previous}{#1}{#2}{#3}{#4}\ignorespaces
+  \def\x_previous{#3}% 
+  \def\y_previous{#4}%
+  \Q_join}
+
+\def\critical_values{%  used by bezier_curve macro 
+	%  Critical x
+	{\_D=\a_ll pt
+	\advance\_D -\a_llll pt
+	\_D=0.01\_D
+	\_B=\a_ll pt
+	\advance\_B -\a_l pt
+	\_B=0.01\_B
+	\_D=\no_point\_B\_D
+	\_B=\a_lll pt
+	\advance\_B -\a_l pt
+	\_B=0.01\_B
+	\_A=\a_lll pt
+	\advance\_A-\a_ll pt
+	\_A=0.01\_A
+	\advance\_D \no_point\_B\_A
+	\ifdim\_D<0pt
+	\else
+		\sq_root\_D\_sroot%
+		\_D=\a_l pt
+		\advance\_D -\a_ll pt%
+		\advance\_D \a_lll pt%
+		\advance\_D -\a_ll pt%
+		\advance\_D \a_lll pt%
+		\advance\_D -\a_llll pt%
+		\advance\_D \a_lll pt%
+		\advance\_D -\a_ll pt%
+		\_D=0.01\_D
+		\ifdim\_D=0pt
+		\else
+			\_B=\a_l pt%
+			\advance\_B -\a_ll pt%
+			\advance\_B \a_lll pt%
+			\advance\_B -\a_ll pt%
+			\dimen_UU=0.01\_B
+			\dimen_VV=\dimen_UU
+			\advance\dimen_VV \_sroot pt%
+			\_divide\dimen_VV\_D\dimen_VV
+			\ifdim\dimen_VV< 0pt
+			\else
+				\ifdim\dimen_VV>1 pt
+				\else
+					\_A=\no_point\dimen_VV\A_X
+					\advance\_A \B_X
+					\_A=\no_point\dimen_VV\_A
+					\advance\_A \C_X
+					\_A=\no_point\dimen_VV\_A
+					\advance\_A  \a_l pt%
+					\x_now=\_A
+					\_B=\no_point\dimen_VV\A_Y
+					\advance\_B \B_Y
+					\_B=\no_point\dimen_VV\_B
+					\advance\_B \C_Y
+					\_B=\no_point\dimen_VV\_B
+					\advance\_B \b_l pt%
+					\y_now=\_B
+					\test_xy
+				\fi
+			\fi
+			\advance\dimen_UU -\_sroot pt%
+			\_divide\dimen_UU\_D\dimen_VV
+			\ifdim\dimen_VV< 0pt
+			\else
+				\ifdim\dimen_VV>1 pt
+				\else
+					\_A=\no_point\dimen_VV\A_X
+					\advance\_A \B_X
+					\_A=\no_point\dimen_VV\_A
+					\advance\_A \C_X
+					\_A=\no_point\dimen_VV\_A
+					\advance\_A  \a_l pt%
+					\x_now=\_A
+					\_B=\no_point\dimen_VV\A_Y
+					\advance\_B \B_Y
+					\_B=\no_point\dimen_VV\_B
+					\advance\_B \C_Y
+					\_B=\no_point\dimen_VV\_B
+					\advance\_B \b_l pt%
+					\y_now=\_B
+					\test_xy
+				\fi
+			\fi
+		\fi
+	\fi%
+	%  Critical y
+	\_D=\b_ll pt
+	\advance\_D -\b_llll pt%
+	\_D=0.01\_D
+	\_B=\b_ll pt%
+	\advance\_B -\b_l pt%
+	\_B=0.01\_B
+	\_D=\no_point\_B\_D
+	\_B=\b_lll pt
+	\advance\_B -\b_l pt%
+	\_B=0.01\_B
+	\_A=\b_lll pt
+	\advance\_A-\b_ll pt%
+	\_A=0.01\_A
+	\advance\_D \no_point\_B\_A
+	\ifdim\_D<0pt
+	\else
+		\sq_root\_D\_sroot%
+		\_D=\b_l pt
+		\advance\_D -\b_ll pt%
+		\advance\_D \b_lll pt%
+		\advance\_D -\b_ll pt%
+		\advance\_D \b_lll pt%
+		\advance\_D -\b_llll pt%
+		\advance\_D \b_lll pt%
+		\advance\_D -\b_ll pt%
+		\_D=0.01\_D
+		\ifdim\_D=0pt
+		\else
+			\_B=\b_l pt
+			\advance\_B -\b_ll pt%
+			\advance\_B \b_lll pt%
+			\advance\_B -\b_ll pt%
+			\dimen_UU=0.01\_B
+			\dimen_VV=\dimen_UU
+			\advance\dimen_VV \_sroot pt%
+			\_divide\dimen_VV\_D\dimen_VV
+			\ifdim\dimen_VV< 0pt
+			\else
+				\ifdim\dimen_VV>1 pt
+				\else
+					\_A=\no_point\dimen_VV\A_X
+					\advance\_A \B_X
+					\_A=\no_point\dimen_VV\_A
+					\advance\_A \C_X
+					\_A=\no_point\dimen_VV\_A
+					\advance\_A  \a_l pt
+					\x_now=\_A
+					\_B=\no_point\dimen_VV\A_Y
+					\advance\_B \B_Y
+					\_B=\no_point\dimen_VV\_B
+					\advance\_B \C_Y
+					\_B=\no_point\dimen_VV\_B
+					\advance\_B \b_l pt
+					\y_now=\_B
+					\test_xy
+				\fi
+			\fi%
+			\advance\dimen_UU -\_sroot pt%
+			\_divide\dimen_UU\_D\dimen_VV
+			\ifdim\dimen_VV< 0pt
+			\else
+				\ifdim\dimen_VV>1 pt
+				\else
+					\_A=\no_point\dimen_VV\A_X
+					\advance\_A \B_X
+					\_A=\no_point\dimen_VV\_A
+					\advance\_A \C_X
+					\_A=\no_point\dimen_VV\_A
+					\advance\_A  \a_l pt%
+					\x_now=\_A
+					\_B=\no_point\dimen_VV\A_Y
+					\advance\_B \B_Y
+					\_B=\no_point\dimen_VV\_B
+					\advance\_B \C_Y
+					\_B=\no_point\dimen_VV\_B
+					\advance\_B \b_l pt%
+					\y_now=\_B
+					\test_xy
+				\fi
+			\fi
+		\fi
+	\fi}%
+}
+%  Cubic parametric equations
+\def\bezier_curve#1#2#3#4#5#6#7#8{{%
+	\x_now=#3pt
+	\advance\x_now -#1pt
+	\ifdim\x_now<0pt \x_now =-\x_now \fi
+	\y_now=#4pt
+	\advance\y_now -#2pt
+	\ifdim\y_now<0pt \y_now=-\y_now \fi
+	\advance\x_now \y_now
+	\ifdim\x_now <0.01pt
+	\else
+		\x_now=#7pt
+		\advance\x_now -#5pt
+		\ifdim\x_now<0pt \x_now=-\x_now \fi
+		\y_now=#8pt
+		\advance\y_now -#6pt
+		\ifdim\y_now<0pt \y_now=-\y_now \fi
+		\advance\x_now \y_now
+		\ifdim\x_now <0.01 pt
+		\else
+	\A_X=#3\x_unit%
+	\advance\A_X -#1\x_unit%
+	\A_Y=#4\y_unit%
+	\advance\A_Y -#2\y_unit%
+	\_hypotenuse\A_X\A_Y\C_X%
+	\A_X=#7\x_unit%
+	\advance\A_X -#5\x_unit%
+	\A_Y=#8\y_unit%
+	\advance\A_Y -#6\y_unit%
+	\_hypotenuse\A_X\A_Y\C_Y%
+	\advance\C_X\C_Y%
+	\A_X=#5\x_unit%
+	\advance\A_X -#3\x_unit%
+	\A_Y=#6\y_unit%
+	\advance\A_Y -#4\y_unit%
+	\_hypotenuse\A_X\A_Y\C_Y%
+	\advance\C_X\C_Y%  \C_X now contains |P1P2|+|P2P3|+|P3P4|
+	\edef\arc_length{\no_point\C_X}%
+	\_divide\plot_interval\C_X\dimen_XT%  \dimen_XT is delta t
+	%Get endpoints and control points
+	\transform_point{#1}{#2}\a_l\b_l
+	\transform_point{#3}{#4}\a_ll\b_ll
+	\transform_point{#5}{#6}\a_lll\b_lll
+	\transform_point{#7}{#8}\a_llll\b_llll
+	\x_now=\a_l pt \y_now=\b_l pt \test_xy
+	\x_now=\a_llll pt \y_now=\b_llll pt \test_xy
+\global\X_zero=\a_l pt%
+\global\Y_zero=\b_l pt%
+\C_X=\a_ll pt%
+\advance\C_X -\X_zero
+\global\C_X=3\C_X
+\B_X=\a_lll pt
+\advance\B_X -\a_ll pt
+\B_X=3\B_X
+\advance\B_X -\C_X
+\global\B_X\B_X
+\A_X=\a_llll pt
+\advance\A_X -\X_zero
+\advance\A_X -\C_X
+\advance\A_X -\B_X
+\global\A_X \A_X
+\C_Y=\b_ll pt
+\advance\C_Y -\Y_zero
+\global\C_Y=3\C_Y
+\B_Y=\b_lll pt
+\advance\B_Y -\b_ll pt
+\B_Y=3\B_Y
+\advance\B_Y -\C_Y
+\global\B_Y \B_Y
+\A_Y=\b_llll pt
+\advance\A_Y -\Y_zero
+\advance\A_Y -\C_Y
+\advance\A_Y -\B_Y
+\global\A_Y \A_Y
+\x_now=\a_l pt
+\y_now=\b_l pt
+\put_dot\x_now\y_now
+\test_xy
+\critical_values
+\dimen_X=0pt% \dimen_X is the parameter t
+\_X=\_solid 
+\_divide\_X\plot_interval\_X
+\count_F=\_integer\_X
+\if_dashes
+	\loop
+		\count_E=\count_F
+		\advance\count_E 1
+		{\loop
+		\advance\count_E -1
+		\_X=\no_point\dimen_X\A_X
+		\_X=3\_X
+		\advance\_X 2\B_X
+		\_X=\no_point\dimen_X\_X
+		\advance\_X \C_X
+		\ifdim\_X<0pt \_X=-\_X\fi
+		\_Y=\no_point\dimen_X\A_Y
+		\_Y=3\_Y
+		\advance\_Y 2\B_Y
+		\_Y=\no_point\dimen_X\_Y
+		\advance\_Y \C_Y
+		\ifdim\_Y<0pt \_Y=-\_Y\fi
+		%\advance\_Y\_X
+		\_hypotenuse\_X\_Y\_Y
+		\global\edef\recent_Y{\no_point\_Y}%
+		\_X=\arc_length pt
+		\_divide\_Y\_X\_X
+		\_divide\dimen_XT\_X\_Y
+		%The above lines need to be examined.
+		\global\advance\dimen_X\_Y\ignorespaces
+		\x_now=\no_point\dimen_X\A_X
+		\advance\x_now\B_X\ignorespaces
+		\x_now=\no_point\dimen_X\x_now
+		\advance\x_now\C_X\ignorespaces
+		\x_now=\no_point\dimen_X\x_now
+		\advance\x_now\X_zero\ignorespaces
+		\y_now=\no_point\dimen_X\A_Y
+		\advance\y_now\B_Y\ignorespaces
+		\y_now=\no_point\dimen_X\y_now
+		\advance\y_now\C_Y\ignorespaces
+		\y_now=\no_point\dimen_X\y_now
+		\advance\y_now\Y_zero\ignorespaces
+		\ifnum\count_E>0
+		\ifdim\dimen_X>1pt \else\put_dot\x_now\y_now \fi
+		%\test_xy
+	\repeat
+	\_X=\arc_length\dimen_XT
+	\_divide\_X\_Y\_Y
+	}%
+	\_X=\_gap
+	\_divide\_X\plot_interval\_X
+	\count_E=\_integer\_X
+	\advance\count_E 1
+	{\loop
+	\advance\count_E -1
+	\_X=\no_point\dimen_X\A_X
+	\_X=3\_X
+	\advance\_X 2\B_X
+	\_X=\no_point\dimen_X\_X
+	\advance\_X \C_X
+	\ifdim\_X<0pt \_X=-\_X\fi
+	\_Y=\no_point\dimen_X\A_Y
+	\_Y=3\_Y
+	\advance\_Y 2\B_Y
+	\_Y=\no_point\dimen_X\_Y
+	\advance\_Y \C_Y
+	\ifdim\_Y<0pt \_Y=-\_Y\fi
+	%\advance\_Y\_X
+	\_hypotenuse\_X\_Y\_Y
+	\global\edef\recent_Y{\no_point\_Y}%
+	\_X=\arc_length pt
+	\_divide\_Y\_X\_X
+	\_divide\dimen_XT\_X\_Y
+	%The above lines need to be examined.
+	\global\advance\dimen_X\_Y\ignorespaces
+	\x_now=\no_point\dimen_X\A_X
+	\advance\x_now\B_X\ignorespaces
+	\x_now=\no_point\dimen_X\x_now
+	\advance\x_now\C_X\ignorespaces
+	\x_now=\no_point\dimen_X\x_now
+	\advance\x_now\X_zero\ignorespaces
+	\y_now=\no_point\dimen_X\A_Y
+	\advance\y_now\B_Y\ignorespaces
+	\y_now=\no_point\dimen_X\y_now
+	\advance\y_now\C_Y\ignorespaces
+	\y_now=\no_point\dimen_X\y_now
+	\advance\y_now\Y_zero\ignorespaces
+	\ifnum\count_E>0
+	%\test_xy
+\repeat}%
+\ifdim\dimen_X<1pt
+\repeat
+\else
+	\loop
+	\_X=\no_point\dimen_X\A_X
+	\_X=3\_X
+	\advance\_X 2\B_X
+	\_X=\no_point\dimen_X\_X
+	\advance\_X \C_X
+	\ifdim\_X<0pt \_X=-\_X\fi
+	\_Y=\no_point\dimen_X\A_Y
+	\_Y=3\_Y
+	\advance\_Y 2\B_Y
+	\_Y=\no_point\dimen_X\_Y
+	\advance\_Y \C_Y
+	\ifdim\_Y<0pt \_Y=-\_Y\fi
+	\_hypotenuse\_X\_Y\_Y
+	\_X=\arc_length pt
+	\_divide\_Y\_X\_X
+	\_divide\dimen_XT\_X\_Y
+	%The above lines need to be examined.
+	\advance\dimen_X\_Y\ignorespaces
+	\x_now=\no_point\dimen_X\A_X
+	\advance\x_now\B_X\ignorespaces
+	\x_now=\no_point\dimen_X\x_now
+	\advance\x_now\C_X\ignorespaces
+	\x_now=\no_point\dimen_X\x_now
+	\advance\x_now\X_zero\ignorespaces
+	\y_now=\no_point\dimen_X\A_Y
+	\advance\y_now\B_Y\ignorespaces
+	\y_now=\no_point\dimen_X\y_now
+	\advance\y_now\C_Y\ignorespaces
+	\y_now=\no_point\dimen_X\y_now
+	\advance\y_now\Y_zero\ignorespaces
+	\ifdim\dimen_X>1pt \else\put_dot\x_now\y_now \fi
+	%\test_xy
+	\ifdim\dimen_X<1pt
+	\repeat
+\fi\fi\fi}\ignorespaces
+}
+
+\def\b_curve(#1,#2) (#3,#4) (#5,#6) (#7,#8) {%
+\bezier_curve{#1}{#2}{#3}{#4}{#5}{#6}{#7}{#8}\ignorespaces
+}
+
+%  Drawing an arc of a circle
+\def\circular_arc[#1] (#2,#3) (#4,#5) {%
+	\if_silent
+	\else
+		\message{<Drawing a #1-degree circular arc, center (#2,#3), from (#4,#5)...>}%
+	\fi
+	\dimen_XX=#2\x_unit \dimen_YY=#3\y_unit
+  \dimen_UU=#4\x_unit \dimen_VV=#5\y_unit
+  \transform_point{#2}{#3}\P_X\P_Y
+  \dimen_XX=\P_X pt
+  \dimen_YY=\P_Y pt
+  \transform_point{#4}{#5}\P_X\P_Y
+  \dimen_UU=\P_X pt
+  \dimen_VV=\P_Y pt
+  \dimen_XS=\dimen_UU \advance\dimen_XS -\dimen_XX
+  \dimen_YS=\dimen_VV \advance\dimen_YS -\dimen_YY
+  \_hypotenuse\dimen_XS\dimen_YS\c_radius
+  \_divide\dimen_XS\c_radius\dimen_XT%            * cosine
+  \_divide\dimen_YS\c_radius\dimen_YT%            * sine
+  \_divide\plot_interval\c_radius\del_angle%
+  \ifdim\del_angle > 1pt \del_angle=1pt \fi%
+  \dimen_Z=\_radian pt
+  \_divide\del_angle\dimen_Z\del_angle%
+  \dimen_CL=-\del_angle  \dimen_DL=#1pt
+  \ifdim\dimen_DL < 0pt
+  	\dimen_DL=-\dimen_DL
+    \del_angle=-\del_angle
+  \fi%
+  \ifdim\del_angle > 0pt
+  	\dimen_AL=\del_angle
+  \else
+    \dimen_AL=-\del_angle
+  \fi%
+  \dimen_XL=-\del_angle
+  \if_reflected \del_angle=-\del_angle \fi
+  \loop    
+  	\advance\dimen_CL \dimen_AL
+  	\advance\dimen_XL\del_angle
+  	\Sin_Cos{\no_point\dimen_XL}
+    \dimen_UU=\cosine\dimen_XT
+    \advance\dimen_UU -\sine\dimen_YT%
+    \dimen_VV=\sine\dimen_XT
+    \advance\dimen_VV \cosine\dimen_YT%
+    \dimen_A=\dimen_XX
+    \advance\dimen_A \no_point\dimen_UU\c_radius%
+    \dimen_B=\dimen_YY
+    \advance\dimen_B \no_point\dimen_VV\c_radius%
+    \ifdim\dimen_CL < \dimen_DL
+    	\put_dot\dimen_A\dimen_B%
+    	\x_now=\dimen_A
+    	\y_now=\dimen_B
+    	\test_xy
+	\repeat}
+
+%  Drawing an arrow-head
+\def\arrow_head{%
+	\if_silent
+	\else
+		\message{<Drawing an arrow-head...>}%
+	\fi
+	\ifdim\arc_length > 0.0pt
+   \current_arc=\arrow_loc\arc_length%
+   \dimen_X=\arrow_mag pt
+   \ifdim\current_arc < 8\dimen_X%
+      \current_arc=8\dimen_X%
+      \_divide\current_arc\arc_length\current_arc
+      \ifdim\current_arc>1pt \current_arc=1 pt \fi
+   \else
+      \current_arc=\arrow_loc pt%
+   \fi
+   %\_divide\current_arc\arc_length\current_arc
+   \update_values%
+   \_divide\x_value\x_unit\x_value \_divide\y_value\y_unit\y_value%
+   \edef\head_X{\no_point\x_value}%
+   \edef\head_Y{\no_point\y_value}%
+   \x_dot=\A_one \y_dot=\B_one%Use \A_zero as scratch
+   \dimen_X=2\A_two \advance\x_dot \no_point\dimen_X\current_arc%
+   \dimen_Y=2\B_two \advance\y_dot \no_point\dimen_Y\current_arc%
+   \_hypotenuse\x_dot\y_dot\dimen_Z%
+   \dimen_X=8pt \_divide\dimen_X\dimen_Z\dimen_X%
+   \dimen_X=\arrow_mag\dimen_X
+   \ifdim\current_arc < \dimen_X%
+      \current_arc=0.375\current_arc%
+   \else%
+      \dimen_X=5pt%
+      \_divide\dimen_X\dimen_Z\dimen_X%
+      \dimen_X=\arrow_mag\dimen_X
+      \advance\current_arc -\dimen_X%
+   \fi%
+   \update_values%
+   \_divide\x_value\x_unit\x_value \_divide\y_value\y_unit\y_value%
+   \x_dot=\A_one \y_dot=\B_one%Use \A_zero as scratch
+   \dimen_X=2\A_two \advance\x_dot \no_point\dimen_X\current_arc%
+   \dimen_Y=2\B_two \advance\y_dot \no_point\dimen_Y\current_arc%
+   \_hypotenuse\x_dot\y_dot\dimen_Z%
+   \del_x=0.5\x_dot%
+   \del_x=\arrow_mag\del_x
+   \_divide\del_x\dimen_Z\del_x%
+   \_divide\del_x\y_unit\del_x%slope of normal = - slope of tangent 
+   \del_y=0.5\y_dot%
+   \del_y=\arrow_mag\del_y
+   \_divide\del_y\dimen_Z\del_y%
+   \_divide\del_y\x_unit\del_y%
+   \advance\x_value -\del_y \advance\y_value \del_x%
+   \edef\mid_X_up{\no_point\x_value}%
+   \edef\mid_Y_up{\no_point\y_value}%
+   \advance\x_value 2\del_y \advance\y_value -2\del_x%
+   \edef\mid_X_down{\no_point\x_value}%
+   \edef\mid_Y_down{\no_point\y_value}%
+   \dimen_X=3pt%
+   \_divide\dimen_X\dimen_Z\dimen_X%
+   \dimen_X=\arrow_mag\dimen_X
+   \ifdim\current_arc < \dimen_X%
+      \current_arc=0pt%
+   \else%
+      \advance\current_arc -\dimen_X%
+   \fi%
+   \update_values%
+   \_divide\x_value\x_unit\x_value \_divide\y_value\y_unit\y_value%
+   \x_dot=\A_one \y_dot=\B_one%Use \A_zero as scratch
+   \dimen_X=2\A_two \advance\x_dot \no_point\dimen_X\current_arc%
+   \dimen_Y=2\B_two \advance\y_dot \no_point\dimen_Y\current_arc%
+   \_hypotenuse\x_dot\y_dot\dimen_Z%
+   \del_x=2\x_dot%
+   \del_x=\arrow_mag\del_x
+   \_divide\del_x\dimen_Z\del_x% 
+   \_divide\del_x\y_unit\del_x%
+   \del_y=2\y_dot%
+   \del_y=\arrow_mag\del_y
+   \_divide\del_y\dimen_Z\del_y%
+   \_divide\del_y\x_unit\del_y%
+   \advance\x_value -\del_y%
+   \advance\y_value \del_x%
+   \edef\tail_X_up{\no_point\x_value}%
+   \edef\tail_Y_up{\no_point\y_value}%
+   \advance\x_value 2\del_y \advance\y_value -2\del_x%
+   \edef\tail_X_down{\no_point\x_value}%
+   \edef\tail_Y_down{\no_point\y_value}%
+   {\off_translate\off_rotate\off_reflect%
+   \ifarrow_dashes 
+   	{\_dashestrue
+		\q_join{\tail_X_down}{\tail_Y_down}%
+			{\mid_X_down}{\mid_Y_down}%
+			{\head_X}{\head_Y}%
+		\q_join{\tail_X_up}{\tail_Y_up}%
+			{\mid_X_up}{\mid_Y_up}%
+			{\head_X}{\head_Y}%
+		}%
+	\else
+		{\_dashesfalse
+		\q_join{\tail_X_down}{\tail_Y_down}%
+			{\mid_X_down}{\mid_Y_down}%
+			{\head_X}{\head_Y}%
+		\q_join{\tail_X_up}{\tail_Y_up}%
+			{\mid_X_up}{\mid_Y_up}%
+			{\head_X}{\head_Y}%
+		}%
+	\fi
+}\ignorespaces
+\fi
+}
+
+\def\Arrow_Magnify(#1) {%
+	\if_silent
+	\else
+		\message{<Magnifying arrow-heads #1 times...>}%
+	\fi
+	\dimen_ZL=#1pt
+	\ifdim\dimen_ZL<0pt \message{[error: The value should be a positive real number not exceeding 1]} %
+	\else
+		\def\arrow_mag{#1}%
+	\fi
+}%
+
+\def\arrow_mag{1}%  Default
+
+%  Specifyint the location of the arrow-head
+\def\Arrow_Head(#1) {%
+	\if_silent
+	\else
+		\message{<Setting the position of arrow_heads...>}%
+	\fi
+	\dimen_ZL=#1pt
+	\ifdim\dimen_ZL<0pt \message{[error: The value should be a positive real number not exceeding 1]}%
+	\else
+		\ifdim\dimen_ZL>1pt \message{[error: The value should be a positive real number not exceeding 1]}%
+		\else
+			\def\arrow_loc{#1}%
+		\fi
+	\fi
+}
+
+\Arrow_Head(1) %  Default
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Polynomial function
+
+\def\poly_nomial[#1,#2] {%
+	\if_silent
+	\else
+		\message{<Drawing the graph of a polynomial function...>}%
+	\fi
+	\count_A=0%
+	\def\a{#1}%
+	\def\b{#2}%
+	\poly_nom%
+}
+
+\def\poly_nom{%
+	\futurelet\next_char\see_next}
+
+\def\see_next{%
+	\read_char{/}\plot_graph\read_more}
+	
+\def\plot_graph/ {%
+	\dimen_X=\a pt%
+	\y_now=\a_zero\y_unit%
+	\ifnum\count_A>1%
+	\y_now=\no_point\dimen_X\y_now%
+	\advance\y_now \a_one\y_unit%
+	\fi%
+	\ifnum\count_A>2%
+		\y_now=\no_point\dimen_X\y_now%
+		\advance\y_now \a_two\y_unit%
+	\fi%
+	\ifnum\count_A>3%
+		\y_now=\no_point\dimen_X\y_now%
+		\advance\y_now \a_three\y_unit%
+	\fi%
+	\ifnum\count_A>4%
+		\y_now=\no_point\dimen_X\y_now%
+		\advance\y_now\a_four\y_unit%
+	\fi%
+	\x_now=\no_point\x_unit\dimen_X%
+	\put_dot\x_now\y_now%
+	\loop
+		\advance\dimen_X\plot_interval%
+		\y_now=\a_zero\y_unit%
+		\ifnum\count_A>1%
+			\y_now=\no_point\dimen_X\y_now%
+			\advance\y_now\a_one\y_unit%
+		\fi%
+		\ifnum\count_A>2%
+			\y_now=\no_point\dimen_X\y_now%
+			\advance\y_now\a_two\y_unit%
+		\fi%
+		\ifnum\count_A>3%
+			\y_now=\no_point\dimen_X\y_now%
+			\advance\y_now\a_three\y_unit%
+		\fi%
+		\ifnum\count_A>4%
+			\y_now=\no_point\dimen_X\y_now%
+			\advance\y_now\a_four\y_unit%
+		\fi%
+		\x_now=\no_point\x_unit\dimen_X%
+		\ifdim\dimen_X<\b pt 
+			\put_dot\x_now\y_now%
+		\fi%
+		\ifdim\dimen_X<\b pt%
+	\repeat%
+}
+
+\def\read_more#1 {%
+	\advance\count_A1
+	\ifcase \count_A
+		\or \gdef\a_zero{#1}%
+		\or \gdef\a_one{#1}%
+		\or \gdef\a_two{#1}%
+		\or \gdef\a_three{#1}%
+		\or \gdef\a_four{#1}%
+	\fi 
+	\poly_nom}
+
+\def\_increment{%
+	\dimen_Z=1pt%
+	\_divide\dimen_Z\x_unit\dimen_Z%
+	\dimen_Z=\no_point\plot_interval\dimen_Z%
+	\ifdim\dimen_X<0pt \global\advance\dimen_X 0.1\dimen_Z 
+	\else
+		\ifdim\dimen_X<1pt \global\advance\dimen_X 0.2\dimen_Z 
+		\else
+			\ifdim\dimen_X<2pt \global\advance\dimen_X 0.08\dimen_Z 
+			\else
+				\global\advance\dimen_X 0.02\dimen_Z%
+			\fi
+		\fi
+	\fi}
+
+%  Transcendental functions
+
+%  Cosine
+\def\cosine_curve(#1) [#2,#3] {% y=a cos x, where a=#1, #3 is the number of quarter-cycles, #2 is the starting point of the graph, where the value of cosine is 1.
+	\if_silent
+	\else
+		\message{<Drawing a cosine curve...>}%
+	\fi
+	\count_C=#3
+	\ifnum\count_C<0 \message{[error: #3 must be a positive integer]}%
+	\else
+		\dimen_A=#2pt
+		\dimen_B=\dimen_A
+		\dimen_AL=\dimen_A
+		\advance\dimen_AL \b_const pt
+		\advance\dimen_B \half_pi pt
+		\dimen_BL=\dimen_B
+		\advance\dimen_BL -\b_const pt
+		\dimen_XX=1pt
+		\loop
+			\dimen_XL=#1\dimen_XX
+			\edef\_ht{\no_point\dimen_XL}%
+			\dimen_XL=\b_const\dimen_XL
+			\edef\_HT{\no_point\dimen_XL}%
+			\bezier_curve{\no_point\dimen_A}{\_ht}{\no_point\dimen_AL}{\_ht} 					{\no_point\dimen_BL}{\_HT}{\no_point\dimen_B}{0}
+			\advance\count_C -1
+			\ifnum \count_C>0
+				\advance\dimen_A \half_pi pt
+				\advance\dimen_AL \half_pi pt
+				\advance\dimen_B \half_pi pt
+				\advance\dimen_BL \half_pi pt																							\bezier_curve{\no_point\dimen_A}{0}{\no_point\dimen_AL} 							{-\_HT}{\no_point\dimen_BL}{-\_ht}{\no_point\dimen_B}{-\_ht}
+			\fi
+			\advance\count_C -1
+			\ifnum\count_C>0
+				\advance\dimen_A \half_pi pt
+				\advance\dimen_AL \half_pi pt
+				\advance\dimen_B \half_pi pt
+				\advance\dimen_BL \half_pi pt
+					\dimen_XX=-\dimen_XX
+		\repeat
+	\fi
+}
+
+%  Sine
+\def\sine_curve(#1) [#2,#3] {% y=a sin x, where a=#1, #3 is the number of quarter-cycles, and #2 is the strarting point of the graph where sine x = 0.
+	\if_silent
+	\else
+		\message{<Drawing a sine curve...>}%
+	\fi
+	\count_C=#3
+	\ifnum\count_C<0 \message{[error: #3 must be a positive integer]}%
+	\else
+		\dimen_A=#2pt
+		\dimen_B=\dimen_A
+		\advance\dimen_B \half_pi pt
+		\dimen_AL=\dimen_A
+		\advance\dimen_AL \b_const pt
+		\dimen_BL=\dimen_B
+		\advance\dimen_BL -\b_const pt
+		\dimen_XX=1pt
+		\loop
+			\dimen_XL=#1\dimen_XX
+			\edef\_ht{\no_point\dimen_XL}%			
+			\dimen_XL=\b_const\dimen_XL
+			\edef\_HT{\no_point\dimen_XL}%
+			\bezier_curve{\no_point\dimen_A}{0}{\no_point\dimen_AL}{\_HT}  							{\no_point\dimen_BL}{\_ht}{\no_point\dimen_B}{\_ht}
+			\advance\count_C -1
+			\ifnum\count_C>0
+				\advance\dimen_A \half_pi pt
+				\advance\dimen_B \half_pi pt
+				\advance\dimen_AL \half_pi pt
+				\advance\dimen_BL \half_pi pt
+				\bezier_curve{\no_point\dimen_A}{\_ht}{\no_point\dimen_AL}{\_ht}
+				{\no_point\dimen_BL}{\_HT}{\no_point\dimen_B}{0}
+			\fi
+			\advance\count_C -1
+			\ifnum\count_C>0
+				\advance\dimen_A \half_pi pt
+				\advance\dimen_AL \half_pi pt
+				\advance\dimen_B \half_pi pt
+				\advance\dimen_BL \half_pi pt
+				\dimen_XL=\_ht\dimen_XX
+				\edef\_ht{\no_point\dimen_XL}%
+				\dimen_XX=-\dimen_XX
+		\repeat
+	\fi
+}
+
+%  Natural exponential
+\def\_exp(#1) [#2,#3] {%
+	\if_silent
+	\else
+		\message{<Drawing a natural exponential function...>}%
+	\fi
+	\dimen_X=#2pt%
+	\dimen_A=#3pt%
+	\dimen_Y=0.125\dimen_X
+	\advance\dimen_Y 1pt
+	\dimen_Y=#2\dimen_Y
+	\dimen_Y=0.142857142857\dimen_Y%
+	\advance\dimen_Y 1pt%
+	\dimen_Y=#2\dimen_Y
+	\dimen_Y=0.166666666\dimen_Y%
+	\advance\dimen_Y 1pt%
+	\dimen_Y=#2\dimen_Y%
+	\dimen_Y=0.2\dimen_Y%
+	\advance\dimen_Y 1pt
+	\dimen_Y=#2\dimen_Y%
+	\dimen_Y=0.25\dimen_Y%
+	\advance\dimen_Y 1pt%
+	\dimen_Y=#2\dimen_Y%
+	\dimen_Y=0.333333333\dimen_Y%
+	\advance\dimen_Y 1pt
+	\dimen_Y=#2\dimen_Y%
+	\dimen_Y=0.5\dimen_Y%
+	\advance\dimen_Y 1pt
+	\dimen_Y=#2\dimen_Y%
+	\advance\dimen_Y 1pt%
+	\dimen_Y=#1\dimen_Y%
+	\x_now=\no_point\x_unit\dimen_X%
+	\y_now=\no_point\y_unit\dimen_Y%
+	\test_xy%
+	\put_dot\x_now\y_now%
+	\loop
+		\_increment%
+		\dimen_Y=0.125\dimen_X
+		\advance\dimen_Y 1pt
+		\dimen_Y=\no_point\dimen_X\dimen_Y
+		\dimen_Y=0.142857142857\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=\no_point\dimen_X\dimen_Y
+		\dimen_Y=0.166666666\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=\no_point\dimen_X\dimen_Y%
+		\dimen_Y=0.2\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=\no_point\dimen_X\dimen_Y%
+		\dimen_Y=0.25\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=\no_point\dimen_X\dimen_Y%
+		\dimen_Y=0.333333333\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=\no_point\dimen_X\dimen_Y%
+		\dimen_Y=0.5\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=\no_point\dimen_X\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=#1\dimen_Y%
+		\x_now=\no_point\x_unit\dimen_X%
+		\y_now=\no_point\y_unit\dimen_Y%
+		\test_xy%
+		\ifdim\dimen_X<\dimen_A 
+			\put_dot\x_now\y_now 
+		\fi%
+		\ifdim\dimen_X<\dimen_A
+	\repeat
+}
+
+%  Natural logarithmic function
+\def\nat_log(#1x) [#2,#3] {%
+	\if_silent
+	\else
+		\message{<Drawing a natural logarithmic function...>}%
+	\fi
+	\dimen_X=#2pt%
+	\dimen_A=#3pt%
+	\dimen_Y=0.125\dimen_X
+	\advance\dimen_Y 1pt
+	\dimen_Y=#2\dimen_Y
+	\dimen_Y=0.142857142857\dimen_Y%
+	\advance\dimen_Y 1pt%
+	\dimen_Y=#2\dimen_Y
+	\dimen_Y=0.166666666\dimen_Y%
+	\advance\dimen_Y 1pt%
+	\dimen_Y=#2\dimen_Y%
+	\dimen_Y=0.2\dimen_Y%
+	\advance\dimen_Y 1pt
+	\dimen_Y=#2\dimen_Y%
+	\dimen_Y=0.25\dimen_Y%
+	\advance\dimen_Y 1pt%
+	\dimen_Y=#2\dimen_Y%
+	\dimen_Y=0.333333333\dimen_Y%
+	\advance\dimen_Y 1pt
+	\dimen_Y=#2\dimen_Y%
+	\dimen_Y=0.5\dimen_Y%
+	\advance\dimen_Y 1pt
+	\dimen_Y=#2\dimen_Y%
+	\advance\dimen_Y 1pt%
+	\dimen_Z=#1pt
+	\_divide\dimen_Y\dimen_Z\dimen_Y
+	\y_now=\no_point\y_unit\dimen_X%
+	\x_now=\no_point\x_unit\dimen_Y%
+	\test_xy%
+	\put_dot\x_now\y_now%
+	\loop
+		\_increment%
+		\dimen_Y=0.125\dimen_X
+		\advance\dimen_Y 1pt
+		\dimen_Y=\no_point\dimen_X\dimen_Y
+		\dimen_Y=0.142857142857\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=\no_point\dimen_X\dimen_Y
+		\dimen_Y=0.166666666\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=\no_point\dimen_X\dimen_Y%
+		\dimen_Y=0.2\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=\no_point\dimen_X\dimen_Y%
+		\dimen_Y=0.25\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=\no_point\dimen_X\dimen_Y%
+		\dimen_Y=0.333333333\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=\no_point\dimen_X\dimen_Y%
+		\dimen_Y=0.5\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Y=\no_point\dimen_X\dimen_Y%
+		\advance\dimen_Y 1pt%
+		\dimen_Z=#1pt
+		\_divide\dimen_Y\dimen_Z\dimen_Y
+		\y_now=\no_point\y_unit\dimen_X%
+		\x_now=\no_point\x_unit\dimen_Y%
+		\test_xy%
+		\ifdim\dimen_X<\dimen_A 
+			\put_dot\x_now\y_now 
+		\fi%
+		\ifdim\dimen_X<\dimen_A
+	\repeat
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Rigid plane transformations (reflection, rotation, and translation
+
+%	(1) Reflection
+\def\_reflect(#1,#2) (#3,#4) {%
+	\if_silent
+	\else
+		\message{<Reflecting about with respect to the line through (#1,#2) and (#3,#4)>}%
+	\fi
+	\off_translate\off_rotate\_reflectedtrue\previous_reflecttrue
+	{%
+ 	\gdef\X_ONE{#1}%
+ 	\gdef\Y_ONE{#2}%
+	\dimen_XX=#3pt
+	\advance\dimen_XX-#1 pt%  a=(x_2-x_1)
+	\dimen_YY=#4pt%
+	\advance\dimen_YY-#2 pt%  b=(y_2-y_1)
+	\dimen_XX=\no_point\x_unit\dimen_XX%
+	\dimen_YY=\no_point\y_unit\dimen_YY%
+	%a or b may be too large and so we make a reduction
+	\ifdim\dimen_XX<0pt\dimen_A=-\dimen_XX\else\dimen_A=\dimen_XX\fi%
+	\ifdim\dimen_YY<0pt\dimen_B=-\dimen_YY\else\dimen_B=\dimen_YY\fi%
+	\ifdim\dimen_A=\dimen_B\dimen_ZL=\dimen_A\else
+	\ifdim\dimen_A<\dimen_B\dimen_ZL=\dimen_B\else\dimen_ZL=\dimen_A\fi\fi
+	\_divide\dimen_XX\dimen_ZL\dimen_XX
+	\_divide\dimen_YY\dimen_ZL\dimen_YY
+	%end reduction
+	\dimen_XL=\no_point\dimen_XX\dimen_XX%  a^2
+	\dimen_YL=\no_point\dimen_YY\dimen_YY%  b^2
+	\dimen_ZL=\dimen_XL%
+	\advance\dimen_ZL\dimen_YL% (a^2+b^2) 
+	\dimen_XL=\no_point\dimen_XX\dimen_YY% ab
+	\_divide\dimen_XL\dimen_ZL\dimen_XL%
+	\dimen_XL=2\dimen_XL% 2ab/(a^2+b^2)
+	\advance\dimen_YL-\no_point\dimen_XX\dimen_XX%
+	\_divide\dimen_YL\dimen_ZL\dimen_YL%
+	\dimen_YL=-\dimen_YL% (a^2-b^2)/(a^2+b^2)
+	\global\edef\Coef_one{\no_point\dimen_XL}%
+	\global\edef\Coef_two{\no_point\dimen_YL}%
+}\ignorespaces
+}
+
+\def\reflect_point#1#2#3#4{{%
+	\if_silent
+	\else
+		\message{<Reflecting a point about a line...>}%
+	\fi
+	\ifprevious_reflect
+		\dimen_XX=#1\x_unit\dimen_YY=#2\y_unit
+		\advance\dimen_XX-\X_ONE\x_unit%
+		\advance\dimen_YY-\Y_ONE\y_unit%
+		\dimen_Z=\Coef_two\dimen_XX%
+		\advance\dimen_Z\Coef_one\dimen_YY%
+		\dimen_Y=\Coef_one\dimen_XX%
+		\advance\dimen_Y-\Coef_two\dimen_YY%
+		\_divide\dimen_Z\x_unit\dimen_Z
+		\_divide\dimen_Y\y_unit\dimen_Y
+		\advance\dimen_Z \X_ONE pt
+		\advance\dimen_Y \Y_ONE pt
+		\global\edef#3{\no_point\dimen_Z}%
+		\global\edef#4{\no_point\dimen_Y}%
+	\else
+		\global\edef#3{#1}%
+		\global\edef#4{#2}%
+	\fi
+}\ignorespaces
+}
+
+\def\Reflect_Point(#1,#2) (#3,#4) {%
+	\reflect_point{#1}{#2}{#3}{#4}%
+}
+
+\def\on_reflect{%
+	\ifprevious_reflect
+		\_reflectedtrue
+		\_rotatedfalse
+		\_translatedfalse
+		\if_silent
+		\else
+			\message{<Resuming reflection...>}%
+		\fi
+	\fi}
+	
+\def\off_reflect{%
+	\if_silent
+	\else
+		\message{<Reflection off...>}%
+	\fi
+	\_reflectedfalse}
+
+% (2) Rotation
+\def\_rotate[#1] (#2,#3) {%
+	\_rotatedtrue\previous_rotatetrue
+	\if_silent
+	\else
+		\message{<Rotating about (#2,#3) through #1 degrees>}%
+	\fi
+	\off_translate\off_reflect
+	\edef\rotation_angle{#1}%
+	\Sin_Cos {#1}
+	\edef\cos_A{\cosine}%
+	\edef\sin_A{\sine}%
+	\edef\X_Pivot{#2}%
+	\edef\Y_Pivot{#3}%
+}
+
+{\global\def\off_rotate{%
+	\if_silent
+	\else
+		\message{<Rotation off...>}%
+	\fi
+	\_rotatedfalse\ignorespaces}}
+	
+{\global\def\on_rotate{%
+	\ifprevious_rotate
+		\_rotatedtrue
+		\_translatedfalse
+		\_reflectedfalse
+		\if_silent
+		\else
+			\message{<Rotation on...>}%
+		\fi
+	\fi\ignorespaces}}
+	
+\def\cos_A{1} \def\sin_A{0} 
+\def\X_Pivot{0} \def\Y_Pivot{0} 
+\def\rotation_angle{0} 
+
+\def\rotate_point#1#2#3#4{%
+	\if_silent
+	\else
+		\message{<Rotating a point...>}%
+	\fi
+	{\dimen_AL#1\x_unit \dimen_BL#2\y_unit
+	\ifprevious_rotate	
+		\advance\dimen_AL -\X_Pivot\x_unit  
+		\advance\dimen_BL -\Y_Pivot\y_unit
+		\dimen_XL=\cos_A\dimen_AL \advance\dimen_XL -\sin_A\dimen_BL
+		\dimen_YL=\sin_A\dimen_AL \advance\dimen_YL \cos_A\dimen_BL
+		\advance\dimen_XL\X_Pivot\x_unit
+		\advance\dimen_YL\Y_Pivot\y_unit
+		\global\edef#3{\no_point\dimen_XL}%
+		\global\edef#4{\no_point\dimen_YL}%
+	\else
+		\global\edef#3{#1}%
+		\global\edef#4{#2}%
+		\off_rotate
+	\fi
+  }\ignorespaces
+}
+
+\def\Rotate_Point(#1,#2) (#3,#4) {%
+	\rotate_point{#1}{#2}{#3}{#4}%
+}
+
+% (3) Translation
+\def\Xchange{0}
+\def\Ychange{0}
+
+\def\_translate(#1,#2) (#3,#4) {%
+	\if_silent
+	\else
+		\message{<Translating by the vector from (#1,#2) to (#3,#4)>}%
+	\fi
+	\off_rotate
+	\off_reflect
+	\_translatedtrue
+	\previous_translatetrue
+	\dimen_XT=#3pt
+	\advance\dimen_XT-#1pt
+	\global\edef\Xchange{\no_point\dimen_XT}%
+	\dimen_YT=#4pt
+	\advance\dimen_YT-#2pt
+	\global\edef\Ychange{\no_point\dimen_YT}%
+}
+
+\def\translate_point#1#2#3#4{{%
+	\if_silent
+	\else
+		\message{<Translating a point...>}%
+	\fi
+	\ifprevious_translate
+		\dimen_XX=#1pt\advance\dimen_XX\Xchange pt
+		\dimen_YY=#2pt\advance\dimen_YY\Ychange pt
+		\global\edef#3{\no_point\dimen_XX}%
+		\global\edef#4{\no_point\dimen_YY}%
+	\else
+		\global\edef#3{#1}%
+		\global\edef#4{#2}%
+	\fi
+}\ignorespaces
+}
+
+\def\Translate_Point(#1,#2) (#3,#4) {%
+	\translate_point{#1}{#2}{#3}{#4}%
+}
+
+\def\off_translate{%
+	\if_silent
+	\else
+		\message{<Translation off...>}%
+	\fi
+	\_translatedfalse}
+	
+\def\on_translate{%
+	\ifprevious_translate
+		\_translatedtrue
+		\_rotatedfalse
+		\_reflectedfalse
+		\if_silent
+		\else
+			\message{<Translation on...>}%
+		\fi
+	\fi
+	}
+	
+%  Image of a point under any of the transformations
+\def\transform_point#1#2#3#4{{%
+	\X_zero=#1\x_unit
+	\Y_zero=#2\y_unit
+	\if_rotated \rotate_point{#1}{#2}\_AL\_BL% 
+	\X_zero=\_AL pt\Y_zero=\_BL pt\fi%
+	\if_reflected \reflect_point{#1}{#2}\_AL\_BL%
+	\X_zero=\_AL\x_unit\Y_zero=\_BL\y_unit\fi%
+	\if_translated \translate_point{#1}{#2}\_AL\_BL%
+	\X_zero=\_AL\x_unit\Y_zero=\_BL\y_unit\fi%
+	\global\edef#3{\no_point\X_zero}%
+	\global\edef#4{\no_point\Y_zero}%
+}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Conic sections
+\def\put_circle#1#2#3{%
+	\if_silent
+	\else
+		\message{<Drawing a circle with radius #1 and center (#2,#3)...>}%
+	\fi
+	\c_radius=#1%
+	\_divide\plot_interval\c_radius\del_angle
+	\sin_cos\del_angle\del_y\del_x
+	\dimen_A=#2\x_unit
+	\dimen_B=#3\y_unit
+	\if_rotated
+		\advance\dimen_A -\X_Pivot\x_unit
+    \advance\dimen_B -\Y_Pivot\y_unit
+    \dimen_XL=\cos_A\dimen_A \advance\dimen_XL -\sin_A\dimen_B%
+    \dimen_YL=\sin_A\dimen_A \advance\dimen_YL \cos_A\dimen_B%
+    \dimen_A=\dimen_XL \dimen_B=\dimen_YL%
+    \advance\dimen_A \X_Pivot\x_unit \advance\dimen_B \Y_Pivot\y_unit%
+	\fi%
+  \if_reflected
+		\reflect_point{#2}{#3}\AL\BL%
+		\dimen_A=\AL\x_unit\dimen_B=\BL\y_unit%
+  \fi%
+  \if_translated
+  	\translate_point{#2}{#3}\AL\BL%
+    \dimen_A=\AL\x_unit\dimen_B=\BL\y_unit%
+  \fi%
+  \dimen_X=\dimen_A
+  \dimen_Y=\dimen_B
+   \advance\dimen_X \c_radius
+   \put_dot\dimen_X\dimen_Y%
+   \advance\dimen_X -2\c_radius
+   \put_dot\dimen_X\dimen_Y%
+   \dimen_X=\dimen_A
+   \advance\dimen_Y \c_radius
+   \put_dot\dimen_X\dimen_Y%
+   \advance\dimen_Y -2\c_radius
+   \put_dot\dimen_X\dimen_Y%
+   \_base=\no_point\del_x\c_radius%
+   \_height=\no_point\del_y\c_radius%
+   \dimen_Z=\cos_fortyfive\c_radius%
+   \loop
+   	{\dimen_X=\dimen_A \advance\dimen_X \_base
+    \dimen_Y=\dimen_B \advance\dimen_Y \_height
+    \put_dot\dimen_X\dimen_Y%
+    \advance\dimen_X -2\_base
+    \put_dot\dimen_X\dimen_Y%
+    \advance\dimen_Y -2\_height
+    \put_dot\dimen_X\dimen_Y%
+    \advance\dimen_X 2\_base
+    \put_dot\dimen_X\dimen_Y%
+    \dimen_X=\dimen_A \advance\dimen_X \_height
+    \dimen_Y=\dimen_B \advance\dimen_Y \_base
+    \put_dot\dimen_X\dimen_Y%
+    \advance\dimen_X -2\_height
+    \put_dot\dimen_X\dimen_Y%
+    \advance\dimen_Y -2\_base
+    \put_dot\dimen_X\dimen_Y%
+    \advance\dimen_X 2\_height
+    \put_dot\dimen_X\dimen_Y}%
+    \ifdim\_base > \dimen_Z
+    	\dimen_X=\no_point\del_x\_base
+      \advance\dimen_X -\no_point\del_y\_height
+      \dimen_Y=\no_point\del_y\_base
+      \advance\dimen_Y \no_point\del_x\_height
+      \_base=\dimen_X
+      \_height=\dimen_Y
+   \repeat
+   \x_now=\dimen_A \y_now=\dimen_B%              * center is (x_now,y_now)
+   \global\advance\x_now \c_radius \test_xy%     * circle's extreme right
+   \global\advance\x_now -2\c_radius \test_xy%   * circle's extreme left
+   \global\advance\x_now \c_radius \advance\y_now \c_radius
+   \test_xy%                                     * circle's top
+   \global\advance\y_now -2\c_radius \test_xy%   * circle's bottom
+   \ignorespaces}
+   
+\def\_circle <#1> at #2 #3 {%
+	\put_circle{#1}{#2}{#3}\ignorespaces
+}
+
+\def\_Circle[#1] (#2,#3) {%
+	\Put_Circle{#1}{#2}{#3}
+}
+
+\def\Put_Circle#1#2#3{%
+	\if_silent
+	\else
+		\message{<Drawing a circle with radius #1 and center (#2,#3)...>}%
+	\fi
+	\ifdim #1 > 0pt
+		\dimen_X=#1%
+		\_divide\dimen_X\x_unit\dimen_XL% corrected hor radius
+		\_divide\dimen_X\y_unit\dimen_YL% corrected ver radius
+		\dimen_A=#2pt
+		\advance\dimen_A\dimen_XL
+		\edef\xx_{\no_point\dimen_A}% \aa=\xx
+		\edef\yy_{#3}%
+		\dimen_B=#3pt
+		\advance\dimen_B \b_const\dimen_YL
+		\edef\bb_{\no_point\dimen_B}%
+		\dimen_B=#3pt
+		\advance\dimen_B\dimen_YL
+		\def\dd_{\no_point\dimen_B}% \ff=\dd
+		\dimen_A=#2pt
+		\advance\dimen_A\b_const\dimen_XL
+		\edef\cc_{\no_point\dimen_A}%
+		\bezier_curve{\xx_}{\yy_}{\xx_}{\bb_}{\cc_}{\dd_}{#2}{\dd_}%
+		%now, quadrant 2
+		\dimen_AL=\xx_ pt%
+		\advance\dimen_AL -2\dimen_XL
+		\edef\xx_{\no_point\dimen_AL}%
+		\dimen_AL=#2 pt
+		\advance\dimen_AL -\cc_ pt%
+		\advance\dimen_AL #2pt
+		\edef\cc_{\no_point\dimen_AL}%
+		\bezier_curve{#2}{\dd_}{\cc_}{\dd_}{\xx_}{\bb_}{\xx_}{\yy_}%
+		%now quadrant 3
+		\dimen_BL=#3 pt
+		\advance\dimen_BL -\bb_ pt%
+		\advance\dimen_BL #3 pt
+		\edef\bb_{\no_point\dimen_BL}%
+		\dimen_BL=#3 pt
+		\advance\dimen_BL -\dd_ pt%
+		\advance\dimen_BL #3 pt
+		\edef\dd_{\no_point\dimen_BL}%
+		\bezier_curve{\xx_}{\yy_}{\xx_}{\bb_}{\cc_}{\dd_}{#2}{\dd_}%
+		%nopw quadrant 4
+		\dimen_AL=#2pt
+		\advance\dimen_AL\dimen_XL
+		\edef\xx_{\no_point\dimen_AL}%
+		\dimen_AL=#2pt
+		\advance\dimen_AL\b_const\dimen_XL
+		\edef\cc_{\no_point\dimen_AL}%
+		\bezier_curve{#2}{\dd_}{\cc_}{\dd_}{\xx_}{\bb_}{\xx_}{\yy_}%
+	\fi
+}
+
+\def\_Parabola[#1] (#2,#3) (#4,#5) {{%
+	\if_silent
+	\else
+		\message{<Drawing the parabola with vertex (#2,#3) and focus (#4,#5)...>}%
+	\fi
+	\ifdim #1 pt > 0pt
+	\dimen_XL=#4pt
+	\advance\dimen_XL-#2pt
+	\dimen_YL=#5pt
+	\advance\dimen_YL-#3pt
+	\dimen_ZL=#1pt
+	\sq_root\dimen_ZL\_sr
+	\dimen_AL=\_sr\dimen_YL
+	\_divide\dimen_AL\x_unit\dimen_AL
+	\dimen_AL=\no_point\y_unit\dimen_AL
+	\dimen_AL=2\dimen_AL
+	\dimen_BL=\_sr\dimen_XL
+	\_divide\dimen_BL\y_unit\dimen_BL
+	\dimen_BL=\no_point\x_unit\dimen_BL
+	\dimen_BL=2\dimen_BL
+	\dimen_XX=#1\dimen_XL
+	\advance\dimen_XX #2pt
+	\advance\dimen_XX - \dimen_AL
+	\edef\_aa{\no_point\dimen_XX}%
+	\advance\dimen_XX 2\dimen_AL
+	\edef\_ca{\no_point\dimen_XX}%
+	\dimen_YY=#1\dimen_YL
+	\advance\dimen_YY #3pt
+	\advance\dimen_YY \dimen_BL
+	\edef\_ba{\no_point\dimen_YY}%
+	\advance\dimen_YY-2\dimen_BL
+	\edef\_da{\no_point\dimen_YY}%
+	\ifdim\_ca pt<\_aa pt
+		\draw_curve(\_ca,\_da) (#2,#3) (\_aa,\_ba)
+	\else
+		\draw_curve(\_aa,\_ba) (#2,#3) (\_ca,\_da)
+	\fi
+	\fi
+}\ignorespaces
+}
+
+\def\_ellipse <#1,#2> at #3 #4 {%
+	\if_silent
+	\else
+		\message{<Drawing an ellipse...>}%
+	\fi
+   \bgroup
+   \dimen_A=#1 pt \dimen_B=#2 pt
+   %quadrants 1 and 2
+   \dimen_AA=#1 pt \advance\dimen_AA #3 pt
+   \edef\AA{\no_point\dimen_AA}%
+   \advance\dimen_AA -#1 pt \advance\dimen_AA -#1 pt
+   \edef\FF{\no_point\dimen_AA}%
+   \dimen_AA=#1 pt \dimen_AA=0.866\dimen_AA \advance\dimen_AA #3 pt
+   \edef\BB{\no_point\dimen_AA}%
+   \advance\dimen_AA -#3 pt \dimen_AA=-\dimen_AA \advance\dimen_AA #3 pt
+   \edef\EE{\no_point\dimen_AA}%
+   \dimen_AA=#2 pt \dimen_AA=0.5\dimen_AA \advance\dimen_AA #4 pt
+   \edef\VV{\no_point\dimen_AA}%
+   \dimen_AA=#1 pt \dimen_AA=0.5\dimen_AA \advance\dimen_AA #3 pt
+   \edef\CC{\no_point\dimen_AA}%
+   \advance\dimen_AA -#3 pt \dimen_AA=-\dimen_AA \advance\dimen_AA #3 pt
+   \edef\DD{\no_point\dimen_AA}%
+   \dimen_AA=#2 pt \dimen_AA=0.866\dimen_AA \advance\dimen_AA #4 pt
+   \edef\XX{\no_point\dimen_AA}%
+   \dimen_AA=#2pt \advance\dimen_AA #4 pt
+   \edef\YY{\no_point\dimen_AA}%
+   \draw_curve(\AA,#4) (\BB,\VV) (\CC,\XX) (#3,\YY) (\DD,\XX) 
+      (\EE,\VV) (\FF,#4)
+   %quadrants 3 and 4
+   \dimen_AA=#2 pt \dimen_AA=-0.5\dimen_AA \advance\dimen_AA #4pt
+   \edef\VV{\no_point\dimen_AA}%
+   \dimen_AA=#2 pt \dimen_AA=-0.866\dimen_AA \advance\dimen_AA #4 pt
+   \edef\XX{\no_point\dimen_AA}%
+   \dimen_AA=-#2 pt \advance\dimen_AA #4 pt
+   \edef\YY{\no_point\dimen_AA}%
+   \draw_curve(\AA,#4) (\BB,\VV) (\CC,\XX) (#3,\YY) (\DD,\XX) 
+      (\EE,\VV) (\FF,#4)
+   \egroup
+}
+
+\def\_ELLIPSE#1#2#3#4#5{{%
+	\if_silent
+	\else
+		\message{<Drawing an ellipse with center (#4,#5) and one endpoint of an axis (#2,#3)...>}%
+	\fi
+\ifdim #1> 0pt%
+	\dimen_ZL=#1
+	\dimen_AA=#4pt
+	\advance\dimen_AA-#2pt% \dimen_AA is x_2-x_1
+	\dimen_BB=#5pt
+	\advance\dimen_BB-#3pt% \dimen_BB is y_2-y_1
+	\dimen_A=\no_point\x_unit\dimen_AA
+	\dimen_B=\no_point\y_unit\dimen_BB
+	\_hypotenuse\dimen_A\dimen_B\dimen_C% \dimen_C is the value of "a"
+	\_divide\dimen_A\dimen_C\dimen_XL
+	\edef\Cos{\no_point\dimen_XL}%
+	\_divide\dimen_B\dimen_C\dimen_YL
+	\edef\Sin{\no_point\dimen_YL}%
+	\dimen_XL=\Cos\dimen_ZL%  = k Cos A
+	\dimen_YL=\Sin\dimen_ZL%  = k Sin A 
+	\dimen_A=#4pt
+	\advance\dimen_A -#2pt
+	\advance\dimen_A #4pt
+	\edef\x_x{\no_point\dimen_A}%
+	\dimen_B=#5pt
+	\advance\dimen_B -#3pt
+	\advance\dimen_B #5pt
+	\edef\y_y{\no_point\dimen_B}%
+	\_divide\dimen_YL\x_unit\dimen_C
+	\advance\dimen_A -\b_const\dimen_C
+	\edef\a_a{\no_point\dimen_A}%
+	\_divide\dimen_XL\y_unit\dimen_C
+	\advance\dimen_B \b_const\dimen_C
+	\edef\b_b{\no_point\dimen_B}%
+	\dimen_A=#4pt
+	\_divide\dimen_YL\x_unit\dimen_C
+	\advance\dimen_A-\dimen_C
+	\edef\e_e{\no_point\dimen_A}%
+	\dimen_B=#5pt
+	\_divide\dimen_XL\y_unit\dimen_C
+	\advance\dimen_B\dimen_C
+	\edef\f_f{\no_point\dimen_B}%
+	\advance\dimen_A\b_const\dimen_AA
+	\edef\c_c{\no_point\dimen_A}%
+	\advance\dimen_B\b_const\dimen_BB
+	\edef\d_d{\no_point\dimen_B}%
+	\bezier_curve{\x_x}{\y_y}{\a_a}{\b_b}{\c_c}{\d_d}{\e_e}{\f_f}%
+	\def\x_x{#2}%
+	\def\y_y{#3}%
+	\dimen_A=\a_a pt
+	\advance\dimen_A -2\dimen_AA
+	\edef\a_a{\no_point\dimen_A}%
+	\dimen_B=\b_b pt
+	\advance\dimen_B-2\dimen_BB
+	\edef\b_b{\no_point\dimen_B}%
+	\dimen_A=\e_e pt
+	\advance\dimen_A -\c_c pt
+	\advance\dimen_A \e_e pt
+	\edef\c_c{\no_point\dimen_A}%
+	\dimen_B=\f_f pt
+	\advance\dimen_B -\d_d pt
+	\advance\dimen_B \f_f pt
+	\edef\d_d{\no_point\dimen_B}%
+	\bezier_curve{\e_e}{\f_f}{\c_c}{\d_d}{\a_a}{\b_b}{\x_x}{\y_y}%
+	\dimen_A=\x_x pt
+	\advance\dimen_A -\a_a pt
+	\advance\dimen_A \x_x pt
+	\edef\a_a{\no_point\dimen_A}%
+	\dimen_B=\y_y pt
+	\advance\dimen_B -\b_b pt
+	\advance\dimen_B \y_y pt
+	\edef\b_b{\no_point\dimen_B}%
+	\dimen_A=#4pt
+	\advance\dimen_A -\e_e pt
+	\advance\dimen_A #4pt
+	\edef\e_e{\no_point\dimen_A}%
+	\dimen_B=#5 pt
+	\advance\dimen_B -\f_f pt
+	\advance\dimen_B #5 pt
+	\edef\f_f{\no_point\dimen_B}%
+	\advance\dimen_A -\b_const\dimen_AA
+	\edef\c_c{\no_point\dimen_A}%
+	\advance\dimen_B -\b_const\dimen_BB
+	\edef\d_d{\no_point\dimen_B}%
+	\bezier_curve{\x_x}{\y_y}{\a_a}{\b_b}{\c_c}{\d_d}{\e_e}{\f_f}%
+	\dimen_A=#4pt
+	\advance\dimen_A -#2pt
+	\advance\dimen_A #4pt
+	\edef\x_x{\no_point\dimen_A}%	
+	\_divide\dimen_YL\x_unit\dimen_C
+	\advance\dimen_A \b_const\dimen_C
+	\edef\a_a{\no_point\dimen_A}%
+	\dimen_B=#5pt
+	\advance\dimen_B -#3pt
+	\advance\dimen_B #5pt
+	\edef\y_y{\no_point\dimen_B}%
+	\_divide\dimen_XL\y_unit\dimen_C
+	\advance\dimen_B -\b_const\dimen_C
+	\edef\b_b{\no_point\dimen_B}%
+	\dimen_A=\e_e pt
+	\advance\dimen_A \b_const\dimen_AA
+	\edef\c_c{\no_point\dimen_A}%
+	\dimen_B=\f_f pt
+	\advance\dimen_B \b_const\dimen_BB
+	\edef\d_d{\no_point\dimen_B}%
+	\bezier_curve{\e_e}{\f_f}{\c_c}{\d_d}{\a_a}{\b_b}{\x_x}{\y_y}%
+\fi%
+}\ignorespaces
+}
+
+\def\_Ellipse[#1] (#2,#3) (#4,#5) {%
+	\_ELLIPSE{#1}{#2}{#3}{#4}{#5}%
+}
+
+\def\_hyperbola <#1,#2> at #3 #4 {%
+	\if_silent
+	\else
+		\message{<Drawing a hyperbola...>}%
+	\fi
+	\dimen_C=#1pt%
+	\dimen_C=0.3333333\dimen_C%      control point abscissa
+	\dimen_A=#1pt%
+	\dimen_A=3\dimen_A%   abscissa of one endpoint
+	\dimen_B=#2pt%
+	\dimen_B=2\dimen_B%
+	\dimen_B=1.41421\dimen_B%     ordinate of one endpoint
+	\advance\dimen_A #3pt%
+	\advance\dimen_C #3pt%
+	\dimen_D=-\dimen_B%
+	\advance\dimen_B #4pt%
+	\advance\dimen_D #4pt%
+	\bezier_curve{\no_point\dimen_A} {\no_point\dimen_B} {\no_point\dimen_C} {#4} 									{\no_point\dimen_C} {#4} {\no_point\dimen_A} {\no_point\dimen_D} 
+	\dimen_A=-\dimen_A
+	\advance\dimen_A #3pt
+	\advance\dimen_A #3pt
+	\dimen_C=-\dimen_C
+	\advance\dimen_C #3pt
+	\advance\dimen_C #3pt
+	\bezier_curve{\no_point\dimen_A} {\no_point\dimen_B} {\no_point\dimen_C} 												{#4} {\no_point\dimen_C} {#4} {\no_point\dimen_A} {\no_point\dimen_D} 
+}
+
+\def\half_hyperbola#1#2#3#4#5{{%
+	\dimen_ZL=#1
+	\dimen_ZL=2.8284\dimen_ZL
+	\dimen_AL=#2pt
+	\dimen_BL=#3pt
+	\dimen_CL=#4pt
+	\dimen_DL=#5pt
+	\dimen_XL=\dimen_CL
+	\advance\dimen_XL -\dimen_AL
+	\dimen_XL=\no_point\x_unit\dimen_XL
+	\dimen_YL=\dimen_DL
+	\advance\dimen_YL -\dimen_BL
+	\dimen_YL=\no_point\y_unit\dimen_YL
+	\_hypotenuse\dimen_XL\dimen_YL\dimen_AP
+	\_divide\dimen_XL\dimen_AP\dimen_XL
+	\edef\Cos{\no_point\dimen_XL}%
+	\_divide\dimen_YL\dimen_AP\dimen_YL
+	\edef\Sin{\no_point\dimen_YL}%
+	\dimen_AP=\Sin\dimen_ZL
+	\_divide\dimen_AP\x_unit\dimen_AP
+	\dimen_XL=4\dimen_CL
+	\advance\dimen_XL-3\dimen_AL
+	\dimen_XX=\dimen_XL
+	\advance\dimen_XL -\dimen_AP
+	\edef\_a{\no_point\dimen_XL}%
+	\advance\dimen_XX \dimen_AP
+	\edef\_c{\no_point\dimen_XX}%
+	\dimen_AP=\Cos\dimen_ZL
+	\_divide\dimen_AP\y_unit\dimen_AP
+	\dimen_YL=4\dimen_DL
+	\advance\dimen_YL-3\dimen_BL
+	\dimen_YY=\dimen_YL
+	\advance\dimen_YL \dimen_AP
+	\edef\_b{\no_point\dimen_YL}%
+	\advance\dimen_YY -\dimen_AP
+	\edef\_d{\no_point\dimen_YY}%
+	\dimen_AP=#2pt
+	\dimen_XL=1.33333333\dimen_CL
+	\advance\dimen_XL -0.33333333\dimen_AP
+	\edef\_x{\no_point\dimen_XL}%
+	\dimen_AP=#3pt
+	\dimen_YL=1.33333333\dimen_DL
+	\advance\dimen_YL -0.33333333\dimen_AP
+	\edef\_y{\no_point\dimen_YL}%
+	\bezier_curve{\_a}{\_b}{\_x}{\_y}{\_x}{\_y}{\_c}{\_d}
+	}\ignorespaces
+}
+
+\def\_Hyperbola [#1] (#2,#3) (#4,#5) {%
+	\if_silent
+	\else
+		\message{<Drawing the hyperbola with center (#4,#5) and one vertex (#2,#3)...>}%
+	\fi
+\ifdim #1 > 0pt
+	\dimen_A=#2pt
+	\dimen_B=#3pt
+	\dimen_C=#4pt
+	\dimen_D=#5pt
+	\half_hyperbola{#1}{#2}{#3}{#4}{#5}
+	\advance\dimen_A-2\dimen_C
+	\dimen_A=-\dimen_A
+	\edef\_aa{\no_point\dimen_A}%
+	\advance\dimen_B -2\dimen_D
+	\dimen_B=-\dimen_B
+	\edef\_bb{\no_point\dimen_B}%
+	\half_hyperbola{#1}{\_aa}{\_bb}{\no_point\dimen_C}{\no_point\dimen_D}
+\fi
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Drawing in three-dimensional space
+
+%  Point of View
+\def\_POV(#1,#2,#3) {%
+	\if_silent
+	\else
+		\message{<Setting the point of view...>}%
+	\fi
+	\edef\pov_a{#1}%
+	\edef\pov_b{#2}%
+	\edef\pov_c{#3}%
+  \_A=#1\x_unit
+  \ifdim\_A<0pt \_A=-\_A\fi
+  \_B=#2\y_unit
+  \ifdim\_B<0pt \_B=-\_B\fi
+  \_C=#3\z_unit
+  \ifdim\_C<0pt \_C=-\_C\fi
+  \_Z=\_A
+  \ifdim\_Z<\_B \_Z=\_B\fi
+  \ifdim\_Z<\_C \_Z=\_C\fi
+  \_A=#1\x_unit
+  \_divide\_A\_Z\_A
+  \edef\a_pov{\no_point\_A}%
+  %\dimen_B=#2\y_unit  This is an error discovered 27 March 10:26 AM
+  \_B=#2\y_unit
+  \_divide\_B\_Z\_B
+  \edef\b_pov{\no_point\_B}%
+  \_C=#3\z_unit
+  \_divide\_C\_Z\_C
+  \edef\c_pov{\no_point\_C}%
+  \_A=\a_pov pt
+  \_B=\b_pov pt
+  \_hypotenuse\_A\_B\_X
+  \edef\AB_{\no_point\_X}% sqrt{a^2+b^2}
+  \_Z=1pt
+  \_divide\_Z\_X\_A
+  \edef\ab_{\no_point\_A}% 1/sqrt{a^2+b^2}
+  \_C=\c_pov pt
+  \_hypotenuse\_X\_C\_Y% sqrt{a^2+b^2+c^2}
+  \_divide\_Z\_Y\_X
+  \edef\abc_{\no_point\_X}%  1/sqrt{a^2+b^2+c^2}
+}
+
+\_POV(3,4,2) %  Default
+
+%  Projection of a point in three-dimensional space onto the plane of view
+\def\_map#1#2#3#4#5{{%
+	\if_silent
+	\else
+		\message{<Projecting a point in space to the plane of view...>}%
+	\fi
+	\_X=#1\x_unit
+	\_Y=#2\y_unit
+	\_A=\a_pov\_Y
+	\advance\_A -\b_pov\_X
+	\_A=\ab_\_A
+	\_divide\_A\x_unit\_A% We have to divide by \x_unit
+	\global\edef#4{\no_point\_A}%
+	\_B=\a_pov\_X
+	\advance\_B \b_pov\_Y
+	\_B=\ab_\_B
+	\_B=-\c_pov\_B
+	\_B=\abc_\_B
+	\_Z=#3\z_unit
+	\_Z=\AB_\_Z
+	\_Z=\abc_\_Z
+	\advance\_B \_Z 
+	\_divide\_B\y_unit\_B% We have to divide by \y_unit
+	\global\edef#5{\no_point\_B}%
+	}\ignorespaces
+}
+
+\def\_Map(#1,#2,#3)#4#5{%
+	\_map{#1}{#2}{#3}{#4}{#5}
+}
+
+\def\_XUNIT(#1) {%
+	\if_silent
+	\else
+		\message{<Setting the x-unit...>}%
+	\fi
+	\x_unit #1
+  \_A=\pov_a\x_unit
+  \ifdim\_A<0pt \_A=-\_A\fi
+  \_B=\pov_b\y_unit
+  \ifdim\_B<0pt \_B=-\_B\fi
+  \_C=\pov_c\z_unit
+  \ifdim\_C<0pt \_C=-\_C\fi
+  \_Z=\_A
+  \ifdim\_Z<\_B \_Z=\_B\fi
+  \ifdim\_Z<\_C \_Z=\_C\fi
+  \_A=\pov_a\x_unit
+  \_divide\_A\_Z\_A
+  \edef\a_pov{\no_point\_A}%
+  \_B=\pov_b\y_unit
+  \_divide\_B\_Z\_B
+  \edef\b_pov{\no_point\_B}%
+  \_C=\pov_c\z_unit
+  \_divide\_C\_Z\_C
+  \edef\c_pov{\no_point\_C}%
+  \_A=\a_pov pt
+  \_B=\b_pov pt
+  \_hypotenuse\_A\_B\_X
+  \edef\AB_{\no_point\_X}% sqrt{a^2+b^2}
+  \_Z=1pt
+  \_divide\_Z\_X\_A
+  \edef\ab_{\no_point\_A}% 1/sqrt{a^2+b^2}
+  \_C=\c_pov pt
+  \_hypotenuse\_X\_C\_Y% sqrt{a^2+b^2+c^2}
+  \_divide\_Z\_Y\_X
+  \edef\abc_{\no_point\_X}%  1/sqrt{a^2+b^2+c^2}
+}
+
+\def\_YUNIT(#1) {%
+	\if_silent
+	\else
+		\message{<Setting the y-unit...>}%
+	\fi
+	\y_unit #1
+  \_A=\pov_a\x_unit
+  \ifdim\_A<0pt \_A=-\_A\fi
+  \_B=\pov_b\y_unit
+  \ifdim\_B<0pt \_B=-\_B\fi
+  \_C=\pov_c\z_unit
+  \ifdim\_C<0pt \_C=-\_C\fi
+  \_Z=\_A
+  \ifdim\_Z<\_B \_Z=\_B\fi
+  \ifdim\_Z<\_C \_Z=\_C\fi
+  \_A=\pov_a\x_unit
+  \_divide\_A\_Z\_A
+  \edef\a_pov{\no_point\_A}%
+  \_B=\pov_b\y_unit
+  \_divide\_B\_Z\_B
+  \edef\b_pov{\no_point\_B}%
+  \_C=\pov_c\z_unit
+  \_divide\_C\_Z\_C
+  \edef\c_pov{\no_point\_C}%
+  \_A=\a_pov pt
+  \_B=\b_pov pt
+  \_hypotenuse\_A\_B\_X
+  \edef\AB_{\no_point\_X}% sqrt{a^2+b^2}
+  \_Z=1pt
+  \_divide\_Z\_X\_A
+  \edef\ab_{\no_point\_A}% 1/sqrt{a^2+b^2}
+  \_C=\c_pov pt
+  \_hypotenuse\_X\_C\_Y% sqrt{a^2+b^2+c^2}
+  \_divide\_Z\_Y\_X
+  \edef\abc_{\no_point\_X}%  1/sqrt{a^2+b^2+c^2}
+}
+
+\def\_ZUNIT(#1) {%
+	\if_silent
+	\else
+		\message{<Setting the z-unit...>}%
+	\fi
+	\z_unit #1
+  \_A=\pov_a\x_unit
+  \ifdim\_A<0pt \_A=-\_A\fi
+  \_B=\pov_b\y_unit
+  \ifdim\_B<0pt \_B=-\_B\fi
+  \_C=\pov_c\z_unit
+  \ifdim\_C<0pt \_C=-\_C\fi
+  \_Z=\_A
+  \ifdim\_Z<\_B \_Z=\_B\fi
+  \ifdim\_Z<\_C \_Z=\_C\fi
+  \_A=\pov_a\x_unit
+  \_divide\_A\_Z\_A
+  \edef\a_pov{\no_point\_A}%
+  \_B=\pov_b\y_unit
+  \_divide\_B\_Z\_B
+  \edef\b_pov{\no_point\_B}%
+  \_C=\pov_c\z_unit
+  \_divide\_C\_Z\_C
+  \edef\c_pov{\no_point\_C}%
+  \_A=\a_pov pt
+  \_B=\b_pov pt
+  \_hypotenuse\_A\_B\_X
+  \edef\AB_{\no_point\_X}% sqrt{a^2+b^2}
+  \_Z=1pt
+  \_divide\_Z\_X\_A
+  \edef\ab_{\no_point\_A}% 1/sqrt{a^2+b^2}
+  \_C=\c_pov pt
+  \_hypotenuse\_X\_C\_Y% sqrt{a^2+b^2+c^2}
+  \_divide\_Z\_Y\_X
+  \edef\abc_{\no_point\_X}%  1/sqrt{a^2+b^2+c^2}
+}
+
+%  Plotting points
+\def\_PLOT{%
+	\if_silent
+	\else
+		\message{<Plotting points in space...>}%
+	\fi
+	\_PLOT_}
+	
+\def\_PLOT_{%
+	\futurelet\next_char\next_POINT}
+
+\def\next_POINT{%
+	\read_char{(}\PUT_NEXT_POINT\do_nothing}
+	
+\def\PUT_NEXT_POINT(#1,#2,#3) {%
+	\_map{#1}{#2}{#3}\_AL\_BL
+	\x_now=\_AL\x_unit
+	\y_now=\_BL\y_unit
+	\test_xy
+	\put_dot\x_now\y_now
+	\_PLOT_
+}
+
+%  Drawing lines
+\def\POLY_LINE{%
+	\if_silent
+	\else
+		\message{<Drawing a zig-zag line in space...>}%
+	\fi
+	\POLY_LINE_}
+	
+\def\POLY_LINE_(#1,#2,#3) {%
+	\edef\LAST_X{#1}%
+	\edef\LAST_Y{#2}%
+	\edef\LAST_Z{#3}%
+	\MORE_LINE}
+	
+\def\MORE_LINE{%
+	\futurelet\next_char\next_LINE}
+
+\def\next_LINE{%
+	\read_char{(}\DRAW_LINE\do_nothing}
+	
+\def\DRAW_LINE(#1,#2,#3) {%
+	\_map{\LAST_X}{\LAST_Y}{\LAST_Z}\_AA\_BB
+	\_map{#1}{#2}{#3}\_CC\_DD
+	\edef\LAST_X{#1}%
+	\edef\LAST_Y{#2}%
+	\edef\LAST_Z{#3}%
+	{%\y_unit=\z_unit
+	\draw_line{\_AA}{\_BB}{\_CC}{\_DD}%
+	}%
+	\MORE_LINE
+}
+
+%  Drawing a rectangular box
+\def\Rectangular_Box(#1,#2,#3) (#4,#5,#6) {%
+	\if_silent
+	\else
+		\message{<Drawing a rectangular box...>}%
+	\fi
+	\LINE(#1,#2,#3) (#1,#2,#6) (#1,#5,#6) (#1,#5,#3) (#1,#2,#3)
+		(#4,#2,#3) (#4,#2,#6) (#4,#5,#6) (#4,#5,#3) (#4,#2,#3)
+	\LINE(#1,#2,#6) (#4,#2,#6) \LINE (#4,#5,#6) (#1,#5,#6)
+	\LINE (#1,#5,#3) (#4,#5,#3)
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Drawing graphs
+
+%  Putting vertices at several locations ...
+\def\vertex_set{%
+	\if_silent
+	\else
+		\message{<Drawing a set of vertices...>}%
+	\fi
+	\vertex_set_}
+	
+\def\vertex_set_{%
+	\futurelet\next_char\read_vertex}
+
+\def\read_vertex{%
+	\read_char{(}\do_put_vertex\do_nothing}
+	
+\def\do_put_vertex(#1,#2) {{%
+	\Put_Vertex{#1}{#2}%
+	}%
+\vertex_set_}
+
+\def\Put_Vertex#1#2{%
+	\ifdim\v_radius>0pt
+		\ifvertex_dashes
+			{\_dashestrue
+			\Put_Circle\v_radius{#1}{#2}
+			}%
+		\else
+			{\_dashesfalse
+			\Put_Circle\v_radius{#1}{#2}
+			}%
+		\fi
+	\fi
+}
+
+%  Drawing a loop ...
+\def\put_loop <#1> at #2 #3 {%
+	\if_silent
+	\else
+		\message{<Drawing a loop...>}%
+	\fi
+	\c_radius=3\v_radius%
+	\transform_point{#2}{#3}\a_l\b_l
+  \dimen_AL=\a_l\x_unit%
+  \dimen_BL=\b_l\y_unit%
+  \Sin_Cos #1
+  \advance\dimen_AL \cosine\c_radius
+  \advance\dimen_BL \sine\c_radius
+  \dimen_CL=-2.80669pt
+  \dimen_DL= 2.80669pt%  Assume that the center of the loop and the center 
+% 	of the vertex having the loop lie on a horizontal
+%  line. Then the line from the center of the vertex to one of the points
+%  of intersection of the vertex and the loop has a slope of {4k^2-1}^0.5,
+%  where the radius of the loop is k times the vertexradius. For k = 3,
+%  the slope is -sqrt{35} and the corresponding angle is -80.406 deg.  The
+%  line from the center of the loop to the same intersection has an angle 
+%  of inclination of -160.8118 degrees.
+	\_divide\plot_interval\c_radius\del_angle%   
+  \ifdim\del_angle > 1pt \del_angle=1pt \fi
+  \dimen_C=#1pt%
+  \advance\dimen_C -160.8118pt%
+%\advance\dimen_C -\del_angle%   
+  \Sin_Cos {\no_point\dimen_C}
+  \_base=\cosine pt%                         current cosine
+  \_height=\sine pt%                         current sine
+  \dimen_X=\dimen_AL% 
+  \dimen_Y=\dimen_BL% 
+  \sin_cos\del_angle\del_y\del_x%
+  \loop
+  	\dimen_X=\no_point\del_x\_base%
+    \advance\dimen_X -\no_point\del_y\_height% new cosine
+    \dimen_Y=\no_point\del_x\_height%
+    \advance\dimen_Y \no_point\del_y\_base%    new sine
+    \_base=\dimen_X%
+    \_height=\dimen_Y%
+    \dimen_X=\dimen_AL%
+    \dimen_Y=\dimen_BL%
+    \advance\dimen_X \no_point\_base\c_radius%
+    \advance\dimen_Y \no_point\_height\c_radius%
+    \advance\dimen_CL \del_angle%
+    \put_dot\dimen_X\dimen_Y%  
+  	\ifdim\dimen_CL < \dimen_DL
+	\repeat
+  \x_now=\dimen_AL \y_now=\dimen_BL%            * center is (x_now,y_now) 
+  \advance\x_now \c_radius \test_xy%            * circle's extreme right
+  \advance\x_now -2\c_radius \test_xy%          * circle's extreme left
+  \advance\x_now \c_radius \advance\y_now \c_radius 
+  \test_xy%                                     * circle's top
+  \advance\y_now -2\c_radius \test_xy%          * circle's bottom
+}
+
+%  An alternative macro for drawing a loop
+\def\Put_the_Loop#1#2#3{%
+	\gen_angle=#1pt
+	\advance\gen_angle -38pt
+	\Sin_Cos {\no_point\gen_angle}
+	\del_x=\cosine\v_radius
+	\_divide\del_x\x_unit\del_x%
+	\del_y=\sine\v_radius
+	\_divide\del_y\y_unit\del_y%
+	\dimen_C=#2pt
+	\advance\dimen_C \del_x
+	\dimen_D=#3pt
+	\advance\dimen_D \del_y
+	\dimen_XX=#2pt
+	\advance\dimen_XX 12\del_x
+	\dimen_YY=#3pt
+	\advance\dimen_YY 12\del_y
+	\advance\gen_angle 76pt
+	\Sin_Cos {\no_point\gen_angle}
+	\del_x=\cosine\v_radius
+	\_divide\del_x\x_unit\del_x%
+	\del_y=\sine\v_radius
+	\_divide\del_y\y_unit\del_y%
+	\dimen_A=#2pt
+	\advance\dimen_A \del_x
+	\dimen_B=#3pt
+	\advance\dimen_B \del_y
+	\dimen_AA=#2pt
+	\advance\dimen_AA 12\del_x
+	\dimen_BB=#3pt
+	\advance\dimen_BB 12\del_y
+\bezier_curve{\no_point\dimen_C}{\no_point\dimen_D}{\no_point\dimen_XX}{\no_point\dimen_YY}{\no_point\dimen_AA}{\no_point\dimen_BB}{\no_point\dimen_A}{\no_point\dimen_B}\ignorespaces
+}
+
+%  Loop with arrow-head
+\def\Put_Loop[#1] (#2,#3) {%
+	\if_silent
+	\else
+		\message{<Drawing a loop...>}%
+	\fi
+	\Put_the_Loop{#1}{#2}{#3}%
+}
+
+\def\Put_DLoop[#1] (#2,#3) {%
+	\if_silent
+	\else
+		\message{<Drawing a loop with arrow-head...>}%
+	\fi
+	\Put_the_Loop{#1}{#2}{#3}%
+	\ifdim\arc_length>0pt
+	\ifdim\v_radius<0.01pt
+		\arc_length=34pt
+	\else
+		\arc_length=17\v_radius
+	\fi%
+	\current_arc=\arrow_loc\arc_length
+	\dimen_X=\arrow_mag pt
+	\ifdim\current_arc<5.6\dimen_X
+		\current_arc=5.6\dimen_X
+		\_divide\current_arc\arc_length\current_arc
+		\ifdim\current_arc >1pt \current_arc=1pt \fi
+	\else
+		\current_arc=\arrow_loc pt
+	\fi
+	\dimen_XX=\current_arc
+	\x_now=\no_point\dimen_XX\A_X
+	\advance\x_now\B_X
+	\x_now=\no_point\dimen_XX\x_now
+	\advance\x_now\C_X
+	\x_now=\no_point\dimen_XX\x_now
+	\advance\x_now\X_zero
+	\y_now=\no_point\dimen_XX\A_Y
+	\advance\y_now\B_Y
+	\y_now=\no_point\dimen_XX\y_now
+	\advance\y_now\C_Y
+	\y_now=\no_point\dimen_XX\y_now
+	\advance\y_now\Y_zero
+	\_divide\x_now\x_unit\x_now
+	\_divide\y_now\y_unit\y_now
+	\edef\head_X{\no_point\x_now}%
+	\edef\head_Y{\no_point\y_now}%
+	\x_dot=3\A_X% compute the slope at the tip of the arrow head
+	\x_dot=\no_point\dimen_XX\x_dot
+	\advance\x_dot 2\B_X
+	\x_dot=\no_point\dimen_XX\x_dot
+	\advance\x_dot\C_X
+	\y_dot=3\A_Y
+	\y_dot=\no_point\dimen_XX\y_dot
+	\advance\y_dot 2\B_Y
+	\y_dot=\no_point\dimen_XX\y_dot
+	\advance\y_dot\C_Y
+	\_hypotenuse\x_dot\y_dot\dimen_Z
+	\dimen_YY=5.4pt%4.16pt%2.5pt
+	\dimen_YY=\arrow_mag\dimen_YY
+	\_divide\dimen_YY\dimen_Z\dimen_YY
+	\advance\dimen_XX -\dimen_YY% adjust t=\dimen_XX
+	\x_now=\no_point\dimen_XX\A_X% find first intermediate pt on arrow
+	\advance\x_now \B_X
+	\x_now=\no_point\dimen_XX\x_now
+	\advance\x_now\C_X
+	\x_now=\no_point\dimen_XX\x_now
+	\advance\x_now\X_zero
+	\y_now=\no_point\dimen_XX\A_Y
+	\advance\y_now \B_Y
+	\y_now=\no_point\dimen_XX\y_now
+	\advance\y_now\C_Y
+	\y_now=\no_point\dimen_XX\y_now
+	\advance\y_now\Y_zero	
+	\_divide\x_now\x_unit\x_now
+	\_divide\y_now\y_unit\y_now
+	\edef\_xnow{\no_point\x_now}%
+	\edef\_ynow{\no_point\y_now}%	
+	\x_dot=3\A_X% Find slope at first intermediate point
+	\x_dot=\no_point\dimen_XX\x_dot
+	\advance\x_dot 2\B_X
+	\x_dot=\no_point\dimen_XX\x_dot
+	\advance\x_dot\C_X
+	\y_dot=3\A_Y
+	\y_dot=\no_point\dimen_XX\y_dot
+	\advance\y_dot 2\B_Y
+	\y_dot=\no_point\dimen_XX\y_dot
+	\advance\y_dot\C_Y
+	\_hypotenuse\x_dot\y_dot\dimen_Z
+	\_divide\x_dot\dimen_Z\x_dot
+	\_divide\x_dot\y_unit\x_dot
+	\x_dot=\arrow_mag\x_dot
+	\_divide\y_dot\dimen_Z\y_dot
+	\_divide\y_dot\x_unit\y_dot
+	\y_dot=\arrow_mag\y_dot
+	\x_now=\_xnow pt
+	\y_now=\_ynow pt
+	\advance\x_now -0.416\y_dot
+	\advance\y_now 0.416\x_dot
+	\edef\mid_X_up{\no_point\x_now}%
+	\edef\mid_Y_up{\no_point\y_now}%
+	\advance\x_now 0.832\y_dot
+	\advance\y_now -0.832\x_dot
+	\edef\mid_X_down{\no_point\x_now}%
+	\edef\mid_Y_down{\no_point\y_now}%
+	\dimen_YY=3.2pt%4.16pt
+	\dimen_YY=\arrow_mag\dimen_YY
+	\_divide\dimen_YY\dimen_Z\dimen_YY
+	\advance\dimen_XX -\dimen_YY
+	\x_now=\no_point\dimen_XX\A_X% Compute tail end of arrow
+	\advance\x_now \B_X
+	\x_now=\no_point\dimen_XX\x_now
+	\advance\x_now\C_X
+	\x_now=\no_point\dimen_XX\x_now
+	\advance\x_now\X_zero
+	\y_now=\no_point\dimen_XX\A_Y
+	\advance\y_now \B_Y
+	\y_now=\no_point\dimen_XX\y_now
+	\advance\y_now\C_Y
+	\y_now=\no_point\dimen_XX\y_now
+	\advance\y_now\Y_zero	
+	\_divide\x_now\x_unit\x_now
+	\_divide\y_now\y_unit\y_now
+	\edef\_xnow{\no_point\x_now}%
+	\edef\_ynow{\no_point\y_now}%
+	\x_dot=3\A_X% Compute slope at tail end of arrow
+	\x_dot=\no_point\dimen_XX\x_dot
+	\advance\x_dot 2\B_X
+	\x_dot=\no_point\dimen_XX\x_dot
+	\advance\x_dot\C_X
+	\y_dot=3\A_Y
+	\y_dot=\no_point\dimen_XX\y_dot
+	\advance\y_dot 2\B_Y
+	\y_dot=\no_point\dimen_XX\y_dot
+	\advance\y_dot\C_Y
+	\_hypotenuse\x_dot\y_dot\dimen_Z
+	\_divide\x_dot\dimen_Z\x_dot
+	\_divide\x_dot\y_unit\x_dot
+	\x_dot=\arrow_mag\x_dot
+	\_divide\y_dot\dimen_Z\y_dot
+	\_divide\y_dot\x_unit\y_dot
+	\y_dot=\arrow_mag\y_dot
+	\x_now=\_xnow pt
+	\y_now=\_ynow pt
+	\advance\x_now -2.08\y_dot%-1.67\y_dot
+	\advance\y_now 2.08\x_dot%1.67\x_dot
+	\edef\tail_X_up{\no_point\x_now}%
+	\edef\tail_Y_up{\no_point\y_now}%
+	\advance\x_now 4.16\y_dot%3.34\y_dot
+	\advance\y_now -4.16\x_dot%-3.34\x_dot
+	\edef\tail_X_down{\no_point\x_now}%
+	\edef\tail_Y_down{\no_point\y_now}%
+	{\off_rotate\off_translate\off_reflect
+	\ifarrow_dashes 
+		{\_dashestrue
+		\q_join\tail_X_down\tail_Y_down\mid_X_down\mid_Y_down\head_X\head_Y
+		\q_join\tail_X_up\tail_Y_up\mid_X_up\mid_Y_up\head_X\head_Y
+		}%
+	\else 
+		{\_dashesfalse
+		\q_join\tail_X_down\tail_Y_down\mid_X_down\mid_Y_down\head_X\head_Y
+		\q_join\tail_X_up\tail_Y_up\mid_X_up\mid_Y_up\head_X\head_Y
+		}%
+	\fi}%
+	\fi
+}
+
+%  Drawing an edge 
+\def\draw_edge#1#2#3#4{{%
+	\dimen_ALL=#1\x_unit \dimen_BLL=#2\y_unit
+	\dimen_CLL=#3\x_unit \dimen_DLL=#4\y_unit
+	\dimen_AA=\dimen_CLL \advance\dimen_AA -\dimen_ALL
+	\dimen_BB=\dimen_DLL \advance\dimen_BB -\dimen_BLL
+	\_hypotenuse\dimen_AA\dimen_BB\dimen_CC
+	\ifdim\dimen_CC<2\v_radius
+	\else
+		\_divide\dimen_AA\dimen_CC\del_x%      * cosine
+		\_divide\dimen_BB\dimen_CC\del_y%      * sine         
+		\_divide\del_x\x_unit\del_x%           * x-unit factor  
+		\_divide\del_y\y_unit\del_y%           * y-unit factor
+		\dimen_ALL=#1pt \dimen_BLL=#2pt \dimen_CLL=#3pt \dimen_DLL=#4pt
+		\advance\dimen_ALL \no_point\del_x\v_radius
+		\advance\dimen_BLL \no_point\del_y\v_radius
+		\advance\dimen_CLL -\no_point\del_x\v_radius
+		\advance\dimen_DLL -\no_point\del_y\v_radius
+		\draw_line{\no_point\dimen_ALL}{\no_point\dimen_BLL}
+		{\no_point\dimen_CLL}{\no_point\dimen_DLL} 
+	\fi
+}\ignorespaces
+}
+
+%  Drawing a set of edges ...
+\def\edge_set{%
+	\if_silent
+	\else
+		\message{<Drawing a set of edges...>}%
+	\fi
+	\edge_set_}
+\def\edge_set_{%
+	\futurelet\next_char\next_edge}
+
+\def\next_edge{%
+	\read_char{(}\do_put_edge\do_nothing}
+	
+\def\do_put_edge(#1,#2) (#3,#4) {%
+	\draw_edge{#1}{#2}{#3}{#4}
+	\edge_set_}
+	
+%  Drawing a curved edge
+\def\curved_edge(#1,#2) (#3,#4) (#5,#6) {%
+\x_now=#5pt
+\advance\x_now -#1pt
+\ifdim\x_now<0pt \x_now=-\x_now\fi
+\y_now=#6pt
+\advance\y_now-#2pt
+\ifdim\y_now<0pt\y_now=-\y_now\fi
+\advance\x_now\y_now
+\ifdim\x_now=0pt
+	\arc_length=0pt
+\else
+   \A_zero=#1 pt \B_zero=#2 pt%
+   \dimen_X=#3pt \dimen_Y=#4pt%
+   \A_one=\A_zero \A_two=\A_zero%
+   \B_one=\B_zero \B_two=\B_zero%
+   \A_one=-3\A_one \A_two=2\A_two%
+   \B_one=-3\B_one \B_two=2\B_two%
+   \advance\A_one 4\dimen_X \advance\A_two -4\dimen_X%
+   \advance\B_one 4\dimen_Y \advance\B_two -4\dimen_Y%
+   \advance\A_one -#5pt \advance\A_two #5pt \advance\A_two #5pt%
+   \advance\B_one -#6pt \advance\B_two #6pt \advance\B_two #6pt%
+   %\x_dot = \A_one + 2\A_two t  and  \y_dot = \B_one + 2\B_two t
+   \x_dot=\A_one \y_dot=\B_one%
+   \_hypotenuse{\no_point\x_unit\x_dot}{\no_point\y_unit\y_dot}\dimen_Z%
+   \del_x=\no_point\v_radius\x_dot%
+   \_divide\del_x\dimen_Z\del_x%
+   \del_y=\no_point\v_radius\y_dot%
+   \_divide\del_y\dimen_Z\del_y%
+   \dimen_AA=\A_zero%
+   \advance\dimen_AA \del_x%
+   \dimen_BB=\B_zero%
+   \advance\dimen_BB \del_y%
+   \edef\AA{\no_point\dimen_AA}%
+   \edef\BB{\no_point\dimen_BB}%
+   \advance\x_dot 2\A_two \advance\y_dot 2\B_two%
+   \_hypotenuse{\no_point\x_unit\x_dot}{\no_point\y_unit\y_dot}\dimen_Z%
+   \del_x=\no_point\v_radius\x_dot%
+   \_divide\del_x\dimen_Z\del_x%
+   \del_y=\no_point\v_radius\y_dot%
+   \_divide\del_y\dimen_Z\del_y%
+   \dimen_UU=#5pt \advance\dimen_UU -\del_x%
+   \dimen_VV=#6pt \advance\dimen_VV -\del_y%
+   \edef\XX{\no_point\dimen_UU}%
+   \edef\YY{\no_point\dimen_VV}%
+   \q_join{\AA}{\BB}{#3}{#4}{\XX}{\YY}%
+\fi
+}
+
+%  Drawing a set of curved edges
+\def\curved_edge_set{%
+	\if_silent
+	\else
+		\message{<Drawing a set of curved edges...>}%
+	\fi
+	\curved_edge_set_}
+	
+\def\curved_edge_set_{%
+	\futurelet\next_char\next_cedge}
+
+\def\next_cedge{%
+	\read_char{(}\put_next_EDGE\do_nothing}
+
+\def\put_next_EDGE(#1,#2) (#3,#4) (#5,#6) {%
+	\curved_edge(#1,#2) (#3,#4) (#5,#6) %
+	\curved_edge_set_
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Special graphs
+
+%  Drawing a path ...
+\def\_path(#1,#2) {{%
+	\if_silent
+	\else
+		\message{<Drawing a path...>}%
+	\fi
+	\gdef\last_X{#1}%
+  \gdef\last_Y{#2}%
+  }\ignorespaces
+  \draw_path%
+}
+  
+\def\draw_path{%
+	\futurelet\next_char\next_link}
+
+\def\next_link{%
+	\read_char{(}\_something\_nothing}
+
+\def\_nothing{%
+	\Put_Vertex\last_X\last_Y
+  \ignorespaces}
+  
+\def\_something(#1,#2) {%
+	\draw_edge{\last_X}{\last_Y}{#1}{#2} 
+  \Put_Vertex\last_X\last_Y
+  \def\last_X{#1}%
+  \def\last_Y{#2}%
+  \draw_path}
+
+%  Drawing a symmetric star
+\def\_star(#1) [#2] (#3,#4) {%
+	\ifnum #1 < 1
+		\message{[error: The first parameter must be a positive integer]}%
+	\else
+		\if_silent
+		\else
+			\message{<Drawing a symmetric star...>}%
+		\fi
+		\dimen_XX=#2
+		\_divide\dimen_XX\y_unit\dimen_XX
+		\advance\dimen_XX #4pt
+		\edef\up_y{\no_point\dimen_XX}%
+		\_path(#3,#4) (#3,\up_y) %
+		\dimen_YY=360pt
+		\divide\dimen_YY by #1%
+		\dimen_ZL=\dimen_YY
+		\ifnum #1 >1
+		\loop
+			\edef\_angle_{\no_point\dimen_ZL}%
+			\Sin_Cos{\_angle_} %
+			\dimen_XX=#2
+			\dimen_XL=\sine \dimen_XX
+			\dimen_YL=\cosine\dimen_XX
+			\_divide\dimen_XL\x_unit\dimen_XL
+			\_divide\dimen_YL\y_unit\dimen_YL
+			\advance\dimen_XL #3pt
+			\advance\dimen_YL #4pt
+			\edef\xcoord_{\no_point\dimen_XL}%
+			\edef\ycoord_{\no_point\dimen_YL}%
+			\edef\_xcoord{\no_point\dimen_XL}%
+			\dimen_XL=\xcoord_ pt
+			\advance\dimen_XL -#3pt
+			\advance\dimen_XL -#3pt
+			\dimen_XL=-\dimen_XL
+			\edef\_xcoord{\no_point\dimen_XL}%
+			\Put_Vertex{\xcoord_}{\ycoord_}%
+			\Edge(#3,#4) (\xcoord_,\ycoord_) %
+			\Put_Vertex{\_xcoord}{\ycoord_}%
+			\Edge(#3,#4) (\_xcoord,\ycoord_) %
+			\advance\dimen_ZL\dimen_YY
+			\ifdim\dimen_ZL>180pt
+			\else
+		\repeat
+		\fi
+	\fi
+}
+
+%  Drawing a general star
+\def\_STAR(#1,#2) {%
+	\if_silent
+	\else
+		\message{<Drawing a general star...>}%
+	\fi
+	\def\mid_X{#1}%
+  \def\mid_Y{#2}%
+  \draw_star}
+  
+\def\draw_star{%
+	\futurelet\next_char\next_ray}
+
+\def\next_ray{%
+	\read_char{(}\_more\_none}
+
+\def\_none{%
+	\Put_Vertex\mid_X\mid_Y
+  \ignorespaces}
+  
+\def\_more(#1,#2) {%
+  \draw_edge{\mid_X}{\mid_Y}{#1}{#2}%
+  \Put_Vertex{#1}{#2}%
+  \draw_star}
+
+%  Drawing a general cycle
+\def\_CYCLE(#1,#2) {%
+	\if_silent
+	\else
+		\message{<Drawing a general cycle...>}%
+	\fi
+	\def\A_{#1}%
+	\def\B_{#2}%
+	\def\last_X{#1}%
+  \def\last_Y{#2}%
+  \path_draw}
+  
+\def\path_draw{%
+	\futurelet\next_char\next_bead}
+\def\next_bead{%
+	\read_char{(}\_Something\_Nothing}
+
+\def\_Something(#1,#2) {%
+	\draw_edge{\last_X}{\last_Y}{#1}{#2} 
+  %\Put_Circle{\v_radius}{\last_X}{\last_Y}
+  \Put_Vertex\last_X\last_Y
+  \def\last_X{#1}%
+  \def\last_Y{#2}%
+  \path_draw}	
+  
+\def\_Nothing{%
+	\Put_Vertex\last_X\last_Y
+	\draw_edge{\last_X}{\last_Y}{\A_}{\B_} 
+}
+
+%  Drawing a regular cycle 
+\def\_cycle(#1) [#2] (#3,#4) {% #1=n, #2=length of a side, (#3, #4)=center
+  \ifnum #1 < 3
+    \message{[error: The cycle must have at least 3 vertices]}%
+  \else
+  	\if_silent
+		\else
+			\message{<Drawing a cycle of length #1...>}%
+		\fi
+    \gen_angle=360pt \dimen_X=#1pt
+    \_divide\gen_angle\dimen_X\del_angle
+    \global\edef\_theta{\no_point\del_angle}%
+    \del_angle=0.5\del_angle
+    \central_angle=\del_angle
+    \Sin_Cos {\no_point\del_angle} 
+    \dimen_Z=#2  
+    \ifdim\dimen_Z < 2\v_radius \dimen_Z=2\v_radius \fi% Jan 27
+    \dimen_X=\sine pt
+    \_divide\dimen_Z\dimen_X\dimen_Z
+    \dimen_Z=0.5\dimen_Z
+    \edef\_spoke{\no_point\dimen_Z}%
+    \_x=\sine\dimen_Z
+    \_divide\_x\x_unit\_x% Jan 15
+    \_y=-\cosine\dimen_Z
+    \_divide\_y\y_unit\_y% Jan 15
+    \dimen_X=#3 pt
+    \advance\dimen_X \_x
+    \edef\X_right{\no_point\dimen_X}%
+    \advance\dimen_X -2\_x
+    \edef\X_left{\no_point\dimen_X}%
+    \dimen_Y=#4 pt
+    \advance\dimen_Y \_y
+    \edef\Y_common{\no_point\dimen_Y}%
+    \Put_Vertex\X_left\Y_common
+    \Put_Vertex\X_right\Y_common
+    \ifdim\dimen_Z>2\v_radius
+    	\draw_edge{\X_left}{\Y_common}{\X_right}{\Y_common}
+    \fi
+    \loop
+      {\dimen_X=\X_left pt \global\edef\Left_X{\no_point\dimen_X}% 
+      \dimen_X=\X_right pt \global\edef\Right_X{\no_point\dimen_X}% 
+      \dimen_Y=\Y_common pt \global\edef\Common_Y{\no_point\dimen_Y}%
+      \global\advance\central_angle \_theta pt
+      \Sin_Cos {\no_point\central_angle}
+      \dimen_Z=\_spoke pt
+      \_x=\sine\dimen_Z
+      \_divide\_x\x_unit\_x% Jan 15
+      \_y=-\cosine\dimen_Z
+      \_divide\_y\y_unit\_y% Jan 15
+      \dimen_X=#3 pt
+      \advance\dimen_X \_x
+      \global\edef\X_right{\no_point\dimen_X}%
+      \advance\dimen_X -2\_x
+      \global\edef\X_left{\no_point\dimen_X}%
+      \dimen_Y=#4 pt
+      \advance\dimen_Y \_y
+      \global\edef\Y_common{\no_point\dimen_Y}%
+      \ifdim\dimen_Z>2\v_radius
+        \draw_edge{\Left_X}{\Common_Y}{\X_left}{\Y_common}
+      \fi
+      }%
+      \ifdim\central_angle < 181 pt
+        %\Put_Circle{\v_radius}{\X_left}{\Y_common}
+        \Put_Vertex\X_left\Y_common
+        \ifdim\dimen_Z>2\v_radius
+        	\draw_edge{\Right_X}{\Common_Y}{\X_right}{\Y_common}
+        \fi
+        \Put_Vertex\X_right\Y_common
+    \repeat
+  \fi
+}
+
+%  Drawing a symmetric wheel
+\def\_wheel(#1) [#2] (#3,#4) {% #1=n, #2=length of a side, (#3,#4)=center
+  \ifnum #1 < 3
+    \message{error: The wheel must have at least 3 circumferential vertices]}%
+  \else
+  	\if_silent
+		\else
+			\message{<Drawing a wheel with #1 outer vertices...>}%
+		\fi
+    \gen_angle=360pt%
+    \dimen_X=#1pt%
+    \_divide\gen_angle\dimen_X\del_angle%
+    \global\edef\_theta{\no_point\del_angle}%
+    \del_angle=0.5\del_angle%
+    \central_angle=\del_angle%
+    \Sin_Cos {\no_point\del_angle} 
+    \dimen_Z=#2 %
+    \ifdim\dimen_Z<2\v_radius \dimen_Z=2\v_radius\fi% Jan 27
+    \dimen_X=\sine pt%
+    \_divide\dimen_Z\dimen_X\dimen_Z%
+    \dimen_Z=0.5\dimen_Z%
+    \ifdim\dimen_Z<2\v_radius \dimen_Z=2\v_radius \fi% Feb 15
+    \edef\_spoke{\no_point\dimen_Z}%
+    \_x=\sine\dimen_Z%
+    \_divide\_x\x_unit\_x% Jan 15
+    \_y=-\cosine\dimen_Z%
+    \_divide\_y\y_unit\_y% Jan 15
+    \dimen_X=#3 pt%
+    \advance\dimen_X \_x%
+    \edef\X_right{\no_point\dimen_X}%
+    \advance\dimen_X -2\_x%
+    \edef\X_left{\no_point\dimen_X}%
+    \dimen_Y=#4 pt%
+    \advance\dimen_Y \_y%
+    \edef\Y_common{\no_point\dimen_Y}%
+    \Put_Vertex{#3}{#4}%
+    \Put_Vertex\X_left\Y_common
+    \Put_Vertex\X_right\Y_common
+    \draw_edge{\X_left}{\Y_common}{\X_right}{\Y_common} 
+    \loop
+      \dimen_X=\X_left pt%
+      \global\edef\Left_X{\no_point\dimen_X}% 
+      \dimen_X=\X_right pt%
+      \global\edef\Right_X{\no_point\dimen_X}% 
+      \dimen_Y=\Y_common pt%
+      \global\edef\Common_Y{\no_point\dimen_Y}%
+      \global\advance\central_angle \_theta pt%
+      \Sin_Cos {\no_point\central_angle} %
+      \dimen_Z=\_spoke pt%
+      \_x=\sine\dimen_Z%
+      \_divide\_x\x_unit\_x% Jan 15
+      \_y=-\cosine\dimen_Z%
+      \_divide\_y\y_unit\_y% Jan 15
+      \dimen_X=#3 pt%
+      \advance\dimen_X \_x%
+      \global\edef\X_right{\no_point\dimen_X}%
+      \advance\dimen_X -2\_x%
+      \global\edef\X_left{\no_point\dimen_X}%
+      \dimen_Y=#4 pt%
+      \advance\dimen_Y \_y%
+      \global\edef\Y_common{\no_point\dimen_Y}%
+      \draw_edge{\Left_X}{\Common_Y}{\X_left}{\Y_common}%
+      \draw_edge{#3}{#4}{\Right_X}{\Common_Y}
+      \draw_edge{#3}{#4}{\Left_X}{\Common_Y}
+      \ifdim\central_angle>180 pt
+      \else
+        \Put_Vertex\X_left\Y_common
+        \draw_edge{\Right_X}{\Common_Y}{\X_right}{\Y_common}
+        \Put_Vertex\X_right\Y_common
+    \repeat
+  \fi\ignorespaces
+}
+
+%  Drawing a symmetric fan
+\def\_fan(#1) [#2] (#3,#4) {% #1=n, #2=length of a side, (#3,#4)=center
+  \ifnum #1 < 0 
+    \message {The first parameter should be an integer at least 3}%
+  \else
+  	\if_silent
+		\else
+			\message{<Drawing a symmetric fan...>}%
+		\fi
+    \gen_angle=360pt%
+    \dimen_X=#1pt%
+    \_divide\gen_angle\dimen_X\del_angle%
+    \global\edef\_theta{\no_point\del_angle}%
+    \del_angle=0.5\del_angle%
+    \central_angle=\del_angle%
+    \Sin_Cos {\no_point\del_angle} 
+    \dimen_Z=#2 %
+    \ifdim\dimen_Z<2\v_radius \dimen_Z=2\v_radius\fi% Jan 27
+    \dimen_X=\sine pt%
+    \_divide\dimen_Z\dimen_X\dimen_Z%
+    \dimen_Z=0.5\dimen_Z%
+    \ifdim\dimen_Z<2\v_radius \dimen_Z=2\v_radius \fi% Feb 15
+    \edef\_spoke{\no_point\dimen_Z}%
+    \_x=\sine\dimen_Z%
+    \_divide\_x\x_unit\_x% Jan 15
+    \_y=-\cosine\dimen_Z%
+    \_divide\_y\y_unit\_y% Jan 15
+    \dimen_X=#3 pt%
+    \advance\dimen_X \_x%
+    \edef\X_right{\no_point\dimen_X}%
+    \advance\dimen_X -2\_x%
+    \edef\X_left{\no_point\dimen_X}%
+    \dimen_Y=#4 pt%
+    \advance\dimen_Y \_y%
+    \edef\Y_common{\no_point\dimen_Y}%
+    \Put_Vertex{#3}{#4}%
+    \Put_Vertex\X_left\Y_common
+    \Put_Vertex\X_right\Y_common
+    \loop
+      \dimen_X=\X_left pt%
+      \global\edef\Left_X{\no_point\dimen_X}% 
+      \dimen_X=\X_right pt%
+      \global\edef\Right_X{\no_point\dimen_X}% 
+      \dimen_Y=\Y_common pt%
+      \global\edef\Common_Y{\no_point\dimen_Y}%
+      \global\advance\central_angle \_theta pt%
+      \Sin_Cos {\no_point\central_angle} %
+      \dimen_Z=\_spoke pt%
+      \_x=\sine\dimen_Z%
+      \_divide\_x\x_unit\_x% Jan 15
+      \_y=-\cosine\dimen_Z%
+      \_divide\_y\y_unit\_y% Jan 15
+      \dimen_X=#3 pt%
+      \advance\dimen_X \_x%
+      \global\edef\X_right{\no_point\dimen_X}%
+      \advance\dimen_X -2\_x%
+      \global\edef\X_left{\no_point\dimen_X}%
+      \dimen_Y=#4 pt%
+      \advance\dimen_Y \_y%
+      \global\edef\Y_common{\no_point\dimen_Y}%
+      \draw_edge{\Left_X}{\Common_Y}{\X_left}{\Y_common}%
+      \draw_edge{#3}{#4}{\Right_X}{\Common_Y}
+      \draw_edge{#3}{#4}{\Left_X}{\Common_Y} 
+      \ifdim\central_angle>180 pt
+      \else
+        \Put_Vertex\X_left\Y_common
+        \draw_edge{\Right_X}{\Common_Y}{\X_right}{\Y_common}
+        \Put_Vertex\X_right\Y_common
+    \repeat
+  \fi\ignorespaces
+}
+
+%  Drawing a general fan
+\def\_FAN(#1,#2) {%
+	\if_silent
+	\else
+		\message{<Drawing a general fan...>}%
+	\fi
+	\def\AA_{#1}%
+	\def\BB_{#2}%
+	\def\last_X_{#1}%
+  \def\last_Y_{#2}%
+  \path_draw_}
+  
+\def\path_draw_{%
+	\futurelet\next_char\next_spoke}
+
+\def\next_spoke{%
+	\read_char{(}\_Something_\_Nothing_}
+
+\def\_Something_(#1,#2) {%
+	\draw_edge{\last_X_}{\last_Y_}{#1}{#2} 
+	\draw_edge{\AA_}{\BB_}{\last_X_}{\last_Y_}
+  \Put_Vertex\last_X_\last_Y_
+  \def\last_X_{#1}%
+  \def\last_Y_{#2}%
+  \path_draw_}	
+  
+\def\_Nothing_{%
+	\Put_Vertex\last_X_\last_Y_
+	\draw_edge{\last_X_}{\last_Y_}{\AA_}{\BB_} 
+}
+
+%  Drawing a general;ized Petersen graph
+\def\gen_peter(#1,#2) [#3] (#4,#5) {%  Jan 19, 2005
+	\if_silent
+	\else
+		\message{<Drawing a generalized Petersen graph...>}%
+	\fi
+	\edef\_a{#4}%
+	\edef\_b{#5}%
+	\dimen_ZL=360pt
+	\dimen_B=#1pt
+	\_divide\dimen_ZL\dimen_B\dimen_ZL%  360/n degrees
+	\edef\del_Angle{\no_point\dimen_ZL}%
+	\Sin_Cos{\no_point\dimen_ZL}
+	\edef\cosA{\cosine}% cos (theta)
+	\edef\sinA{\sine}% sin (theta)
+	\dimen_X=0.5\dimen_ZL
+	\Sin_Cos{\no_point\dimen_X}
+	\edef\coshalfA{\cosine}% cos (theta/2)
+	\edef\sinhalfA{\sine}% sin (theta/2)
+	\dimen_X=#2\dimen_ZL
+	\dimen_X=0.5\dimen_X
+	\Sin_Cos{\no_point\dimen_X}
+	\edef\cosB{\cosine}% cos (k theta)/2
+	\edef\sinB{\sine}% sin (k theta)/2
+	\dimen_X=#2\dimen_ZL
+	\dimen_X=0.5\dimen_X
+	\advance\dimen_X -0.5\dimen_ZL
+	\Sin_Cos{\no_point\dimen_X}
+	\edef\cosC{\cosine}% cos (k-1)theta/2
+	\edef\sinC{\sine}% sin (k-1)theta/2
+	\dimen_D=#3
+	\ifdim\dimen_D<4\v_radius \dimen_D=4\v_radius \fi% Jan 27
+	\edef\outer_edge{\no_point\dimen_D}%
+	\_divide\dimen_D\x_unit\dimen_X
+	\dimen_X=-0.5\dimen_X
+	\advance\dimen_X #4pt
+	\edef\x_A{\no_point\dimen_X}%
+	\dimen_Y=\outer_edge pt% Jan 27
+	\_divide\dimen_Y\y_unit\dimen_Y
+	\dimen_Y=\coshalfA\dimen_Y
+	\dimen_A=\sinhalfA pt
+	\_divide\dimen_Y\dimen_A\dimen_Y
+	\dimen_Y=-0.5\dimen_Y
+	\advance\dimen_Y #5pt
+	\edef\y_A{\no_point\dimen_Y}%
+	\edef\y_B{\no_point\dimen_Y}%
+	\_divide\dimen_D\x_unit\dimen_X
+	\dimen_X=0.5\dimen_X
+	\advance\dimen_X #4pt
+	\edef\x_B{\no_point\dimen_X}%
+	\advance\dimen_X -#4pt
+	\dimen_X=0.5\dimen_X
+	\advance\dimen_X #4pt
+	\edef\x_C{\no_point\dimen_X}%
+	\dimen_D=\outer_edge pt% Jan 27
+	\dimen_A=\sinhalfA pt
+	\_divide\dimen_D\dimen_A\dimen_Y
+	\_divide\dimen_Y\y_unit\dimen_Y
+	\dimen_Y=\coshalfA\dimen_Y
+	\dimen_Y=-0.25\dimen_Y
+	\advance\dimen_Y #5pt
+	\edef\y_C{\no_point\dimen_Y}%
+	\dimen_D=\outer_edge pt% Jan 27
+	\dimen_A=\sinhalfA pt
+	\_divide\dimen_D\dimen_A\dimen_X
+	\_divide\dimen_X\x_unit\dimen_X
+	\dimen_X=\sinB\dimen_X
+	\dimen_X=\cosC\dimen_X
+	\dimen_X=-0.5\dimen_X
+	\advance\dimen_X \x_C pt
+	\edef\x_D{\no_point\dimen_X}%
+	\dimen_D=\outer_edge pt
+	\dimen_A=\sinhalfA pt
+	\_divide\dimen_D\dimen_A\dimen_Y
+	\_divide\dimen_Y\y_unit\dimen_Y
+	\dimen_Y=\sinB\dimen_Y
+	\dimen_Y=\sinC\dimen_Y
+	\dimen_Y=0.5\dimen_Y
+	\advance\dimen_Y\y_C pt
+	\edef\y_D{\no_point\dimen_Y}%
+	%\ifdim\v_radius>0pt
+		\Put_Vertex\x_B\y_B
+		\Put_Vertex\x_C\y_C
+	%\fi
+	\draw_edge{\x_A}{\y_A}{\x_B}{\y_B}
+	\draw_edge{\x_B}{\y_B}{\x_C}{\y_C}
+	\draw_edge{\x_C}{\y_C}{\x_D}{\y_D}
+	\count_F=1%
+	\loop
+		\cyclic_shift\x_A\y_A\X_A\Y_A
+		\cyclic_shift\x_B\y_B\X_B\Y_B
+		\cyclic_shift\x_C\y_C\X_C\Y_C
+		\cyclic_shift\x_D\y_D\X_D\Y_D
+		%\ifdim\v_radius>0pt
+			\Put_Vertex\X_B\Y_B
+			\Put_Vertex\X_C\Y_C
+		%\fi
+		\draw_edge{\X_A}{\Y_A}{\X_B}{\Y_B}
+		\draw_edge{\X_B}{\Y_B}{\X_C}{\Y_C}
+		\draw_edge{\X_C}{\Y_C}{\X_D}{\Y_D}
+		\advance\count_F 1
+		\ifnum\count_F < #1
+			\advance\dimen_ZL \del_Angle pt
+			\Sin_Cos{\no_point\dimen_ZL}
+			\edef\sinA{\sine}%
+			\edef\cosA{\cosine}%
+	\repeat
+}
+
+\def\cyclic_shift#1#2#3#4{%
+	\dimen_X=#1\x_unit
+	\advance\dimen_X -\_a \x_unit
+	\dimen_Y=#2\y_unit
+	\advance\dimen_Y -\_b \y_unit
+	\dimen_A=\_a \x_unit
+	\advance\dimen_A \cosA\dimen_X
+	\advance\dimen_A -\sinA\dimen_Y
+	\_divide\dimen_A\x_unit\dimen_A% Jan 18 pm
+	\edef#3{\no_point\dimen_A}%
+	\dimen_B=\_b \y_unit
+	\advance\dimen_B \sinA\dimen_X
+	\advance\dimen_B \cosA\dimen_Y
+	\_divide\dimen_B\y_unit\dimen_B% Jan 18
+	\edef#4{\no_point\dimen_B}%
+}	
+
+%  Drawing a complete bipartite graph
+\def\Bipartite_Graph(#1,#2) [#3] (#4,#5) {%
+	\if_silent
+	\else
+		\message{<Drawing a complete bipartite graph...>}%
+	\fi
+	\dimen_Z=#3
+	\_divide\dimen_Z\y_unit\dimen_Z
+	\dimen_Z=0.5\dimen_Z
+	\edef\half_dist{\no_point\dimen_Z}%
+	\dimen_Z=#3
+	\dimen_Z=0.8\dimen_Z
+	\ifdim\dimen_Z<2\v_radius \dimen_Z=2\v_radius \fi
+	\ifdim\v_radius>0pt
+		\ifdim\dimen_Z>10\v_radius \dimen_Z=10\v_radius 
+		\fi
+	\fi
+	\_divide\dimen_Z\x_unit\dimen_Z% Jan 27
+	\edef\v_spacing{\no_point\dimen_Z}% distance between vertices, same set
+	\dimen_X=#1\dimen_Z
+	\advance\dimen_X -\dimen_Z
+	\dimen_X=-0.5\dimen_X
+	\advance\dimen_X #4pt
+	\edef\xtop_first{\no_point\dimen_X}%
+	\dimen_X=#2\dimen_Z
+	\advance\dimen_X -\dimen_Z
+	\dimen_X=-0.5\dimen_X
+	\advance\dimen_X #4pt
+	\edef\xdown_first{\no_point\dimen_X}%
+	\dimen_Y=#5pt
+	\advance\dimen_Y \half_dist pt
+	\edef\y_top{\no_point\dimen_Y}%
+	\dimen_Y=#5pt
+	\advance\dimen_Y -\half_dist pt
+	\edef\y_down{\no_point\dimen_Y}%
+	\Put_Vertex\xtop_first\y_top
+	\Put_Vertex\xdown_first\y_down
+	\count_F=#1
+	\dimen_XX=\xtop_first pt
+	\loop
+		\advance\count_F -1
+		\ifnum\count_F>0
+			\advance\dimen_XX \v_spacing pt
+			\edef\xx_top{\no_point\dimen_XX}%
+			\Put_Vertex\xx_top\y_top
+	\repeat
+	\count_Z=#2
+	\dimen_YY=\xdown_first pt
+	\loop
+		\advance\count_Z -1
+		\ifnum\count_Z>0
+			\advance\dimen_YY \v_spacing pt
+			\Put_Vertex{\no_point\dimen_YY}\y_down
+	\repeat
+	\count_F=#1
+	\dimen_XX=\xtop_first pt
+	\loop
+		\count_E=#2
+		\dimen_YY=\xdown_first pt
+		{\loop
+			\draw_edge{\no_point\dimen_XX}\y_top{\no_point\dimen_YY}\y_down
+			\advance\count_E -1
+			\ifnum\count_E >0
+				\advance\dimen_YY \v_spacing pt
+		\repeat}%
+		\advance\count_F -1 
+		\ifnum\count_F>0
+			\advance\dimen_XX \v_spacing pt
+	\repeat
+}
+
+\def\Complete_Graph(#1) [#2] (#3,#4) {%
+	\if_silent
+	\else
+		\message{<Drawing a complete graph of order #1...>}%
+	\fi
+	\ifnum #1 < 3
+		\message{[error: The graph must have at least 3 vertices]}%
+	\else 
+		\gen_angle=360pt \dimen_X=#1pt
+		\_divide\gen_angle\dimen_X\del_angle
+		\global\edef\_theta{\no_point\del_angle}%
+		\del_angle=0.5\del_angle
+		\central_angle=\del_angle
+		\Sin_Cos{\no_point\del_angle}
+		\dimen_Z=#2  
+		\ifdim\dimen_Z<2\v_radius \dimen_Z=2\v_radius \fi
+		\dimen_X=\sine pt
+		\_divide\dimen_Z\dimen_X\dimen_Z
+		\dimen_Z=0.5\dimen_Z
+		\_x=\sine\dimen_Z
+		\_divide\_x\x_unit\_x
+		\_y=-\cosine\dimen_Z
+		\_divide\_y\y_unit\_y
+		\dimen_X=#3 pt
+		\advance\dimen_X \_x
+		\edef\X_right{\no_point\dimen_X}%
+		\advance\dimen_X -2\_x
+		\edef\X_left{\no_point\dimen_X}%
+		\dimen_Y=#4 pt
+		\advance\dimen_Y \_y
+		\edef\Y_common{\no_point\dimen_Y}%
+		\dimen_X=#1pt
+		\dimen_X=0.5\dimen_X
+		\edef\half_n{\_integer\dimen_X}%
+		\dimen_X=\_theta pt
+		\dimen_X=\half_n\dimen_X
+		\Sin_Cos{\no_point\dimen_X}
+		\edef\sinA{\sine}%
+		\edef\cosA{\cosine}%
+		\del_angle=2\del_angle
+		\edef\X_now{\X_right}%
+		\edef\Y_now{\Y_common}%
+		\dimen_ZL=\_theta pt
+		\Sin_Cos{\_theta}
+		\edef\cos{\cosine}%
+		\edef\sin{\sine}%
+		\_x=\no_point\x_unit\_x
+		\_y=\no_point\y_unit\_y
+		\edef\_xx{\no_point\_x}%
+		\edef\_yy{\no_point\_y}%
+		\count_F=#1
+		\dimen_ZL=0pt
+		\loop
+			\ifdim\v_radius>0pt \Put_Vertex\X_now\Y_now \fi
+			\dimen_XX=\_xx pt
+			\dimen_YY=\_yy pt
+			\X_zero=\dimen_XX
+			\Y_zero=\dimen_YY
+			\count_Z=\half_n
+			{\loop
+				\dimen_A=\cos\X_zero
+				\advance\dimen_A -\sin\Y_zero
+				\edef\x_x{\no_point\dimen_A}%
+				\_divide\dimen_A\x_unit\dimen_A
+				\advance\dimen_A #3pt
+				\dimen_B=\sin\X_zero
+				\advance\dimen_B \cos\Y_zero
+				\edef\y_y{\no_point\dimen_B}%
+				\_divide\dimen_B\y_unit\dimen_B
+				\advance\dimen_B #4pt
+				\draw_edge{\X_now}{\Y_now}{\no_point\dimen_A}{\no_point\dimen_B}
+				\advance\count_Z -1
+				\ifnum\count_Z > -1
+					\X_zero=\x_x pt
+					\Y_zero=\y_y pt
+			\repeat}%
+			\advance\count_F -1
+			\ifnum\count_F>0
+				\advance\dimen_ZL \del_angle
+				\Sin_Cos{\no_point\dimen_ZL}
+				\dimen_XX=\_x 
+				\dimen_YY=\_y 
+				\dimen_AL=\cosine\dimen_XX
+				\advance\dimen_AL -\sine\dimen_YY
+				\edef\_xx{\no_point\dimen_AL}%
+				\_divide\dimen_AL\x_unit\dimen_AL
+				\advance\dimen_AL #3pt
+				\edef\X_now{\no_point\dimen_AL}%
+				\dimen_BL=\sine\dimen_XX
+				\advance\dimen_BL \cosine\dimen_YY
+				\edef\_yy{\no_point\dimen_BL}%
+				\_divide\dimen_BL\y_unit\dimen_BL
+				\advance\dimen_BL #4pt
+				\edef\Y_now{\no_point\dimen_BL}%
+		\repeat
+	\fi
+}
+
+%  Drawing a planar grid (cartesian product of two paths
+\def\planar_grid(#1,#2) [#3] (#4,#5) {%
+	\if_silent
+	\else
+		\message{<Drawing a planar grid...>}%
+	\fi
+	\dimen_D=#3
+	\dimen_X=#1\dimen_D
+	\advance\dimen_X -\dimen_D
+	\_divide\dimen_X\x_unit\dimen_X
+	\dimen_X=-0.5\dimen_X
+	\advance\dimen_X #4 pt
+	\edef\x_left{\no_point\dimen_X}%
+	\dimen_Y=#2\dimen_D
+	\advance\dimen_Y -\dimen_D
+	\_divide\dimen_Y\y_unit\dimen_Y
+	\dimen_Y=-0.5\dimen_Y
+	\advance\dimen_Y #5pt
+	\edef\y_down{\no_point\dimen_Y}%
+	\global\count_F=#1
+	\dimen_A=\x_left pt
+	\dimen_B=\y_down pt
+	\edef\_xx{\x_left}%
+	\edef\_yy{\y_down}%
+	\_divide\dimen_D\x_unit\dimen_AP
+	\_divide\dimen_D\y_unit\dimen_BP
+	\loop
+		\count_Z=#2
+		\edef\_yy{\y_down}%
+		{\loop
+			\advance\count_Z -1
+			\ifnum\count_Z>-1
+				%\Put_Circle\v_radius\_xx\_yy
+				\Put_Vertex\_xx\_yy
+				\dimen_YL=\_yy pt
+				\advance\dimen_YL\dimen_BP
+				\ifnum\count_Z>0 
+					\draw_edge\_xx\_yy\_xx{\no_point\dimen_YL}
+				\fi
+				\edef\_yy{\no_point\dimen_YL}%
+		\repeat}%
+		\advance\count_F -1
+		\ifnum\count_F>0
+			\dimen_XL=\_xx pt
+			\advance\dimen_XL \dimen_AP
+			\edef\_xx{\no_point\dimen_XL}%
+	\repeat
+	\count_Z=#2
+	\edef\_xx{\x_left}%
+	\edef\_yy{\y_down}%
+	\loop
+		\count_F=#1
+		{\loop
+			\dimen_XL=\_xx pt
+			\global\advance\dimen_XL\dimen_AP
+			\ifnum\count_F>1
+				\draw_edge\_xx\_yy{\no_point\dimen_XL}\_yy
+			\fi
+			\edef\_xx{\no_point\dimen_XL}%
+			\advance\count_F -1
+			\ifnum\count_F>1
+		\repeat}%
+		\advance\count_Z -1
+		\ifnum\count_Z>0
+			\dimen_YL=\_yy pt
+			\global\advance\dimen_YL\dimen_BP
+			\global\edef\_yy{\no_point\dimen_YL}%
+			\global\edef\_xx{\x_left}%
+	\repeat
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Directed graphs
+
+%  Arc (straight, with arrow-head)
+\def\_arc(#1,#2) (#3,#4) {%
+	\if_silent
+	\else
+		\message{<Drawing an arrow...>}%
+	\fi
+   \dimen_A=#1 pt \advance\dimen_A #3 pt \dimen_A=0.501\dimen_A%
+   \dimen_B=#2 pt \advance\dimen_B #4 pt \dimen_B=0.501\dimen_B%
+   \edef\X_m{\no_point\dimen_A}%
+   \edef\Y_m{\no_point\dimen_B}%
+   \directed_arc(#1,#2) (\X_m,\Y_m) (#3,#4)
+}
+
+%  Set of arcs in the plane (straight, with arrow-head)
+\def\arc_set{%
+	\if_silent
+	\else
+		\message{<Drawing a set of arrows...>}%
+	\fi
+	\arc_set_}
+	
+\def\arc_set_{%
+	\futurelet\next_char\next_arc}
+
+\def\next_arc{%
+	\read_char{(}\do_put_arc\do_nothing}
+
+\def\do_put_arc(#1,#2) (#3,#4) {%
+	\x_now=#3pt
+	\advance\x_now -#1pt
+	\ifdim\x_now<0pt \x_now=-\x_now\fi
+	\y_now=#4pt
+	\advance\y_now -#2 pt
+	\ifdim\y_now<0pt \y_now=-\y_now\fi
+	\advance\x_now\y_now
+	\ifdim\x_now=0pt \arc_length=0pt
+	\else
+   	\dimen_A=#1 pt \advance\dimen_A #3 pt \dimen_A=0.501\dimen_A%
+   	\dimen_B=#2 pt \advance\dimen_B #4 pt \dimen_B=0.501\dimen_B%
+   	\edef\X_m{\no_point\dimen_A}%
+   	\edef\Y_m{\no_point\dimen_B}%
+   	\directed_arc(#1,#2) (\X_m,\Y_m) (#3,#4) %	
+  \fi
+	\arc_set_
+	}
+
+%  Set of arcs in R^3 (straight, with arrow-head)
+\def\Arc_Set{%
+	\if_silent
+	\else
+		\message{<Drawing a set of arrows in space...>}%
+	\fi
+	\Arc_Set_}
+	
+\def\Arc_Set_{%
+	\futurelet\next_char\next_ARC}
+
+\def\next_ARC{%
+	\read_char{(}\do_put_arc_\do_nothing}
+
+\def\do_put_arc_(#1,#2,#3) (#4,#5,#6) {%
+	\_map{#1}{#2}{#3}\x_map_one\y_map_one
+	\_map{#4}{#5}{#6}\x_map_two\y_map_two
+	\x_now=\x_map_two pt
+	\advance\x_now -\x_map_one pt
+	\ifdim\x_now<0pt \x_now=-\x_now\fi
+	\y_now=\y_map_two pt
+	\advance\y_now -\y_map_one pt
+	\ifdim\y_now<0pt \y_now=-\y_now\fi
+	\advance\x_now\y_now
+	\ifdim\x_now=0pt \arc_length=0pt
+	\else
+   	\dimen_A=\x_map_one pt \advance\dimen_A \x_map_two pt 										\dimen_A=0.501\dimen_A%
+   	\dimen_B=\y_map_one pt \advance\dimen_B \y_map_two pt 										\dimen_B=0.501\dimen_B%
+   	\edef\X_m{\no_point\dimen_A}%
+   	\edef\Y_m{\no_point\dimen_B}%
+   	\directed_arc(\x_map_one,\y_map_one) (\X_m,\Y_m)													(\x_map_two,\y_map_two) %	
+  \fi
+	\Arc_Set_
+	}
+	
+%  Curved directed arc
+\def\directed_arc(#1,#2) (#3,#4) (#5,#6) {%
+	\curved_edge(#1,#2) (#3,#4) (#5,#6)
+	\arrow_head
+}
+
+\def\directed_arc_set{%
+	\if_silent
+	\else
+		\message{<Drawing a set of curved arrows...>}%
+	\fi
+	\directed_arc_set_}
+	
+\def\directed_arc_set_{%
+	\futurelet\next_char\next_darc}
+
+\def\next_darc{%
+	\read_char{(}\put_next_ARC\do_nothing}
+
+\def\put_next_ARC(#1,#2) (#3,#4) (#5,#6) {%
+	\directed_arc(#1,#2) (#3,#4) (#5,#6)
+	\directed_arc_set_
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Three-dimensional graphs
+
+%  Vertices in three-dimensional spaces	
+\def\VERTEX_SET{%
+	\if_silent
+	\else
+		\message{<Drawing a set of vertices in space...>}%
+	\fi
+	\VERTEX_SET_}
+	
+\def\VERTEX_SET_{%
+	\futurelet\next_char\next_VERTEX}
+
+\def\next_VERTEX{%
+	\read_char{(}\_VERTEX\do_nothing}
+
+\def\_VERTEX(#1,#2,#3) {%
+	\_map{#1}{#2}{#3}\V_X\V_Y
+	\ifvertex_dashes 
+		{\_dashestrue 
+		\Put_Vertex\V_X\V_Y
+		}%
+	\else
+		\Put_Vertex\V_X\V_Y
+	\fi
+	\VERTEX_SET_
+}
+
+%  Set of edges in three-dimensional spaces
+\def\EDGE_SET{%
+	\if_silent
+	\else
+		\message{<Drawing a set of edges in space...>}%
+	\fi
+	\EDGE_SET_}
+	
+\def\EDGE_SET_{%
+	\futurelet\next_char\next_EDGE}
+
+\def\next_EDGE{%
+	\read_char{(}\DRAW_EDGE\do_nothing}
+
+\def\DRAW_EDGE(#1,#2,#3) (#4,#5,#6) {%
+	\_map{#1}{#2}{#3}\X_ONE\Y_ONE
+	\_map{#4}{#5}{#6}\X_TWO\Y_TWO
+	\draw_edge\X_ONE\Y_ONE\X_TWO\Y_TWO
+	\EDGE_SET_}
+	
+%  Path (graph) in three-dimensional space
+\def\_PATH(#1,#2,#3) {%
+	\if_silent
+	\else
+		\message{<Drawing a path in space...>}%
+	\fi
+	\edef\previous_X{#1}%
+  \edef\previous_Y{#2}%
+  \edef\previous_Z{#3}%
+  \DRAW_PATH
+}
+
+\def\DRAW_PATH{%
+	\futurelet\next_char\next_LINK}
+
+\def\next_LINK{%
+	\read_char{(}\_CONTINUE\_NOTHING}
+
+\def\_NOTHING{%
+  \_map{\previous_X}{\previous_Y}{\previous_Z}\_XX\_YY
+	\Put_Vertex\_XX\_YY
+}
+
+\def\_CONTINUE(#1,#2,#3) {%
+  \_map{\previous_X}{\previous_Y}{\previous_Z}\_XX\_YY
+  \_map{#1}{#2}{#3}\XX_\YY_
+	\draw_edge{\_XX}{\_YY}{\XX_}{\YY_} 
+  \Put_Vertex\_XX\_YY
+  \edef\previous_X{#1}%
+  \edef\previous_Y{#2}%
+  \edef\previous_Z{#3}%
+  \DRAW_PATH}		
+
+%  Box graph
+\def\Box_Graph(#1,#2,#3) (#4,#5,#6) {%
+	\if_silent
+	\else
+		\message{<Drawing a box graph...>}%
+	\fi
+	\PATH(#1,#2,#3) (#1,#2,#6) (#1,#5,#6) (#1,#5,#3) (#1,#2,#3)
+		(#4,#2,#3) (#4,#2,#6) (#4,#5,#6) (#4,#5,#3) (#4,#2,#3)
+	\EDGE(#1,#2,#6) (#4,#2,#6) (#4,#5,#6) (#1,#5,#6) (#1,#5,#3) (#4,#5,#3)
+}
+
+%  Translation in three-dimensional space
+\def\_TRANSLATE(#1,#2,#3) (#4,#5,#6) {%
+	\if_silent
+	\else
+		\message{<Translating by the vector from (#1,#2,#3) to (#4,#5,#6)...>}%
+	\fi
+	\_map{#1}{#2}{#3}\_al\_bl
+	\_map{#4}{#5}{#6}\_all\_bll
+	\_translate(\_al,\_bl) (\_all,\_bll)
+}
+
+%  Rotation of three-dimensional drawing
+\def\_ROTATE[#1] (#2,#3,#4) {%
+	\if_silent
+	\else
+		\message{<ROTATING about the projection of (#1,#2,#3) through #1 	 degrees>}%
+	 \fi
+	\_map{#2}{#3}{#4}\a_l\b_l
+	\_rotate[#1] (\a_l,\b_l)
+}
+
+%  Reflection of three-dimensional drawing
+\def\_REFLECT(#1,#2,#3) (#4,#5,#6) {%
+	\if_silent
+	\else
+		\message{<REFLECTING with respect to the projection of the line through (#1,#2,#3) and (#4,#5,#6)>}%
+	\fi
+	\_map{#1}{#2}{#3}\x_l\y_l
+	\_map{#4}{#5}{#6}\x_r\y_r
+	\_reflect(\x_l,\y_l) (\x_r,\y_r)
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Alignment in three-dimensional space
+\def\_align_{%
+	\if_silent
+	\else
+		\message{<Aligning in three-dimensional space...>}%
+	\fi
+	\count_A=0\_Align_}
+
+\def\_Align_{%
+	\futurelet\next_char\test_next_char}
+
+\def\test_next_char{%
+	\read_char{]}\_process_{\advance\count_A 1\get_next_}}
+
+\def\get_next_#1{%
+	\ifnum\count_A=1
+		\let\_xx#1\let\_yy=d%
+	\else
+		\let\_yy#1%
+	\fi
+	\_Align_
+}
+
+\def\_process_] (#1) {%
+	\setbox\obj_box=\hbox{#1}%
+	\dimen_AL=\wd\obj_box%
+	\check_for_more_
+}
+
+\def\check_for_more_{%
+	\futurelet\next_char\check_next}
+
+\def\check_next{%
+	\read_char{(}\add_box_\do_nothing}
+
+\def\add_box_(#1,#2,#3) {%
+	\_map{#1}{#2}{#3}\_one\_two
+	\transform_point\_one\_two\A_L\B_L%
+	\dimen_XT=\A_L pt
+	\dimen_YT=\B_L pt
+	\ifx c\_xx% Center
+		\advance\dimen_XT-0.5\wd\obj_box%
+		\advance\dimen_YT-0.5\ht\obj_box%
+		\advance\dimen_YT0.5\dp\obj_box%
+	\else
+		\ifx t\_xx% Top
+			\advance\dimen_XT-0.5\wd\obj_box%
+			\advance\dimen_YT-\ht\obj_box%
+		\else
+			\ifx b\_xx% Bottom
+				\advance\dimen_XT-0.5\wd\obj_box%
+				\advance\dimen_YT\dp\obj_box%
+			\else
+				\ifx r\_xx% Right
+					\advance\dimen_XT-\wd\obj_box%
+					\advance\dimen_YT-0.5\ht\obj_box%
+					\advance\dimen_YT0.5\dp\obj_box%
+				\else
+					\ifx l\_xx
+						\ifx l\_yy% Lower Left
+							\advance\dimen_YT\dp\obj_box%
+						\else
+							\ifx r\_yy% Lower Right
+							\advance\dimen_XT-\wd\obj_box%
+							\advance\dimen_YT\dp\obj_box%	
+					\else% Left
+						\advance\dimen_YT-0.5\ht\obj_box%
+						\advance\dimen_YT0.5\dp\obj_box%	
+					\fi%
+				\fi%
+				\else
+					\ifx u\_xx 
+						\ifx l\_yy% Upper Left
+							\advance\dimen_YT-\ht\obj_box%
+						\else
+							\ifx r\_yy% Upper Right
+								\advance\dimen_XT-\wd\obj_box%
+								\advance\dimen_YT-\ht\obj_box%
+							\else% Center
+								\advance\dimen_XT-0.5\wd\obj_box%
+								\advance\dimen_YT-0.5\ht\obj_box%
+								\advance\dimen_YT0.5\dp\obj_box%
+							\fi
+						\fi
+						\else% Center
+							\advance\dimen_XT-0.5\wd\obj_box%
+							\advance\dimen_YT-0.5\ht\obj_box%
+							\advance\dimen_YT0.5\dp\obj_box%
+						\fi
+					\fi
+				\fi
+			\fi
+		\fi
+	\fi%
+	\wd\obj_box=0pt%
+	\kern\dimen_XT\raise\dimen_YT\copy\obj_box\kern-\dimen_XT%
+	\wd\obj_box=\dimen_AL%
+	\x_now=\dimen_XT\y_now=\dimen_YT%
+	\advance\y_now\ht\obj_box%
+	\test_xy%
+	\advance\x_now\wd\obj_box%
+	\advance\y_now-\ht\obj_box%
+	\advance\y_now-\dp\obj_box%
+	\test_xy%
+	\check_for_more_%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Miscellaneous macros
+
+%  Shading (hatches)
+\def\line_interval#1 {%
+	\edef\hatch_interval{#1}%
+}
+
+\line_interval 3pt % default
+
+%  Shading a circle
+\def\shade_circle[#1] (#2,#3) {{%
+	\_X=#1
+	\_divide\_X\x_unit\_X
+	\_A=#2pt
+	\advance\_A \_X
+	\edef\x_right{\no_point\_A}%
+	\advance\_A -2\_X
+	\edef\x_left{\no_point\_A}%
+	\draw_line\x_left{#3}\x_right{#3}%
+	\_Z=#1
+	\_Z=\no_point\_Z\_Z%   radius squared
+	\_B=0pt
+	\loop
+		\advance\_B \hatch_interval
+		\_Y=\_B
+		\ifdim\_Y<#1
+			\_A=\no_point\_B\_B
+			\advance\_A -\_Z
+			\_A=-\_A
+			\sq_root\_A\x_half
+			\_X=\x_half pt
+			\_divide\_X\x_unit\_X
+			\_A=#2pt
+			\advance\_A\_X
+			\edef\x_right{\no_point\_A}%
+			\advance\_A -2\_X
+			\edef\x_left{\no_point\_A}%
+			\_Y=\_B
+			\_divide\_Y\y_unit\_Y
+			\_X=#3pt
+			\advance\_X \_Y
+			\edef\y_up{\no_point\_X}%
+			\advance\_X -2\_Y
+			\edef\y_down{\no_point\_X}%
+			\draw_line\x_left\y_up\x_right\y_up
+			\draw_line\x_left\y_down\x_right\y_down
+	\repeat
+}%
+}
+
+%  Shading an ellipse
+\def\Shade_Ellipse[#1] (#2,#3) (#4,#5) {%
+	\edef\x_one{#2}%
+	\edef\y_one{#3}%
+	\_Z=#1
+	\_X=#4pt
+	\_X=2\_X
+	\advance\_X -#2pt
+	\edef\x_two{\no_point\_X}%
+	\_Y=#5pt
+	\_Y=2\_Y
+	\advance\_Y -#3pt
+	\edef\y_two{\no_point\_Y}%
+	\draw_line\x_one\y_one\x_two\y_two
+	\_X=#4pt
+	\advance\_X-#2pt
+	\_X=\no_point\x_unit\_X
+	\_Y=#5pt
+	\advance\_Y -#3pt
+	\_Y=\no_point\y_unit\_Y
+	\_hypotenuse\_X\_Y\_Z
+	\edef\semi_major{\no_point\_Z}%
+	\_divide\_X\_Z\_A
+	\_B=\_A
+	\_divide\_B\x_unit\_B
+	\edef\_cos{\no_point\_B}%
+	\_divide\_A\y_unit\_A
+	\edef\_Cos{\no_point\_A}%
+	\_divide\_Y\_Z\_B
+	\_A=\_B
+	\_divide\_A\y_unit\_A
+	\edef\_sin{\no_point\_A}%
+	\_divide\_B\x_unit\_B
+	\edef\_Sin{\no_point\_B}%
+	\_Z=#1
+	\edef\semi_minor{\no_point\_Z}%
+	\_C=0pt
+	\loop
+		\advance\_C \hatch_interval 
+		\_Y=\_C
+		\ifdim\_Y < \semi_minor pt
+			\_B=\_C
+			\_A=\semi_minor pt
+			\_divide\_B\_A\_B
+			\_B=\no_point\_C\_B
+			\_divide\_B\_A\_B
+			\advance\_B -1pt
+			\_B=-\_B
+			\sq_root\_B\_sr
+			\_A=\_sr pt
+			\_A=\semi_major\_A
+			\_X=#4pt
+			\advance\_X -\_Sin\_C
+			\advance\_X \_cos\_A
+			\edef\x_two{\no_point\_X}%
+			\_X=#4pt
+			\advance\_X -\_Sin\_C
+			\advance\_X -\_cos\_A
+			\edef\x_one{\no_point\_X}%
+			\_Y=#5pt
+			\advance\_Y \_Cos\_C
+			\advance\_Y \_sin\_A
+			\edef\y_two{\no_point\_Y}%
+			\_Y=#5pt
+			\advance\_Y \_Cos\_C
+			\advance\_Y -\_sin\_A
+			\edef\y_one{\no_point\_Y}%
+			\Line(\x_one,\y_one) (\x_two,\y_two)
+			\_X=#4pt
+			\advance\_X \_Sin\_C
+			\advance\_X \_cos\_A
+			\edef\x_two{\no_point\_X}%
+			\_X=#4pt
+			\advance\_X \_Sin\_C
+			\advance\_X -\_cos\_A
+			\edef\x_one{\no_point\_X}%
+			\_Y=#5pt
+			\advance\_Y -\_Cos\_C
+			\advance\_Y \_sin\_A
+			\edef\y_two{\no_point\_Y}%
+			\_Y=#5pt
+			\advance\_Y -\_Cos\_C
+			\advance\_Y -\_sin\_A
+			\edef\y_one{\no_point\_Y}%
+			\draw_line\x_one\y_one\x_two\y_two
+	\repeat
+}
+
+\def\Ellipse_Shade[#1] (#2,#3) (#4,#5) {%
+	\_X=#4pt
+	\advance\_X-#2pt
+	\_X=\no_point\x_unit\_X
+	\_Y=#5pt
+	\advance\_Y -#3pt
+	\_Y=\no_point\y_unit\_Y
+	\_hypotenuse\_X\_Y\_Z
+	\edef\semi_major{\no_point\_Z}%
+	\_divide\_X\_Z\_A
+	\_B=\_A
+	\_divide\_B\x_unit\_B
+	\edef\_cos{\no_point\_B}%
+	\_divide\_A\y_unit\_A
+	\edef\_Cos{\no_point\_A}%
+	\_divide\_Y\_Z\_B
+	\_A=\_B
+	\_divide\_A\y_unit\_A
+	\edef\_sin{\no_point\_A}%
+	\_divide\_B\x_unit\_B
+	\edef\_Sin{\no_point\_B}%
+	\_Z=#1
+	\edef\semi_minor{\no_point\_Z}%
+	\_C=0pt
+	\_A=\semi_minor pt
+	\_X=#4pt
+	\advance\_X \_Sin\_A
+	\edef\x_two{\no_point\_X}%
+	\_X=#4pt
+	\advance\_X -\_Sin\_A
+	\edef\x_one{\no_point\_X}%
+	\_Y=#5pt
+	\advance\_Y -\_Cos\_A
+	\edef\y_two{\no_point\_Y}%
+	\_Y=#5pt
+	\advance\_Y \_Cos\_A
+	\edef\y_one{\no_point\_Y}%
+	\draw_line\x_one\y_one\x_two\y_two
+	\loop
+		\advance\_C \hatch_interval
+		\_Y=\_C
+		\ifdim\_Y < \semi_major pt
+			\_B=\_C
+			\_A=\semi_major pt
+			\_divide\_B\_A\_B
+			\_B=\no_point\_C\_B
+			\_divide\_B\_A\_B
+			\advance\_B -1pt
+			\_B=-\_B
+			\sq_root\_B\_sr
+			\_A=\_sr pt
+			\_A=\semi_minor\_A
+			\_X=#4pt
+			\advance\_X -\_cos\_C
+			\advance\_X -\_Sin\_A
+			\edef\x_two{\no_point\_X}%
+			\_X=#4pt
+			\advance\_X -\_cos\_C
+			\advance\_X \_Sin\_A
+			\edef\x_one{\no_point\_X}%
+			\_Y=#5pt
+			\advance\_Y -\_sin\_C
+			\advance\_Y \_Cos\_A
+			\edef\y_two{\no_point\_Y}%
+			\_Y=#5pt
+			\advance\_Y -\_sin\_C
+			\advance\_Y -\_Cos\_A
+			\edef\y_one{\no_point\_Y}%
+			\draw_line\x_one\y_one\x_two\y_two
+			\_X=#4pt
+			\advance\_X \_cos\_C
+			\advance\_X -\_Sin\_A
+			\edef\x_two{\no_point\_X}%
+			\_X=#4pt
+			\advance\_X \_cos\_C
+			\advance\_X \_Sin\_A
+			\edef\x_one{\no_point\_X}%
+			\_Y=#5pt
+			\advance\_Y \_sin\_C
+			\advance\_Y \_Cos\_A
+			\edef\y_two{\no_point\_Y}%
+			\_Y=#5pt
+			\advance\_Y \_sin\_C
+			\advance\_Y -\_Cos\_A
+			\edef\y_one{\no_point\_Y}%
+			\draw_line\x_one\y_one\x_two\y_two
+	\repeat
+}
+
+%  Shading a rectangle
+
+\def\Shade_Rectangle[#1] (#2,#3) (#4,#5) {%
+	\ifx h#1%
+		\Horizontal_Shade{#2}{#3}{#4}{#5}%
+	\else
+		\ifx v#1%
+			\Vertical_Shade{#2}{#3}{#4}{#5}%
+		\else
+			\ifx d#1%
+				\Diagonal_Shade{#2}{#3}{#4}{#5}%
+			\fi
+		\fi
+	\fi
+}
+
+\def\Horizontal_Shade#1#2#3#4{%
+	\_Y=#2pt
+	\advance\_Y #4pt
+	\divide\_Y by 2
+	\edef\y_present{\no_point\_Y}%
+	\draw_line{#1}\y_present{#3}\y_present
+	\_Y=#2pt
+	\advance\_Y -#4pt
+	\ifdim\_Y<0pt \_Y=-\_Y \fi
+	\divide\_Y by 2
+	\_Y=\no_point\y_unit\_Y
+	\edef\half_width{\no_point\_Y}%
+	\_B=0pt
+	\_divide\_A\y_unit\_A
+	\loop
+		\advance\_B \hatch_interval
+		\_Y=\_B
+		\ifdim\_Y<\half_width pt
+			\_Y=\y_present pt
+			\_A=\_B
+			\_divide\_A\y_unit\_A
+			\advance\_Y \_A
+			\edef\y_up{\no_point\_Y}%
+			\advance\_Y -2\_A
+			\edef\y_down{\no_point\_Y}%
+			\draw_line{#1}\y_up{#3}\y_up
+			\draw_line{#1}\y_down{#3}\y_down
+	\repeat
+}
+
+\def\Vertical_Shade#1#2#3#4{%
+	\_X=#1pt
+	\advance\_X #3pt
+	\divide\_X by 2
+	\edef\x_present{\no_point\_X}%
+	\draw_line\x_present{#2}\x_present{#4}%
+	\_X=#1pt
+	\advance\_X -#3pt
+	\ifdim\_X < 0pt \_X=-\_X \fi
+	\divide\_X by 2
+	\_X=\no_point\x_unit\_X
+	\edef\half_length{\no_point\_X}%
+	\_A=0pt
+	\loop
+		\advance\_A \hatch_interval
+		\_X=\_A
+		\ifdim\_X < \half_length pt
+			\_X=\x_present pt
+			\_B=\_A
+			\_divide\_B\x_unit\_B
+			\advance\_X \_B
+			\edef\x_right{\no_point\_X}%
+			\advance\_X -2\_B
+			\edef\x_left{\no_point\_X}%
+			\draw_line\x_left{#2}\x_left{#4}%
+			\draw_line\x_right{#2}\x_right{#4}%
+	\repeat
+}
+
+\def\Diagonal_Shade#1#2#3#4{%
+	\ifdim #1pt < #3pt 
+		\edef\left_most{#1}%
+		\edef\right_most{#3}%
+	\else
+		\edef\left_most{#3}%
+		\edef\right_most{#1}%
+	\fi
+	\ifdim #2pt < #4pt
+		\edef\bottom_most{#2}%
+		\edef\top_most{#4}%
+	\else
+		\edef\bottom_most{#4}%
+		\edef\top_most{#2}%
+	\fi
+	\_X=#1 pt
+	\advance\_X #3pt
+	\divide\_X by 2
+	\edef\x_center{\no_point\_X}%
+	\_Y=#2pt
+	\advance\_Y #4pt
+	\divide\_Y by 2
+	\edef\y_center{\no_point\_Y}%
+	\_Z=\hatch_interval
+	\_Z=1.41421\_Z
+	\_divide\_Z\x_unit\_Z
+	\_X=\right_most pt
+	\advance\_X - \left_most pt
+	\_X=\no_point\x_unit\_X
+	\edef\hor_dim{\no_point\_X}%
+	\_Y=\top_most pt
+	\advance\_Y -\bottom_most pt
+	\_Y=\no_point\y_unit\_Y
+	\edef\ver_dim{\no_point\_Y}%
+	\_Z=\hatch_interval
+	\_Z=1.41421\_Z
+	\ifdim\ver_dim pt < \hor_dim pt
+		\_X=\ver_dim pt
+		\_divide\_X\x_unit\_X
+		\_A=\x_center pt
+		\advance\_A 0.5\_X
+		\edef\x_right{\no_point\_A}%
+		\advance\_A -\_X
+		\edef\x_left{\no_point\_A}%
+		\draw_line\x_left\bottom_most\x_right\top_most%
+		\_B=0pt
+		\_X=\hor_dim pt
+		\advance\_X -\ver_dim pt
+		\divide\_X by 2
+		\edef\x_limit{\no_point\_X}%
+		\edef\right_x{\x_right}%
+		\loop
+			\advance\_B \_Z
+			\_X=\_B
+			\ifdim\_X < \x_limit pt
+				\_divide\_X\x_unit\_X 
+				\_A=\x_left pt
+				\advance\_A \_X
+				\edef\left_x{\no_point\_A}%
+				\_A=\x_right pt
+				\advance\_A \_X
+				\edef\right_x{\no_point\_A}%
+				\draw_line\left_x\bottom_most\right_x\top_most
+				\_A=\x_left pt
+				\advance\_A -\_X
+				\edef\left_x{\no_point\_A}%
+				\_A=\x_right pt
+				\advance\_A -\_X
+				\edef\right_x{\no_point\_A}%
+				\draw_line\left_x\bottom_most\right_x\top_most
+		\repeat
+		\_B=\right_x pt
+		\_divide\_Z\x_unit\_Z % added, aug 10
+		\loop
+			\advance\_B -\_Z
+			\ifdim\_B > \left_most pt
+				\_X=\_B
+				\advance\_X -\left_most pt
+				\_X=\no_point\x_unit\_X   
+				\_divide\_X\y_unit\_X
+				\_Y=\top_most pt
+				\advance\_Y -\_X
+				\edef\y_left{\no_point\_Y}%
+				\_X=\right_x pt
+				\advance\_X -\_Z
+				\edef\x_right{\no_point\_X}%
+				\draw_line\left_most\y_left\x_right\top_most
+				\_X=\x_center pt
+				\multiply\_X by 2
+				\advance\_X -\x_right pt
+				\_Y=\y_center pt
+				\multiply \_Y by 2
+				\advance\_Y -\y_left pt
+				\draw_line{\no_point\_X}\bottom_most\right_most{\no_point\_Y}%
+				\edef\right_x{\x_right}%
+		\repeat
+	\else
+		\_Y=\hor_dim pt
+		\_divide\_Y\y_unit\_Y
+		\_A=\y_center pt
+		\advance\_A 0.5\_Y
+		\edef\y_up{\no_point\_A}%
+		\advance\_A -\_Y
+		\edef\y_down{\no_point\_A}%
+		\draw_line\left_most\y_down\right_most\y_up
+		\_B=0pt
+		\_Y=\ver_dim pt
+		\advance\_Y -\hor_dim pt
+		\divide\_Y by 2
+		\edef\y_limit{\no_point\_Y}%
+		\edef\up_y{\y_up}%
+		\loop
+			\advance\_B \_Z
+			\ifdim\_B < \y_limit pt
+				\_Y=\_B
+				\_divide\_Y\y_unit\_Y
+				\_A=\y_up pt
+				\advance\_A \_Y
+				\edef\up_y{\no_point\_A}%
+				\_A=\y_down pt
+				\advance\_A \_Y
+				\edef\down_y{\no_point\_A}%
+				\draw_line\left_most\down_y\right_most\up_y
+				\_A=\y_up pt
+				\advance\_A -\_Y
+				\edef\up_y{\no_point\_A}%
+				\_A=\y_down pt
+				\advance\_A -\_Y
+				\edef\down_y{\no_point\_A}%
+				\draw_line\left_most\down_y\right_most\up_y
+		\repeat
+		\_B=\up_y pt
+		\_divide\_Z\y_unit\_Z
+		\loop
+			\advance\_B  -\_Z
+			\ifdim\_B > \bottom_most pt
+				\_Y=\_B
+				\advance\_Y -\bottom_most pt
+				\_Y=\no_point\y_unit\_Y
+				\_divide\_Y\x_unit\_Y
+				\_X=\right_most pt
+				\advance\_X -\_Y
+				\edef\x_left{\no_point\_X}%
+				\_Y=\up_y pt
+				\advance\_Y -\_Z
+				\edef\y_up{\no_point\_Y}%
+				\draw_line\x_left\bottom_most\right_most\y_up
+				\_Y=\y_center pt
+				\multiply \_Y by 2
+				\advance\_Y -\y_up pt
+				\_X=\x_center pt			
+				\multiply \_X by 2
+				\advance\_X -\x_left pt
+				\draw_line\left_most{\no_point\_Y}{\no_point\_X}\top_most
+				\edef\up_y{\y_up}%
+		\repeat
+	\fi
+}
+
+%  Marks on the coordinate axes
+
+%  Two-dimensional
+\def\x_tick{{%
+	\sub_picture\start_picture \x_unit 1pt\y_unit1pt													\draw_line{0}{-2}{0}{2} \end_picture}}
+	
+\def\y_tick{{%
+	\sub_picture\start_picture \x_unit 1pt\y_unit1pt
+	\draw_line{-2}{0}{2}{0} \end_picture}}
+
+%  Three-dimensional
+\def\XY_TICK{% on the x-axis, parallel to the y axis
+	\sub_picture\start_picture \x_unit1pt \y_unit1pt \z_unit 1pt
+	\POLY_LINE(0,-2,0) (0,2,0) \end_picture}
+	
+\def\XZ_TICK{% on the x-axis, parallel to the z-axis
+	\sub_picture\start_picture \x_unit1pt \y_unit1pt \z_unit 1pt
+	\POLY_LINE(0,0,-2) (0,0,2) \end_picture}
+
+\def\YX_TICK{% on the y-axis,  parallel to the z-axis
+	\sub_picture\start_picture \x_unit1pt \y_unit1pt \z_unit 1pt
+	\POLY_LINE(-2,0,0) (2,0,0) \end_picture}
+	
+\def\YZ_TICK{% on the y-axis, parallel to the z-axis
+	\XZ_TICK}
+
+\def\ZX_TICK{%  on the z-axis, parallel to the x-axis
+	\YX_TICK}
+	
+\def\ZY_TICK{%  on the z-axis, parallel to the y-axis
+	\XY_TICK}
+	
+%  GraphTeX sign
+\def\graphtex{%
+	\setbox\Gbox=\hbox{G}\setbox\rbox=\hbox{r}%
+	G\raise\ht\Gbox\hbox{\lower\ht\rbox\hbox{raph}}\TeX}
+
+%  Block arrow
+\def\block_arrow[#1] (#2,#3) (#4,#5) {{%
+	\if_silent
+	\else
+		\message{<Drawing a block arrow from (#2,#3) to (#4,#5)...>}%
+	\fi
+	\dimen_XX=#4pt
+	\advance\dimen_XX -#2pt
+	\dimen_XX=\no_point\x_unit\dimen_XX
+	\dimen_YY=#5pt
+	\advance\dimen_YY -#3pt
+	\dimen_YY=\no_point\y_unit\dimen_YY
+	\_hypotenuse\dimen_XX\dimen_YY\dimen_ZL
+	\_divide\dimen_XX\dimen_ZL\dimen_XX
+	\_divide\dimen_YY\dimen_ZL\dimen_YY
+	\dimen_C=#1
+	\dimen_XX=\no_point\dimen_C\dimen_XX
+	\dimen_YY=\no_point\dimen_C\dimen_YY
+	\dimen_B=\dimen_XX
+	\_divide\dimen_B\y_unit\dimen_B
+	\dimen_A=#3pt
+	\advance\dimen_A 0.5\dimen_B
+	\edef\A_y{\no_point\dimen_A}%
+	\advance\dimen_A -\dimen_B
+	\edef\G_y{\no_point\dimen_A}%
+	\dimen_A=\dimen_YY
+	\_divide\dimen_A\x_unit\dimen_A
+	\dimen_B=#2pt
+	\advance\dimen_B -0.5\dimen_A
+	\edef\A_x{\no_point\dimen_B}%
+	\advance\dimen_B \dimen_A
+	\edef\G_x{\no_point\dimen_B}%
+	\dimen_A=\dimen_XX
+	\_divide\dimen_A\x_unit\dimen_A
+	\dimen_B=\dimen_YY
+	\_divide\dimen_B\y_unit\dimen_B
+	\advance\dimen_A -#4pt
+	\dimen_A=-\dimen_A
+	\advance\dimen_B -#5pt
+	\dimen_B=-\dimen_B
+	\_divide\dimen_XX\y_unit\dimen_XX
+	\_divide\dimen_YY\x_unit\dimen_YY
+	\advance\dimen_A -\dimen_YY
+	\advance\dimen_B \dimen_XX
+	\edef\C_x{\no_point\dimen_A}%
+	\edef\C_y{\no_point\dimen_B}%
+	\advance\dimen_A 0.5\dimen_YY
+	\advance\dimen_B -0.5\dimen_XX
+	\edef\B_x{\no_point\dimen_A}%
+	\edef\B_y{\no_point\dimen_B}%
+	\advance\dimen_A \dimen_YY
+	\advance\dimen_B -\dimen_XX
+	\edef\F_x{\no_point\dimen_A}%
+	\edef\F_y{\no_point\dimen_B}%
+	\advance\dimen_A 0.5\dimen_YY
+	\advance\dimen_B -0.5\dimen_XX
+	\edef\E_x{\no_point\dimen_A}%
+	\edef\E_y{\no_point\dimen_B}%
+	\poly_line(\A_x,\A_y) (\B_x,\B_y) (\C_x,\C_y) (#4,#5) (\E_x,\E_y) (\F_x,\F_y) (\G_x,\G_y) (\A_x,\A_y)
+}%
+}
+
+%  Triloop
+\def\_triloop[#1] (#2,#3) {%   
+	\if_silent
+	\else
+		\message{<Drawing a triple loop...>}%
+	\fi
+	\dimen_C=#2pt
+	\dimen_XL=#3pt
+	\_Z=1.6pt
+	\_divide\_Z\x_unit\_Z
+	\_Z=#1\_Z
+	\dimen_ZL=0.92pt
+	\_divide\dimen_ZL\y_unit\dimen_ZL
+	\dimen_ZL=#1\dimen_ZL
+	\advance\dimen_C -\_Z%
+	\advance\dimen_XL \dimen_ZL%
+	\dimen_A=#2pt
+	\dimen_AL=#3pt
+	\_Z=8.4pt
+	\_divide\_Z\x_unit\_Z
+	\_Z=#1\_Z
+	\advance\dimen_A \_Z%
+	\dimen_ZL=18.24pt
+	\_divide\dimen_ZL\y_unit\dimen_ZL
+	\dimen_ZL=#1\dimen_ZL
+	\advance\dimen_AL \dimen_ZL%
+	\dimen_B=#2pt
+	\dimen_BL=#3pt
+	\_Z=8.4pt
+	\_divide\_Z\x_unit\_Z
+	\_Z=#1\_Z
+	\dimen_ZL=18.24pt
+	\_divide\dimen_ZL\y_unit\dimen_ZL
+	\dimen_ZL=#1\dimen_ZL
+	\advance\dimen_B -\_Z
+	\advance\dimen_BL \dimen_ZL
+	\_Z=1.6pt
+	\_divide\_Z\x_unit\_Z
+	\_Z=#1\_Z
+	\dimen_ZL=0.92pt
+	\_divide\dimen_ZL\y_unit\dimen_ZL
+	\dimen_ZL=#1\dimen_ZL
+	\dimen_YL=#2pt
+	\_Y=#3pt
+	\advance\dimen_YL \_Z
+	\advance\_Y \dimen_ZL
+	\edef\_a_{\no_point\dimen_C}%
+	\edef\_b_{\no_point\dimen_XL}%
+	\edef\_c_{\no_point\dimen_A}%
+	\edef\_d_{\no_point\dimen_AL}%
+	\edef\_e_{\no_point\dimen_B}%
+	\edef\_f_{\no_point\dimen_BL}%
+	\edef\_g_{\no_point\dimen_YL}%
+	\edef\_h_{\no_point\_Y}%
+	\bezier_curve\_a_\_b_\_c_\_d_\_e_\_f_\_g_\_h_
+	\dimen_C=#2pt%
+	\dimen_XL=#3pt%
+	\_Z=0.003pt
+	\_divide\_Z\x_unit\_Z
+	\_Z=#1\_Z
+	\dimen_ZL=1.846pt
+	\_divide\dimen_ZL\y_unit\dimen_ZL
+	\dimen_ZL=#1\dimen_ZL
+	\advance\dimen_C \_Z%
+	\advance\dimen_XL -\dimen_ZL%
+	\dimen_A=#2pt
+	\dimen_AL=#3pt
+	\_Z=20pt
+	\_divide\_Z\x_unit\_Z
+	\_Z=#1\_Z
+	\dimen_ZL=1.846pt
+	\_divide\dimen_ZL\y_unit\dimen_ZL
+	\dimen_ZL=#1\dimen_ZL
+	\advance\dimen_A -\_Z
+	\advance\dimen_AL -\dimen_ZL
+	\dimen_B=#2pt
+	\dimen_BL=#3pt
+	\_Z=11.6pt
+	\_divide\_Z\x_unit\_Z
+	\_Z=#1\_Z
+	\dimen_ZL=16.39pt
+	\_divide\dimen_ZL\y_unit\dimen_ZL
+	\dimen_ZL=#1\dimen_ZL
+	\advance \dimen_B -\_Z
+	\advance\dimen_BL -\dimen_ZL
+	\dimen_YL=#2pt
+	\_Y=#3pt
+	\_Z=1.6pt
+	\_divide\_Z\x_unit\_Z
+	\_Z=#1\_Z
+	\dimen_ZL=0.926pt
+	\_divide\dimen_ZL\y_unit\dimen_ZL
+	\dimen_ZL=#1\dimen_ZL
+	\advance\dimen_YL -\_Z
+	\advance\_Y \dimen_ZL
+	\edef\_a_{\no_point\dimen_C}%
+	\edef\_b_{\no_point\dimen_XL}%
+	\edef\_c_{\no_point\dimen_A}%
+	\edef\_d_{\no_point\dimen_AL}%
+	\edef\_e_{\no_point\dimen_B}%
+	\edef\_f_{\no_point\dimen_BL}%
+	\edef\_g_{\no_point\dimen_YL}%
+	\edef\_h_{\no_point\_Y}%
+	\bezier_curve\_a_\_b_\_c_\_d_\_e_\_f_\_g_\_h_
+	\dimen_C=#2pt
+	\dimen_XL=#3pt
+	\_Z=1.6pt
+	\_divide\_Z\x_unit\_Z
+	\_Z=#1\_Z
+	\dimen_ZL=0.92pt
+	\_divide\dimen_ZL\y_unit\dimen_ZL
+	\dimen_ZL=#1\dimen_ZL
+	\advance\dimen_C \_Z
+	\advance\dimen_XL \dimen_ZL
+	\dimen_A=#2pt
+	\dimen_AL=#3pt
+	\_Z=11.6pt
+	\_divide\_Z\x_unit\_Z
+	\_Z=#1\_Z
+	\dimen_ZL=16.4pt
+	\_divide\dimen_ZL\y_unit\dimen_ZL
+	\dimen_ZL=#1\dimen_ZL
+	\advance\dimen_A \_Z
+	\advance\dimen_AL -\dimen_ZL
+	\dimen_B=#2pt
+	\dimen_BL=#3pt
+	\_Z=20pt
+	\_divide\_Z\x_unit\_Z
+	\_Z=#1\_Z
+	\dimen_ZL=1.84pt
+	\_divide\dimen_ZL\y_unit\dimen_ZL
+	\dimen_ZL=#1\dimen_ZL
+	\advance\dimen_B \_Z
+	\advance\dimen_BL -\dimen_ZL
+	\dimen_YL=#2pt
+	\_Y=#3pt
+	\_Z=0.003pt
+	\_divide\_Z\x_unit\_Z
+	\_Z=#1\_Z
+	\dimen_ZL=1.846pt
+	\_divide\dimen_ZL\y_unit\dimen_ZL
+	\dimen_ZL=#1\dimen_ZL
+	\advance\dimen_YL -\_Z
+	\advance\_Y -\dimen_ZL
+	\edef\_a_{\no_point\dimen_C}%
+	\edef\_b_{\no_point\dimen_XL}%
+	\edef\_c_{\no_point\dimen_A}%
+	\edef\_d_{\no_point\dimen_AL}%
+	\edef\_e_{\no_point\dimen_B}%
+	\edef\_f_{\no_point\dimen_BL}%
+	\edef\_g_{\no_point\dimen_YL}%
+	\edef\_h_{\no_point\_Y}%
+	\bezier_curve\_a_\_b_\_c_\_d_\_e_\_f_\_g_\_h_
+}
+
+%  Drawing a regular polygon
+\def\regular_polygon(#1) [#2] (#3,#4) {{% #2=n, #1=length of a side, (#3, %#4)=center
+	\ifnum #1 < 3
+		\message{[error: The polygon must have at least 3 sides]}%
+	\else 
+		\if_silent
+		\else
+			\message{<Drawing a regular polygon with #1 sides...>}%
+		\fi
+		\gen_angle=360pt \dimen_X=#1pt
+		\_divide\gen_angle\dimen_X\del_angle
+		\global\edef\_theta{\no_point\del_angle}%
+		\del_angle=0.5\del_angle
+		\central_angle=\del_angle
+		\Sin_Cos{\no_point\del_angle}
+		\dimen_Z=#2  \dimen_X=\sine pt
+		\_divide\dimen_Z\dimen_X\dimen_Z
+		\dimen_Z=0.5\dimen_Z
+		\edef\_spoke{\no_point\dimen_Z}%
+		\_x=\sine\dimen_Z
+		\_divide\_x\x_unit\_x % Jan 15
+		\_y=-\cosine\dimen_Z
+		\_divide\_y\y_unit\_y % Jan 15
+		\dimen_X=#3 pt
+		\advance\dimen_X \_x
+		\edef\X_right{\no_point\dimen_X}%
+		\advance\dimen_X -2\_x
+		\edef\X_left{\no_point\dimen_X}%
+		\dimen_Y=#4 pt
+		\advance\dimen_Y \_y
+		\edef\Y_common{\no_point\dimen_Y}%
+		\draw_line{\X_left}{\Y_common}{\X_right}{\Y_common}
+		\loop
+			\dimen_X=\X_left pt \global\edef\Left_X{\no_point\dimen_X}% 
+			\dimen_X=\X_right pt \global\edef\Right_X{\no_point\dimen_X}% 
+      \dimen_Y=\Y_common pt \global\edef\Common_Y{\no_point\dimen_Y}%
+      \global\advance\central_angle \_theta pt
+      \Sin_Cos {\no_point\central_angle}
+      \dimen_Z=\_spoke pt
+      \_x=\sine\dimen_Z
+      \_divide\_x\x_unit\_x% Jan 15
+      \_y=-\cosine\dimen_Z
+      \_divide\_y\y_unit\_y% Jan 15
+      \dimen_X=#3 pt
+      \advance\dimen_X \_x
+      \global\edef\X_right{\no_point\dimen_X}%
+      \advance\dimen_X -2\_x
+      \global\edef\X_left{\no_point\dimen_X}%
+      \dimen_Y=#4 pt
+      \advance\dimen_Y \_y
+      \global\edef\Y_common{\no_point\dimen_Y}%
+      \draw_line{\Left_X}{\Common_Y}{\X_left}{\Y_common}
+      \ifdim\central_angle < 181 pt
+				\draw_line{\Right_X}{\Common_Y}{\X_right}{\Y_common}
+		\repeat
+	\fi
+	}\ignorespaces
+}
+
+%  Printing the system time
+\def\time_now{%
+	\count_A=\time
+	\ifnum\count_A>720
+		\edef\ampm{pm}%
+	\else
+		\edef\ampm{am}%
+	\fi
+	\count_B=\count_A
+	\divide\count_B 60 % hours
+	\count_C=\count_B
+	\ifnum\count_B>12 \advance\count_B -12 \fi
+	\edef\_hour{\the\count_B}%
+	\multiply \count_C -60
+	\advance\count_A \count_C
+	\ifnum\count_A=0 
+		\edef\_min{00}% 
+	\else
+		\ifnum\count_A<10
+			\edef\_min{0\the\count_A}%
+		\else
+			\edef\_min{\the\count_A}%
+		\fi
+	\fi
+	\_hour:\_min\ampm
+}
+	
+\def\Time_Now{%
+	\count_A=\time
+	\ifnum\count_A>720
+		\edef\ampm{pm}%
+	\else
+		\edef\ampm{am}%
+	\fi
+	\count_B=\count_A
+	\divide\count_B 60 % hours
+	\count_C=\count_B
+	\ifnum\count_B>12 \advance\count_B -12 \fi
+	\edef\_hour{\the\count_B}%
+	\multiply \count_C -60
+	\advance\count_A \count_C
+	\edef\_min{\the\count_A}%
+	{\sub_picture\pic \my_clock[\_hour:\_min,\ampm] (0,0) \cip}%
+}
+	
+%  Drawing a clock that displays a specified time
+\def\my_clock[#1:#2,#3] (#4,#5) {{%
+	\if_silent
+	\else
+		\message{<Drawing a clock...>}%
+	\fi
+	%\_align[c] ($\scriptstyle\bullet$) (#4,#5)
+	\dimen_XX=#1pt
+	\dimen_YY=#2pt
+	\advance\dimen_YY 60\dimen_XX
+	\loop
+		\ifdim\dimen_YY < 0pt
+			\advance\dimen_YY 720pt
+	\repeat
+	\dimen_XX=\dimen_YY
+	\divide \dimen_XX 60
+	\edef\_myhours{\_integer\dimen_XX}%
+	\dimen_XX=\_myhours pt
+	\dimen_A=\_myhours pt
+	\dimen_A=60\dimen_A
+	\advance\dimen_YY -\dimen_A
+	\dimen_X=#4pt
+	\dimen_X=22pt
+	\_divide\dimen_X\x_unit\dimen_X
+	\advance\dimen_X #4pt
+	\edef\_right_x{\no_point\dimen_X}%
+	\dimen_Y=3pt
+	\_divide\dimen_Y\x_unit\dimen_Y
+	\advance\dimen_X -\dimen_Y
+	\edef\_x_right{\no_point\dimen_X}%
+	\dimen_X=-22pt
+	\_divide\dimen_X\x_unit\dimen_X
+	\advance\dimen_X #4pt
+	\edef\_left_x{\no_point\dimen_X}%
+	\dimen_XX=-30\dimen_XX
+	\advance\dimen_XX 90pt
+	\dimen_YY=-6\dimen_YY
+	\advance\dimen_XX 0.08333\dimen_YY
+	\advance\dimen_YY 90pt
+	\edef\_hour{\no_point\dimen_XX}%
+	\edef\_min{\no_point\dimen_YY}%
+	\Sin_Cos{\_hour}
+	\dimen_XL=\cosine pt
+	\dimen_XL=12\dimen_XL
+	\_divide\dimen_XL\x_unit\dimen_XL
+	\advance\dimen_XL  #4pt
+	\edef\_hour_x{\no_point\dimen_XL}%
+	\dimen_XL=\sine pt
+	\dimen_XL=12\dimen_XL
+	\_divide\dimen_XL\y_unit\dimen_XL
+	\advance\dimen_XL #5pt
+	\edef\_hour_y{\no_point\dimen_XL}%
+	\edef\_min{\no_point\dimen_YY}%
+	\Sin_Cos{\_min}
+	\dimen_YL=\cosine pt
+	\dimen_A=22\dimen_YL
+	\dimen_YL=18\dimen_YL	
+	\_divide\dimen_YL\x_unit\dimen_YL
+	\advance\dimen_YL #4 pt
+	\edef\_min_x{\no_point\dimen_YL}%
+	\dimen_YL=\sine pt
+	\dimen_YL=18\dimen_YL	
+	\_divide\dimen_YL\y_unit\dimen_YL
+	\advance\dimen_YL #5pt
+	\edef\_min_y{\no_point\dimen_YL}%
+	{\v_radius1.2pt
+	\Plot_Size2
+	%\Put_Circle{25pt}{#4}{#5}%	
+	\vertex_set(#4,#5)
+	\regular_polygon(8) [20pt] (#4,#5)
+	\Plot_Size1
+	\Put_Circle{15pt}{#4}{#5}%
+	%\regular_polygon(12) [8pt] (#4,#5)
+	}%
+	\PlotSize3
+	{\Arrow_Head(1)
+	\v_radius1.2pt
+	\Arrow_Magnify(0.8)
+	\_arc(#4,#5) (\_hour_x,\_hour_y)
+	\_arc(#4,#5) (\_min_x,\_min_y)
+	}%
+	{%
+	\dimen_YY=20pt
+	\_divide\dimen_YY\y_unit\dimen_YY
+	\dimen_B=#5pt
+	\advance\dimen_B \dimen_YY
+	\_align[c] ({\sixtt12}) (#4,\no_point\dimen_B)
+	\advance\dimen_B -2\dimen_YY
+	\_align[c] ({\sixtt6}) (#4,\no_point\dimen_B)
+	\dimen_XX=20pt
+	\_divide\dimen_XX\x_unit\dimen_XX
+	\dimen_A=#4pt
+	\advance\dimen_A \dimen_XX
+	\_align[c] ($\scriptscriptstyle{3}$) (\no_point\dimen_A,#5)
+	\advance\dimen_A -2\dimen_XX
+	\_align[c] ($\scriptscriptstyle{9}$) (\no_point\dimen_A,#5)
+	\dimen_YY=18pt
+	\dimen_Y=0.866\dimen_YY
+	\_divide\dimen_YY\y_unit\dimen_YY
+	\dimen_B=#5pt
+	\advance\dimen_B\dimen_YY
+	\edef\_one_y{\no_point\dimen_B}%
+	\advance\dimen_B -2\dimen_YY
+	\edef\_seven_y{\no_point\dimen_B}%
+	\dimen_XX=10pt
+	\_divide\dimen_XX\x_unit\dimen_XX
+	\dimen_A=#4pt
+	\advance\dimen_A\dimen_XX
+	\edef\_one_x{\no_point\dimen_A}%
+	\advance\dimen_A -2\dimen_XX
+	\edef\_seven_x{\no_point\dimen_A}%
+	\dimen_XX=20pt
+	\dimen_XX=0.866\dimen_XX
+	\_divide\dimen_XX\x_unit\dimen_XX
+	\dimen_A=#4pt
+	\advance\dimen_A\dimen_XX
+	\edef\_two_x{\no_point\dimen_A}%
+	\advance\dimen_A-2\dimen_XX
+	\edef\_eight_x{\no_point\dimen_A}%
+	\dimen_YY=10pt
+	\_divide\dimen_YY\y_unit\dimen_YY
+	\dimen_B=#5pt
+	\advance\dimen_B\dimen_YY
+	\edef\_two_y{\no_point\dimen_B}%
+	\advance\dimen_B -2\dimen_YY
+	\edef\_four_y{\no_point\dimen_B}%
+	\_align[c] ({\sixtt1}) (\_one_x,\_one_y)
+	\_align[c] (\sixtt7) (\_seven_x,\_seven_y)
+	\_align[c] (\sixtt2) (\_two_x,\_two_y)
+	\_align[c] (\sixtt8) (\_eight_x,\_four_y)
+	\_align[c] (\sixtt4) (\_two_x,\_four_y)
+	\_align[c] ({\sixtt10}) (\_eight_x,\_two_y)
+	\_align[c] (\sixtt5) (\_one_x,\_seven_y)
+	\_align[c] ({\sixtt11}) (\_seven_x,\_one_y)
+	}%
+	\ifx #3 \else
+	\dimen_X=-32pt
+	\_divide\dimen_X\y_unit\dimen_X
+	\advance\dimen_X #5pt
+	\_align[c] ({\eighttt #3}) (#4,\no_point\dimen_X)
+	\fi
+}}
+
+%  Calendar
+\def\type_one{\vbox{\hsize5.2cm \sixrm 
+\noindent\begin{tabular}{|r|r|r|r|r|r|r|}
+\multicolumn{3}{l}{\noindent\kern-6pt\mo_label}\\
+\hline
+Su&Mo&Tu&We&Th&Fr&Sa\\
+\hline
+1&2&3&4&5&6&7\\
+\hline
+8&9&10&11&12&13&14\\
+\hline
+15&16&17&18&19&20&21\\
+\hline
+22&23&24&25&26&27&28\\
+\hline
+\ifnum\num_days>28 29\fi&\ifnum\num_days>29 30\fi&\ifnum\num_days>30 31\fi&&&&\\
+\hline
+\end{tabular}
+}}
+
+\def\type_two{\vbox{\hsize5.2cm \sixrm 
+\noindent\begin{tabular}{|r|r|r|r|r|r|r|}
+\multicolumn{3}{l}{\noindent\kern-6pt\mo_label}\\
+\hline
+Su&Mo&Tu&We&Th&Fr&Sa\\
+\hline
+&1&2&3&4&5&6\\
+\hline
+7&8&9&10&11&12&13\\
+\hline
+14&15&16&17&18&19&20\\
+\hline
+21&22&23&24&25&26&27\\
+\hline
+28&\ifnum\num_days>28 29 \fi&\ifnum\num_days>29 30 \fi&\ifnum\num_days>30 31\fi&&&\\
+\hline
+\end{tabular}
+}}
+
+\def\type_three{\vbox{\hsize5.2cm \sixrm 
+\noindent\begin{tabular}{|r|r|r|r|r|r|r|}
+\multicolumn{3}{l}{\noindent\kern-6pt\mo_label}\\
+\hline
+Su&Mo&Tu&We&Th&Fr&Sa\\
+\hline
+&&1&2&3&4&5\\
+\hline
+6&7&8&9&10&11&12\\
+\hline
+13&14&15&16&17&18&19\\
+\hline
+20&21&22&23&24&25&26\\
+\hline
+27&28&\ifnum\num_days>28 29\fi&\ifnum\num_days>29 30\fi &\ifnum\num_days>30 31\fi&&\\
+\hline
+\end{tabular}
+}}
+
+\def\type_four{\vbox{\hsize5.2cm \sixrm 
+\noindent\begin{tabular}{|r|r|r|r|r|r|r|}
+\multicolumn{3}{l}{\noindent\kern-6pt\mo_label}\\
+\hline
+Su&Mo&Tu&We&Th&Fr&Sa\\
+\hline
+&&&1&2&3&4\\
+\hline
+5&6&7&8&9&10&11\\
+\hline
+12&13&14&15&16&17&18\\
+\hline
+19&20&21&22&23&24&25\\
+\hline
+26&27&28&\ifnum\num_days>28 29 \fi&\ifnum\num_days>29 30\fi&\ifnum\num_days>30 31\fi&\\
+\hline
+\end{tabular}
+}}
+
+\def\type_five{\vbox{\hsize5.2cm \sixrm 
+\noindent\begin{tabular}{|r|r|r|r|r|r|r|}
+\multicolumn{3}{l}{\noindent\kern-6pt\mo_label}\\
+\hline
+Su&Mo&Tu&We&Th&Fr&Sa\\
+\hline
+&&&&1&2&3\\
+\hline
+4&5&6&7&8&9&10\\
+\hline
+11&12&13&14&15&16&17\\
+\hline
+18&19&20&21&22&23&24\\
+\hline
+25&26&27&28&\ifnum\num_days>28 29 \fi&\ifnum\num_days>29 30 \fi&\ifnum\num_days>30 31\fi\\
+\hline
+\end{tabular}
+}}
+
+\def\type_six{\vbox{\hsize5.2cm \sixrm 
+\noindent\begin{tabular}{|r|r|r|r|r|r|r|}
+\multicolumn{3}{l}{\noindent\kern-6pt\mo_label}\\
+\hline
+Su&Mo&Tu&We&Th&Fr&Sa\\
+\hline
+&&&&&1&2\\
+\hline
+3&4&5&6&7&8&9\\
+\hline
+10&11&12&13&14&15&16\\
+\hline
+17&18&19&20&21&22&23\\
+\hline
+24&25&26&27&28&\ifnum\num_days>28 29\fi&\ifnum\num_days>29 30\fi\\
+\hline
+\ifnum\num_days>30 31 &&&&&&\\
+\hline
+\fi
+\end{tabular}
+}}
+
+\def\type_seven{\vbox{\hsize5.2cm \sixrm 
+\noindent\begin{tabular}{|r|r|r|r|r|r|r|}
+\multicolumn{3}{l}{\noindent\kern-6pt\mo_label}\\
+\hline
+Su&Mo&Tu&We&Th&Fr&Sa\\
+\hline
+&&&&&&1\\
+\hline
+2&3&4&5&6&7&8\\
+\hline
+9&10&11&12&13&14&15\\
+\hline
+16&17&18&19&20&21&22\\
+\hline
+23&24&25&26&27&28&\ifnum\num_days>28 29\fi\\
+\hline
+\ifnum\num_days>29
+30&\ifnum\num_days>30 31\fi&&&&&\\
+\hline
+\fi
+\end{tabular}
+}}
+
+\def\calendar_month#1#2{%
+	\if_silent
+	\else
+		\message{<Making a calendar for year #1, month #2...>}%
+	\fi
+	\dimen_Y=#1pt% year
+	\count_Z=#2% month
+	\dimen_X=\dimen_Y
+	\dimen_X=0.25\dimen_X% year over 4
+	\edef\over_four{\_integer\dimen_X}%
+	\dimen_X=0.04\dimen_X% year over 100
+	\edef\over_hundred{\_integer\dimen_X}%
+	\dimen_X=0.25\dimen_X% year over 400
+	\edef\over_fourhundred{\_integer\dimen_X}%
+	\count_A=#1
+	\advance\count_A \over_four
+	\advance\count_A -\over_hundred
+	\advance\count_A \over_fourhundred%  yr + [yr/4] - [yr/100] + [yr/400]
+	\dimen_X=\over_four pt
+	\dimen_X=4\dimen_X
+	\ifdim\dimen_X<\dimen_Y 	
+		 \global\leap_yearfalse
+	\else
+		\dimen_X=\over_hundred pt
+		\dimen_X=100\dimen_X
+		\ifdim\dimen_X<\dimen_Y
+			\global\leap_yeartrue
+		\else
+			\dimen_X=\over_fourhundred
+			\dimen_X=400\dimen_X
+			\ifdim\dimen_X<dimen_Y
+				\global\leap_yearfalse
+			\else
+				\global\leap_yeartrue
+			\fi
+		\fi
+	\fi
+	\count_B=0
+	\ifcase #2 
+		\or \count_B=0
+		\or \count_B 31% January
+		\or \ifleap_year \count_B=60 \else \count_B=59 \fi% February
+		\or \ifleap_year \count_B=91 \else \count_B=90 \fi% March
+		\or \ifleap_year \count_B=121 \else \count_B=120 \fi% April
+		\or \ifleap_year \count_B=152 \else \count_B=151 \fi% May
+		\or \ifleap_year \count_B=182 \else \count_B=181 \fi% June
+		\or \ifleap_year \count_B=213 \else \count_B=212 \fi% July
+		\or \ifleap_year \count_B=244 \else \count_B=243 \fi% August
+		\or \ifleap_year \count_B=274 \else \count_B=273 \fi% September
+		\or \ifleap_year \count_B=305 \else \count_B=304 \fi% October
+		\or \ifleap_year \count_B=335 \else \count_B=334 \fi% November
+	\fi
+	\advance\count_A \count_B
+	\ifleap_year
+		\advance\count_A -1
+	\fi
+	\count_B=\count_A
+	\divide\count_B 7
+	\multiply \count_B 7
+	\advance\count_A -\count_B
+	\advance\count_A 1
+	%count_A=1-> Sunday, count_A=2->Monday, count_A=3->Tuesday, etc.
+	\ifcase #2
+		\or \gdef\num_days{31}%
+		\or \ifleap_year \gdef\num_days{29}\else \gdef\num_days{28}\fi
+		\or \gdef\num_days{31}%
+		\or \gdef\num_days{30}%
+		\or \gdef\num_days{31}%
+		\or \gdef\num_days{30}%
+		\or \gdef\num_days{31}%
+		\or \gdef\num_days{31}%
+		\or \gdef\num_days{30}%
+		\or \gdef\num_days{31}%
+		\or \gdef\num_days{30}%
+		\or \gdef\num_days{31}%
+	\fi
+	\ifcase #2
+		\or \edef\mo_label{January #1}%
+		\or \edef\mo_label{February #1}%
+		\or \edef\mo_label{March #1}%
+		\or \edef\mo_label{April #1}%
+		\or \edef\mo_label{May #1}%
+		\or \edef\mo_label{June #1}%
+		\or \edef\mo_label{July #1}%
+		\or \edef\mo_label{August #1}%
+		\or \edef\mo_label{September #1}%
+		\or \edef\mo_label{October #1}%
+		\or \edef\mo_label{November #1}%
+		\or \edef\mo_label{December #1}%
+	\fi%
+	\ifcase \count_A
+		\or \type_one
+		\or \type_two
+		\or \type_three
+		\or \type_four
+		\or \type_five
+		\or \type_six
+		\or \type_seven
+	\fi
+}
+
+\def\Month_Calendar[#1,#2]{%
+	\calendar_month{#1}{#2}
+}
+
+%  Day name
+\def\day_name[#1,#2,#3]{% year, month, day
+	\if_silent
+	\else
+		\message{<Calculating the name of the day on year #1, month #2, day #3...>}%
+	\fi
+	\dimen_Y=#1pt% year
+	\count_Z=#2% month
+	\dimen_X=\dimen_Y
+	\dimen_X=0.25\dimen_X% year over 4
+	\edef\over_four{\_integer\dimen_X}%
+	\dimen_X=0.04\dimen_X% year over 100
+	\edef\over_hundred{\_integer\dimen_X}%
+	\dimen_X=0.25\dimen_X% year over 400
+	\edef\over_fourhundred{\_integer\dimen_X}%
+	\count_A=#1
+	\advance\count_A \over_four
+	\advance\count_A -\over_hundred
+	\advance\count_A \over_fourhundred%  yr + [yr/4] - [yr/100] + [yr/400]
+	\dimen_X=\over_four pt
+	\dimen_X=4\dimen_X
+	\ifdim\dimen_X<\dimen_Y 	
+		\leap_yearfalse 
+	\else
+		\dimen_X=\over_hundred pt
+		\dimen_X=100\dimen_X
+		\ifdim\dimen_X<\dimen_Y
+			\leap_yeartrue
+		\else
+			\dimen_X=\over_fourhundred
+			\dimen_X=400\dimen_X
+			\ifdim\dimen_X<dimen_Y
+				\leap_yearfalse
+			\else
+				\global\leap_yeartrue
+			\fi
+		\fi
+	\fi
+	\count_B=0
+	\ifcase #2 
+		\or \count_B=0
+		\or \count_B 31% January
+		\or \ifleap_year \count_B=60 \else \count_B=59 \fi% February
+		\or \ifleap_year \count_B=91 \else \count_B=90 \fi% March
+		\or \ifleap_year \count_B=121 \else \count_B=120 \fi% April
+		\or \ifleap_year \count_B=152 \else \count_B=151 \fi% May
+		\or \ifleap_year \count_B=182 \else \count_B=181 \fi% June
+		\or \ifleap_year \count_B=213 \else \count_B=212 \fi% July
+		\or \ifleap_year \count_B=244 \else \count_B=243 \fi% August
+		\or \ifleap_year \count_B=274 \else \count_B=273 \fi% September
+		\or \ifleap_year \count_B=305 \else \count_B=304 \fi% October
+		\or \ifleap_year \count_B=335 \else \count_B=334 \fi% November
+	\fi
+	\advance\count_A \count_B
+	\advance\count_A #3
+	\advance\count_A -1
+	\ifleap_year \advance\count_A -1 \fi
+	\count_B=\count_A
+	\divide\count_B 7
+	\multiply \count_B 7
+	\advance\count_A -\count_B
+	\advance\count_A 1
+	\ifcase \count_A
+		\or Sunday%
+		\or Monday%
+		\or Tuesday%
+		\or Wednesday%
+		\or Thursday%
+		\or Friday%
+		\or Saturday%
+	\fi%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Reset everythig to default values
+\def\default_values{%
+	\x_unit 1pt
+	\y_unit 1pt
+	\z_unit 1pt
+	\_POV(3,4,2)
+	\_dashesfalse
+	\_reflectedfalse
+	\_rotatedfalse
+	\_silenttrue
+	\_subpicturefalse
+	\_translatedfalse
+	\arrow_dashesfalse
+	\Arrow_Head(1)
+	\def\arrow_mag{1}
+	\edef\_gap{1pt}%
+	\edef\_sold{3pt}%
+	\leap_yearfalse
+	\Plot_Size3
+	\previous_reflectfalse
+	\previous_rotatefalse
+	\previous_translatefalse
+	\set_origin 0 0
+	\set_plot_symbol(.)
+	\set_pole(0,0)
+	\v_radius=2pt
+	\vertex_dashesfalse
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Names of macros:
+\let\ALIGN=\_align_
+\let\Align=\_align 
+\let\arc=\_arc
+\let\ARC=\Arc_Set
+\let\Arc=\arc_set
+\let\ArrowHead=\Arrow_Head
+\let\ArrowMagnify=\Arrow_Magnify
+\let\Balign=\B_align
+\let\BCurve=\b_curve
+\let\Bipartite=\Bipartite_Graph
+\let\BlockArrow=\block_arrow
+\let\bmultiput=\b_multiput
+\let\BoxGraph=\Box_Graph
+\let\BoxPic=\Box_Pic
+\let\boxpic=\box_pic
+\let\Calign=\C_align
+\let\CArc=\directed_arc_set
+\let\CEdge\curved_edge_set
+\let\cip=\end_picture
+\let\circle=\_circle
+\let\Circle=\_Circle 
+\let\CircularArc=\circular_arc
+\let\Clock=\Time_Now
+\let\cmultiput=\c_multiput
+\let\Complete=\Complete_Graph
+\let\CosineCurve=\cosine_curve
+\let\cput=\Calign
+\let\CYCLE=\_CYCLE
+\let\Cycle=\_cycle  
+\let\cyclevertices=\cycle_vertices
+\let\DashedLine=\dashed_line
+\let\DayName=\day_name
+\let\Decimal=\_decimal
+\let\distance=\_dist
+\let\Distance=\real_dist
+\let\DISTANCE=\Real_Dist
+\let\Divide=\_divide
+\let\DoDivide=\do_divide
+\let\drawray=\draw_ray
+\let\Edge=\edge_set
+\let\EDGE=\EDGE_SET
+\let\ellipse=\_ellipse
+\let\Ellipse=\_Ellipse
+\let\EllipseShade=\Ellipse_Shade
+\let\euler=\_euler
+\let\Exp=\_exp
+\let\Fan=\_fan
+\let\FAN=\_FAN
+\let\hyperbola=\_hyperbola
+\let\Hyperbola=\_Hyperbola
+\let\Hypotenuse=\_Hypotenuse
+\let\hypotenuse=\_hypotenuse
+\let\Integer=\_integer
+\let\Lalign=\L_align
+\let\LINE=\POLY_LINE
+\let\Line=\poly_line
+\let\LineInterval=\line_interval
+\let\LLalign=\LL_align
+\let\llmultiput=\ll_multiput
+\let\llput=\LL_align
+\let\lmultiput=\l_multiput
+\let\lput=\L_align
+\let\lrmultiput=\lr_multiput
+\let\lrput=\LR_align
+\let\Log=\nat_log
+\let\lput=\L_align
+\let\LRalign=\LR_align
+\let\Magnify=\drawing_scale
+\let\Map=\_Map
+\let\MessageMode=\Message_Mode
+\let\MonthCalendar=\Month_Calendar
+\let\multiput=\cmultiput
+\let\Multiply=\_Multiply
+\let\MyClock=\my_clock
+\let\nopt=\no_point
+\let\offarrowdashes=\off_arrow_dashes
+\let\offdashes=\off_dashes
+\let\offreflect\off_reflect
+\let\offrotate=\off_rotate
+\let\offtranslate\off_translate
+\let\offvertexdashes=\off_vertex_dashes
+\let\onarrowdashes=\on_arrow_dashes
+\let\ondashes\on_dashes
+\let\onreflect\on_reflect
+\let\onrotate=\on_rotate
+\let\ontranslate\on_translate
+\let\onvertexdashes=\on_vertex_dashes
+\let\PaperDistance=\paper_dist
+\let\PAPERDISTANCE=\Paper_Dist
+\let\Parabola=\_Parabola
+\let\Path=\_path
+\let\PATH=\_PATH
+\let\Petersen=\gen_peter
+\let\pic=\start_picture
+\let\PicBox=\Pic_Box
+\let\PlanarGrid=\planar_grid
+\let\PLOT=\_PLOT
+\let\Plot=\dot_set
+\let\plot=\_plot
+\let\PlotInterval=\plot_interval
+\let\PlotSize=\Plot_Size
+\let\PlotSymbol=\set_plot_symbol
+\let\PolarArray=\Polar_Array
+\let\PolarPlot=\Polar_Plot
+\let\Polynomial=\poly_nomial
+\let\putcircle=\put_circle
+\let\PutDLoop=\Put_DLoop
+\let\putdot=\put_dot
+\let\PutLoop=\Put_Loop
+\let\putloop=\put_loop
+\let\QCurve=\draw_curve
+\let\Ralign=\R_align
+\let\Ray=\ray_set
+\let\Rectangle=\_rectangle
+\let\RectangularArray=\Rectangular_Array
+\let\RectangularBox=\Rectangular_Box
+\let\Reflect\_reflect
+\let\REFLECT=\_REFLECT
+\let\ReflectPoint=\Reflect_Point
+\let\RegularPolygon=\regular_polygon 
+\let\Reset=\default_values
+\let\Resolution=\_resolution
+\let\rmultiput=\r_multiput
+\let\ROTATE=\_ROTATE
+\let\Rotate=\_rotate
+\let\RotatePoint=\Rotate_Point
+\let\rput=\R_align
+\let\setplotsymbol=\set_plot_symbol
+\let\SetPole=\set_pole
+\let\ShadeCircle=\shade_circle
+\let\ShadeEllipse=\Shade_Ellipse
+\let\ShadeRectangle=\Shade_Rectangle
+\let\SilentMode=\Silent_Mode
+\let\sincos=\sin_cos
+\let\SINCOS=\Sin_Cos
+\let\SineCurve=\sine_curve
+\let\smallangle=\small_angle
+\let\SquareRoot=\Square_Root
+\let\sroot=\sq_root
+\let\Star=\_star
+\let\STAR=\_STAR
+\let\sub=\sub_picture
+\let\Summation=\_Summation
+\let\Talign=\T_align
+\let\Time=\time_now
+\let\tmultiput=\t_multiput
+\let\tput=\T_align
+\let\TRANSLATE=\_TRANSLATE
+\let\Translate=\_translate
+\let\TranslatePoint=\Translate_Point
+\let\TriLoop=\_triloop
+\let\ULalign=\UL_align
+\let\ulmultiput=\ul_multiput
+\let\ulput=\UL_align
+\let\URalign=\UR_align
+\let\urmultiput=\ur_multiput
+\let\urput=\UR_align
+\let\Vertex=\vertex_set
+\let\VERTEX=\VERTEX_SET
+\let\VertexRadius=\v_radius
+\let\VHatchCircle=\vshade_circle
+\let\ViewPoint=\_POV
+\let\Wheel=\_wheel
+\let\Whole=\_whole
+\let\XAXIS=\X_AXIS
+\let\XAXIS=\X_AXIS
+\let\xaxis=\x_axis
+\let\xlabel=\x_label
+\let\xtick=\x_tick
+\let\XUNIT=\_XUNIT
+\let\xunit=\x_unit
+\let\XYTICK=\XY_TICK
+\let\XZTICK=\XZ_TICK
+\let\YAXIS=\Y_AXIS
+\let\yaxis=\y_axis
+\let\ytick=\y_tick
+\let\YUNIT=\_YUNIT
+\let\yunit=\y_unit
+\let\YXTICK=\YX_TICK
+\let\YZTICK=\YZ_TICK
+\let\ZAXIS=\Z_AXIS
+\let\ZUNIT=\_ZUNIT
+\let\zunit=\z_unit
+\let\ZXTICK=\ZX_TICK
+\let\ZYTICK=\ZY_TICK
+
+   \catcode`@=11
+
+   \newskip\ttglue
+
+   \catcode`@=12
+  
+   %  Restore the original category codes ...
+   \catcode`_=8 
+\endinput

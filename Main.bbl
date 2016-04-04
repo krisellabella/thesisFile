@@ -1,0 +1,84 @@
+\begin{thebibliography}{10}
+
+\bibitem{rmti}
+{\sc Z.~Bo and T.~Nenad}, {\em On reciprocal molecular topological index},
+  Journal of Mathematical Chemistry, 44(1) (2008), pp.~235--243.
+
+\bibitem{gt}
+{\sc G.~Chartrand and P.~Zhang}, {\em Introduction to Graph Theory},
+  McGraw-Hill Education, Asia, 2005.
+
+\bibitem{wiener_trees_mg}
+{\sc Z.~Du}, {\em Wiener indices of trees and monocyclic graphs with given
+  bipartition}, International Journal of Quantum Chemistry, 112 (2011).
+
+\bibitem{ddu}
+{\sc Z.~Du and B.~Zhou}, {\em Degree distance of unicyclic graphs}, Faculty of
+  Sciences and Mathematics, University of Niˇs, Serbia, 24(4) (2010),
+  p.~95–120.
+
+\bibitem{esalih}
+{\sc M.~Essalih and et.al}, {\em Some topological indices of spider's web
+  planar graph}, Applied Mathematical Sciences,  (2012).
+
+\bibitem{fraleigh}
+{\sc J.~Fraleigh}, {\em A first course in Abstract Algebra}, Addison-Wesley
+  Publishing Company, United States of America, 1989.
+
+\bibitem{dbti}
+{\sc I.~Gutman}, {\em Degree based topological indices}, Croatia Chemica Acta,
+  186(4) (2013), pp.~351--361.
+
+\bibitem{struc_stab}
+{\sc W.~Hai-Shun and et.al}, {\em Structure and stability of monocyclic ${\rm
+  ch}_{4-n}({\rm bl})_{n}^2-$(l=co, n2, cs) dianions and their dilithium
+  complexes}, Journal of Theoretical ad Computed Chemistry, 7(4) (2008),
+  pp.~595--606.
+
+\bibitem{hararygt}
+{\sc F.~Harary}, {\em Graph Theory}, Addison-Wesley Publishing Company, Inc.,
+  Massachusetts/California/London/Ontario, 1969.
+
+\bibitem{jds-172}
+{\sc Q.~Hu and et.al}, {\em The matrix expression, topological index and atomic
+  attribute of molecular topological structure}, Journal of Data Science,
+  2003(1) (2003), pp.~361--389.
+
+\bibitem{wien_schultz_mti}
+{\sc H.~Hua}, {\em Wiener and schultz molecular indices of graphs with
+  specified cut edges}, Match Communications in Mathematical and in Computer
+  Chemistry, 61 (2009), pp.~643--651.
+
+\bibitem{lapura}
+{\sc P.~J. Lapura}, {\em On singularity and non-singularity of planar grids},
+  2011.
+
+\bibitem{monocyclic_ex}
+{\sc S.~K. . R.~J. Marles}, {\em Monocyclic phenolic acids; hydroxy- and
+  polyhydroxybezoic acids: Occurrence and recent bioactivity studies},
+  Molecules 2010, 15(11) (2010), pp.~7985--8005.
+
+\bibitem{eff_enum}
+{\sc S.~Masaki and et.al}, {\em Efficient enumeration of monocyclic chemical
+  graphs with given path frequencies}, Journal of Chemoinformatics, 6 (2014),
+  pp.~1--37.
+
+\bibitem{topo_id_mod_schultz}
+{\sc P.~Rama and P.~Carvalho}, {\em Topological indices: The modified schultz
+  index}, tech. report, CIDMA-DMat, Universidade de Aveiro, 3rd Combinatorics
+  Day, Lisboa, 2013.
+
+\bibitem{rosen}
+{\sc K.~Rosen}, {\em Elementary Number Theory and its Applications},
+  Addison-Wesley Publishing Company, United States of America, 1984.
+
+\bibitem{wiener_ind_bipart}
+{\sc K.~N. Singson}, {\em Wiener index of monocyclic graph with given
+  bipartition}, 2015.
+
+\bibitem{apam}
+{\sc K.~Thilakam and A.~Sumathi}, {\em Wiener index of a cycle in the context
+  of some graph operations}, Annals of Pure and Applied Mathematics, 5 (2014),
+  pp.~183--191.
+
+\end{thebibliography}
