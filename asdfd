@@ -1,0 +1,64 @@
+/*
+Seat Arrangement Prototype
+*/
+#include <stdio.h>
+
+int main (void) {
+    // Initialize given variables.
+    long p;
+    printf("Enter number p: \n");
+
+    scanf("%ld", &p);
+
+    while (prime_p(p) != 1) {
+        printf("%d is not prime. \n\n", p);
+        printf("Enter number p: \n");
+        scanf("%ld", &p);
+    }
+    printf("%ld is prime. \n", p);
+    int n = p - 1;
+    int i; // counter
+    int j; // counter
+    int a, b,z;
+    int array[n];
+    int temp_mapping;
+    int c;
+    int *map = 0;
+    int array_map[n];
+    int final_mapping[n];
+
+    // Fill array from 1 to n
+    for ( z = 0; z < n; z++ ) {
+        array[z]=z+1;
+    }
+    // Algorithm
+    for ( a = 0; a < n; a++) {
+        for ( b = 0; b < n; b++) {
+            temp_mapping = ((b+1)*array[a]) % p;
+            final_mapping[temp_mapping] = array[b];
+        }
+
+        for ( c = 1; c < p; c++) {
+            printf("%d   ", final_mapping[c]);
+           // printf("\n");
+        }
+        printf("\n");
+    }
+
+    char keyboard;
+    printf("Press any key to continue: ");
+    scanf("%d",keyboard);
+    system("cls");
+    printf("End of Program.");
+    return 0;
+}
+
+int prime_p(long input) {
+    int c;
+    for ( c = 2; c <= (input/2); c++ ) {
+        if ( input % c == 0 ) {
+            return 0;
+        }
+    }
+    return 1;
+}
